@@ -17,7 +17,7 @@ function Header() {
       variant="outlined"
       style={{
         backgroundColor: "transparent",
-        height: "150px",
+        height: "120px",
         boxShadow: "none",
       }}
     >
@@ -25,7 +25,7 @@ function Header() {
         <Toolbar
           disableGutters
           sx={{
-            height: "150px",
+            height: "120px",
             display: "flex",
             justifyContent: "space-between",
             alignItems: "center",
@@ -48,7 +48,7 @@ function Header() {
               //   justifyContent: "center",
               //   alignItems: "center",
               color: "black",
-              fontSize: "3rem",
+              fontSize: "2.5rem",
             }}
           >
             ~ 게임 제목 ~

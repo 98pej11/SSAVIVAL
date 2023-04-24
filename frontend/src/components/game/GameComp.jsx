@@ -12,8 +12,8 @@ export default function GameComp() {
         flexWrap: "wrap",
         "& > :not(style)": {
           m: 10,
-          width: 1500,
-          height: 800,
+          width: 1200,
+          height: 600,
         },
       }}
     >
