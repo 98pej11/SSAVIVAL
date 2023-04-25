@@ -1,11 +1,11 @@
 const initialState = {
-  samples: [],
+  count: 0,
 };
 function sampleReducer(state = initialState, action = {}) {
   const { type, payload } = action;
   switch (type) {
-    case "GET_SAMPLE_SUCCESS":
-      return { ...state, samples: payload.data };
+    case "INCREMENT_COUNT":
+      return { ...state, count: payload.count + 1 };
     default:
       return { ...state };
   }

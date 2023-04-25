@@ -4,7 +4,6 @@ export default function TissueGame() {
   const [isDragging, setIsDragging] = useState(false);
   const [initialMouseY, setInitialMouseY] = useState(0);
   const [initialImageY, setInitialImageY] = useState(0);
-
   const [imagePosition, setImagePosition] = useState(0);
   const images = [
     "1.png",
@@ -89,6 +88,17 @@ export default function TissueGame() {
           draggable="false"
         />
       )}
+
+      {/* <p>count : {}</p>
+      <img
+        src="고양이 휴지곽 뒷면.png"
+        style={{ ...imageStyle, ...image1Style }}
+      ></img>
+      <TissueGame style={{ ...imageStyle, ...image2Style }}></TissueGame>
+      <img
+        src="고양이 휴지곽 앞면.png"
+        style={{ ...imageStyle, ...image3Style }}
+      ></img> */}
     </div>
   );
 }

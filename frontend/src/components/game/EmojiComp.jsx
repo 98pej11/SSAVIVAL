@@ -13,17 +13,6 @@ import online from "../../assets/online.png";
 import mmtop from "../../assets/mmtop.png";
 import MattermostEmoji from "./MattermostEmoji";
 
-// const card = () => {
-//   return (
-//     <div style={{ display: "flex", padding: 0 }}>
-//       {/* <img src={header} /> */}
-//       {/* <Box sx={{ width: "40%", backgroundImage: `url(${mm})` }}>
-//         {/* <img src={mm} /> */}
-//       {/* </Box> */}
-//     </div>
-//   );
-// };
-
 export default function Emoji() {
   return (
     <div>
@@ -31,7 +20,7 @@ export default function Emoji() {
         sx={{
           margin: "0 auto",
           maxWidth: 1000,
-          minHeight: 600,
+          maxHeight: 600,
           border: 1,
           borderColor: "gray",
           position: "relative",
