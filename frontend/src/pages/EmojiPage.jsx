@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import EmojiComp from "../components/game/EmojiComp";
+import TimerBar from "../components/game/TimerBar";
 import GameComp from "../components/game/GameComp";
 import Header from "../components/game/Header";
 import "../index.css";
