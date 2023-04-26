@@ -1,7 +1,5 @@
 import * as React from "react";
-import Box from "@mui/material/Box";
-import Paper from "@mui/material/Paper";
-import TimerBar from "./TimerBar";
+import TimerBomb from "./TimerBomb";
 export default function GameComp(props) {
   const { children } = props;
   return (
@@ -17,9 +15,9 @@ export default function GameComp(props) {
         overflow: "hidden",
       }}
     >
-      <TimerBar initialValue={80} decreaseValue={1} decreaseInterval={1000} />
+      {/* 타이머 시간을 초로 집어넣으면 됩니다. */}
+      <TimerBomb timeLimit={10} />
       {children}
-      {/* <Paper sx={{ marginBottom: 10}}></Paper> */}
     </div>
   );
 }

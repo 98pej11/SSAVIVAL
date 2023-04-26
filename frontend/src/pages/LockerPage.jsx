@@ -1,41 +1,36 @@
 import React from "react";
 import styled from "styled-components";
-import EmojiComp from "../components/game/EmojiComp";
 import GameComp from "../components/game/GameComp";
 import Header from "../components/game/Header";
-import "../index.css";
+import LockerGame from "../components/game/LockerGame";
 import game from "../assets/game.png";
 
 const Pages = styled.div`
   position: relative;
   background-image: url(${game});
-  // background-size: auto;
-  background-size: contain;
-  // background-repeat: no-repeat;
-  width: 100%;
-  height: 100%;
+  background-size: cover;
+  // width: "100vh";
+  // height: "100vh";
 `;
 
 const myProps = {
-  title: "MM에 알맞은 이모지를 붙여보자",
-  number: 2,
+  title: "사물함 비밀번호 입력해보자",
+  number: 3,
 };
 
-export default function EmojiPage() {
+export default function LockerPage() {
   return (
     <Pages>
       <Header props={myProps} />
-
       <div
         style={{
           display: "flex",
           justifyContent: "center",
-          width: "100%",
           height: "100vh",
         }}
       >
         <GameComp props={myProps}>
-          <EmojiComp {...myProps} />
+          <LockerGame {...myProps} />
         </GameComp>
       </div>
     </Pages>
