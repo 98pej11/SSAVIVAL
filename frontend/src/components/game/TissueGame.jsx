@@ -1,15 +1,18 @@
 import { useState } from "react";
+import styled from "styled-components";
+import countbox from "../../assets/countbox.png";
 
-const ContainerStyle = {};
 const imageStyle = {
   position: "relative",
+  left: "36%",
   width: "100%",
   height: "auto",
-  maxWidth: "300px",
+  maxWidth: "600px",
 };
 
 const image1Style = {
-  top: "464px",
+  top: "310px",
+
   width: "500px",
   position: "absolute",
   zIndex: 99,
@@ -18,19 +21,37 @@ const image1Style = {
 
 const image2Style = {
   zIndex: 100,
-  top: "280px",
-  width: "400px",
+  top: "150px",
+  left: "36% ",
+  width: "500px",
   position: "absolute",
   alignSelf: "center",
 };
 
 const image3Style = {
   position: "absolute",
-  top: "590px",
+  top: "520px",
+
   width: "500px",
   zIndex: 99,
 };
 
+const CountComp = styled.div`
+  font-family: "neodgm";
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+`;
+const CountText = styled.span`
+  position: absolute;
+  top: 55%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 2rem;
+  color: #fecf28;
+  text-shadow: 0 0 3px black;
+`;
 export default function TissueGame() {
   const [isDragging, setIsDragging] = useState(false);
   const [initialMouseY, setInitialMouseY] = useState(0);
@@ -122,18 +143,29 @@ export default function TissueGame() {
         />
       )}
 
-      <p>count : {count}</p>
-      <img
-        src="고양이 휴지곽 뒷면.png"
-        alt=" "
-        style={{ ...imageStyle, ...image1Style }}
-      ></img>
-      {/* <TissueGame style={{ ...imageStyle, ...image2Style }}></TissueGame> */}
-      <img
-        src="고양이 휴지곽 앞면.png"
-        alt=" "
-        style={{ ...imageStyle, ...image3Style }}
-      ></img>
+      <CountComp>
+        <img src={countbox} alt=" " style={{ width: "180px" }}></img>
+        <CountText>{count}</CountText>
+      </CountComp>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <img
+          src="고양이_휴지곽_뒷면.png"
+          alt=" "
+          style={{ ...imageStyle, ...image1Style }}
+        ></img>
+        {/* <TissueGame style={{ ...imageStyle, ...image2Style }}></TissueGame> */}
+        <img
+          src="고양이_휴지곽_앞면.png"
+          alt=" "
+          style={{ ...imageStyle, ...image3Style }}
+        ></img>
+      </div>
     </div>
   );
 }

@@ -1,8 +1,6 @@
 /* eslint-disable no-console */
 import React from "react";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
-
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -10,6 +8,7 @@ import Toolbar from "@mui/material/Toolbar";
 import Container from "@mui/material/Container";
 import coin from "../../assets/coin.png";
 import time from "../../assets/time.png";
+import title from "../../assets/title.png";
 
 const HeaderComp = styled.div`
   font-family: "neodgm", sans-serif;
@@ -21,10 +20,9 @@ function Header(props) {
       <AppBar
         elevation={0}
         position="relative"
-        // variant="outlined"
         style={{
           backgroundColor: "transparent",
-          height: "130px",
+          height: "140px",
           boxShadow: "none",
         }}
       >
@@ -32,7 +30,7 @@ function Header(props) {
           <Toolbar
             disableGutters
             sx={{
-              height: "130px",
+              height: "140px",
               display: "flex",
               justifyContent: "space-between",
               alignItems: "center",
@@ -61,16 +59,26 @@ function Header(props) {
             </Box>
             <Box
               sx={{
-                color: "black",
                 fontSize: "2.5rem",
                 textAlign: "center",
+                position: "relative",
               }}
             >
+              <img
+                src={title}
+                alt="background"
+                style={{ width: "100%", height: "120px" }}
+              />
               <div
                 style={{
                   color: "white",
                   textShadow:
                     "2px 0 0 black, 0 -2px 0 black, -2px 0 0 black, 0 2px 0 black",
+                  position: "absolute", // 자식 요소를 absolute로 설정
+                  top: "30%",
+                  left: "50%",
+                  transform: "translate(-50%, -50%)", // 가운데 정렬
+                  whiteSpace: "nowrap",
                 }}
               >
                 {props.props.number} of 20 ROUND
@@ -80,6 +88,11 @@ function Header(props) {
                   color: "yellow",
                   textShadow:
                     "2px 0 0 black, 0 -2px 0 black, -2px 0 0 black, 0 2px 0 black",
+                  position: "absolute", // 자식 요소를 absolute로 설정
+                  bottom: "20%",
+                  left: "50%",
+                  transform: "translateX(-50%)", // 가운데 정렬
+                  whiteSpace: "nowrap",
                 }}
               >
                 ~ {props.props.title} ~

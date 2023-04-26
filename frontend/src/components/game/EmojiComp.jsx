@@ -19,6 +19,7 @@ export default function Emoji() {
       <Box
         sx={{
           margin: "0 auto",
+          height: "100%",
           border: 1,
           borderColor: "gray",
           position: "relative",
@@ -36,31 +37,29 @@ export default function Emoji() {
               display: "flex",
               justifyContent: "space-between",
               alignItems: "center",
+              height: "auto",
             }}
           >
             <Box
               sx={{
-                height: "90px",
+                height: "50px",
                 padding: 1,
+                position: "relative",
               }}
             >
-              <div
-                style={{
-                  marginTop: 15,
-                }}
-              >
-                <strong
-                  style={{ fontSize: 20, marginLeft: 15, marginBottom: 30 }}
-                >
-                  페페 교육프로 v{" "}
-                </strong>
+              <div>
+                <strong style={{ marginLeft: 15 }}>페페 교육프로 v </strong>
                 <br />
-                <img src={online} alt=" " style={{ marginTop: 5 }} />
+                <img
+                  src={online}
+                  alt=" "
+                  style={{ height: "28px", marginTop: 5 }}
+                />
               </div>
             </Box>
-            <img src={mmtop} alt="" style={{ height: "40px" }} />
+            <img src={mmtop} alt="" style={{ height: "30px" }} />
           </div>
-          <Box sx={{ padding: 3, borderTop: "1px solid gray" }}>
+          <Box sx={{ padding: 2, borderTop: "1px solid gray" }}>
             <CardContent>
               <FirstLine>
                 <StyledBadge
@@ -70,25 +69,19 @@ export default function Emoji() {
                 >
                   <Avatar alt=" " src={pepe} />
                 </StyledBadge>
-                <Typography variant="h6" component="div">
-                  페페 교육프로
-                </Typography>
+                <Typography component="div">페페 교육프로</Typography>
                 <span>오전 9:00</span>
               </FirstLine>
-              <Typography
-                variant="h6"
-                sx={{ mb: 1.5, mt: 1.5 }}
-                color="text.secondary"
-              >
+              <Typography sx={{ mb: 1.5, mt: 1.5 }} color="text.secondary">
                 <p style={{ display: "inline", backgroundColor: "yellow" }}>
                   {" "}
                   @here
                 </p>
               </Typography>
-              <Typography variant="h4" sx={{ mb: 1.5, mt: 1.5 }}>
-                14시 자율프로젝트 특강1 접속 안내
+              <Typography sx={{ mb: 1.5, mt: 1.5 }}>
+                <strong>14시 자율프로젝트 특강1 접속 안내</strong>
               </Typography>
-              <Typography sx={{ fontSize: 20 }}>
+              <Typography sx={{ fontSize: 15 }}>
                 14시 자율프로젝트 특강1 접속 안내 [자율프로젝트특강1 : 오픈소스
                 특강/Open Source, It’s new? -삼성전자 박수홍 그룹장- ]이 곧
                 시작됩니다!! (※지난주 강사님 일정상 연기된 특강입니다.) 에듀싸피
@@ -98,7 +91,7 @@ export default function Emoji() {
             </CardContent>
 
             <CardActions>
-              <Typography variant="body1" sx={{ color: "blue" }}>
+              <Typography sx={{ color: "blue" }}>
                 * 이모지를 선택해보쟈 * ☞
               </Typography>
               <MattermostEmoji />

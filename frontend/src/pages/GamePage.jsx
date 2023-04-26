@@ -8,6 +8,7 @@ const Pages = styled.div`
   position: relative;
 `;
 
+/*안쓰는페이지*/
 export default function GamePage() {
   return (
     <Pages>

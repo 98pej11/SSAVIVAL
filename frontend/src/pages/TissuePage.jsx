@@ -1,7 +1,5 @@
 import React from "react";
 import styled from "styled-components";
-import { useSelector } from "react-redux";
-
 import Header from "../components/game/Header";
 import TissueGame from "../components/game/TissueGame";
 import GameComp from "../components/game/GameComp";
@@ -24,32 +22,6 @@ const myProps = {
 };
 
 export default function TissuePage() {
-  const ContainerStyle = {};
-  const imageStyle = {
-    position: "relative",
-    width: "100%",
-    height: "auto",
-    maxWidth: "300px",
-  };
-
-  const image1Style = {
-    top: "464px",
-    position: "absolute",
-    zIndex: -1,
-  };
-
-  const image2Style = {
-    zIndex: 2,
-    top: "",
-    position: "absolute",
-  };
-
-  const image3Style = {
-    position: "absolute",
-    top: "592px",
-    zIndex: -1,
-  };
-
   return (
     <Pages>
       <Header props={myProps} />
@@ -58,9 +30,8 @@ export default function TissuePage() {
         style={{
           display: "flex",
           justifyContent: "center",
-          alignItems: "center",
+          marginTop: "1%",
           height: "100vh",
-          flexDirection: "column",
         }}
       >
         <GameComp props={myProps}>
