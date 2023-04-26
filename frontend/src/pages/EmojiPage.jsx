@@ -10,24 +10,28 @@ import game from "../assets/game.png";
 const Pages = styled.div`
   position: relative;
   background-image: url(${game});
-  background-size: cover;
-  // width: "100vh";
-  // height: "100vh";
+  // background-size: auto;
+  background-size: contain;
+  // background-repeat: no-repeat;
+  width: 100%;
+  height: 100%;
 `;
 
 const myProps = {
   title: "MM에 알맞은 이모지를 붙여보자",
-  number: 1,
+  number: 2,
 };
 
 export default function EmojiPage() {
   return (
     <Pages>
       <Header props={myProps} />
+
       <div
         style={{
           display: "flex",
           justifyContent: "center",
+          width: "100%",
           height: "100vh",
         }}
       >

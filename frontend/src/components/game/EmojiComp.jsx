@@ -19,11 +19,10 @@ export default function Emoji() {
       <Box
         sx={{
           margin: "0 auto",
-          maxWidth: 1000,
-          maxHeight: 600,
           border: 1,
           borderColor: "gray",
           position: "relative",
+          backgroundColor: "white",
         }}
       >
         <img

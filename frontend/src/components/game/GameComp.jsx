@@ -11,8 +11,10 @@ export default function GameComp(props) {
         justifyContent: "center",
         alignItems: "center",
         flexWrap: "wrap",
-        width: "60%",
-        height: "650px",
+        maxWidth: "60%", // 최대 너비 값 설정
+        width: "100%",
+        height: "80vh",
+        overflow: "hidden",
       }}
     >
       <TimerBar initialValue={80} decreaseValue={1} decreaseInterval={1000} />

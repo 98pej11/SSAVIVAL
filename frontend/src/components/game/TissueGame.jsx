@@ -1,5 +1,36 @@
 import { useState } from "react";
 
+const ContainerStyle = {};
+const imageStyle = {
+  position: "relative",
+  width: "100%",
+  height: "auto",
+  maxWidth: "300px",
+};
+
+const image1Style = {
+  top: "464px",
+  width: "500px",
+  position: "absolute",
+  zIndex: 99,
+  alignSelf: "center",
+};
+
+const image2Style = {
+  zIndex: 100,
+  top: "280px",
+  width: "400px",
+  position: "absolute",
+  alignSelf: "center",
+};
+
+const image3Style = {
+  position: "absolute",
+  top: "590px",
+  width: "500px",
+  zIndex: 99,
+};
+
 export default function TissueGame() {
   const [isDragging, setIsDragging] = useState(false);
   const [initialMouseY, setInitialMouseY] = useState(0);
@@ -64,6 +95,7 @@ export default function TissueGame() {
     <div>
       {count % 2 === 0 && (
         <img
+          style={image2Style}
           src={images[Math.floor(imagePosition)]}
           // srt="1.png"
           // src={require(images[Math.floor(imagePosition)]).default}
@@ -77,6 +109,7 @@ export default function TissueGame() {
       )}
       {count % 2 != 0 && (
         <img
+          style={image2Style}
           src={images[Math.floor(imagePosition)]}
           // srt="1.png"
           // src={require(images[Math.floor(imagePosition)]).default}
@@ -89,16 +122,18 @@ export default function TissueGame() {
         />
       )}
 
-      {/* <p>count : {}</p>
+      <p>count : {count}</p>
       <img
         src="고양이 휴지곽 뒷면.png"
+        alt=" "
         style={{ ...imageStyle, ...image1Style }}
       ></img>
-      <TissueGame style={{ ...imageStyle, ...image2Style }}></TissueGame>
+      {/* <TissueGame style={{ ...imageStyle, ...image2Style }}></TissueGame> */}
       <img
         src="고양이 휴지곽 앞면.png"
+        alt=" "
         style={{ ...imageStyle, ...image3Style }}
-      ></img> */}
+      ></img>
     </div>
   );
 }
