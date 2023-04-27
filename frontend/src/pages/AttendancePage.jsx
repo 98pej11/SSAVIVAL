@@ -2,10 +2,9 @@ import React from "react";
 import styled from "styled-components";
 import GameComp from "../components/game/GameComp";
 import Header from "../components/game/Header";
-import LockerGame from "../components/game/LockerGame";
+import AttendanceGame from "../components/game/AttendanceGame";
 import game from "../assets/game.png";
 
-// 추후 게임 배경 베이지색 사물함 벽으로 교체?
 const Pages = styled.div`
   position: relative;
   background-image: url(${game});
@@ -15,8 +14,8 @@ const Pages = styled.div`
 `;
 
 const myProps = {
-  title: "사물함 비밀번호 입력해보자",
-  number: 3,
+  title: "어떻게든 퇴실버튼을 누르쟈",
+  number: 4,
 };
 
 export default function LockerPage() {
@@ -31,7 +30,7 @@ export default function LockerPage() {
         }}
       >
         <GameComp props={myProps}>
-          <LockerGame {...myProps} />
+          <AttendanceGame {...myProps} />
         </GameComp>
       </div>
     </Pages>

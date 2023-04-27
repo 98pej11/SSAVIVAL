@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { Box } from "@mui/material";
-import paperPassword from "../../assets/paper_password.png";
-import lockerBook from "../../assets/locker_book.png";
+import paperPassword from "../../assets/game_locker/paper_password.png";
+import lockerBook from "../../assets/game_locker/locker_book.png";
 import React, { useState, useEffect } from "react";
 
 function generateRandomPassword() {
@@ -10,7 +10,7 @@ function generateRandomPassword() {
   return paddedNumber;
 }
 
-export default function LockerGame(props) {
+const LockerGame = () => {
   // minigameClear를 redux로 옮겨야 할지도? 타이머에 클리어 정보를 전달해야 하는데, props와 emit으로는 너무 어려움
   const [minigameClear, setMinigameClear] = useState(false);
   const [enteredValue, setEnteredValue] = useState("");
@@ -71,7 +71,9 @@ export default function LockerGame(props) {
       </LockerDoorContainer>
     </>
   );
-}
+};
+
+export default LockerGame;
 
 const LockerDoorContainer = styled(Box)`
   display: flex;
