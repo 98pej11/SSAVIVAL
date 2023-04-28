@@ -16,19 +16,33 @@ const LockerGame = () => {
   const [enteredValue, setEnteredValue] = useState("");
   // 추후 비밀번호를 props로 받아오게 만들 수도 있음
   const [correctPassword, setCorrectPassword] = useState("");
+  const [shuffledKeypad, setShuffledKeypad] = useState([]);
 
   useEffect(() => {
     setCorrectPassword(generateRandomPassword());
+    const newShuffledKeypad = Array.from({ length: 10 }, (_, i) =>
+      i.toString()
+    );
+    setShuffledKeypad(shuffle(newShuffledKeypad));
   }, []);
+
+  // Knuth Shuffle 알고리즘으로 정해진 길이의 배열의 순서를 섞음, O(n)
+  const shuffle = (array) => {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+  };
 
   const handleNumButtonClick = (e) => {
     const { innerText } = e.target;
     setEnteredValue((prev) => {
-      if (prev.length >= 3) {
-        if (prev + innerText === correctPassword) {
-          setMinigameClear(true);
-        }
-        return "";
+      if (prev.length >= 4) {
+        return innerText;
+      }
+      if (prev.length >= 3 && prev + innerText === correctPassword) {
+        setMinigameClear(true);
       }
       return prev + innerText;
     });
@@ -47,19 +61,42 @@ const LockerGame = () => {
               <EnteredPassword>{enteredValue}</EnteredPassword>
               <KeyPad>
                 <NumButtonContainer>
-                  <NumButton onClick={handleNumButtonClick}>1</NumButton>
-                  <NumButton onClick={handleNumButtonClick}>2</NumButton>
-                  <NumButton onClick={handleNumButtonClick}>3</NumButton>
-                  <NumButton onClick={handleNumButtonClick}>4</NumButton>
-                  <NumButton onClick={handleNumButtonClick}>5</NumButton>
-                  <NumButton onClick={handleNumButtonClick}>6</NumButton>
-                  <NumButton onClick={handleNumButtonClick}>7</NumButton>
-                  <NumButton onClick={handleNumButtonClick}>8</NumButton>
-                  <NumButton onClick={handleNumButtonClick}>9</NumButton>
-                  <NumButton onClick={handleNumButtonClick}>*</NumButton>
-                  <NumButton onClick={handleNumButtonClick}>0</NumButton>
-                  <NumButton onClick={handleNumButtonClick}>#</NumButton>
+                  <NumButton onClick={handleNumButtonClick}>
+                    {shuffledKeypad[1]}
+                  </NumButton>
+                  <NumButton onClick={handleNumButtonClick}>
+                    {shuffledKeypad[2]}
+                  </NumButton>
+                  <NumButton onClick={handleNumButtonClick}>
+                    {shuffledKeypad[3]}
+                  </NumButton>
+                  <NumButton onClick={handleNumButtonClick}>
+                    {shuffledKeypad[4]}
+                  </NumButton>
+                  <NumButton onClick={handleNumButtonClick}>
+                    {shuffledKeypad[5]}
+                  </NumButton>
+                  <NumButton onClick={handleNumButtonClick}>
+                    {shuffledKeypad[6]}
+                  </NumButton>
+                  <NumButton onClick={handleNumButtonClick}>
+                    {shuffledKeypad[7]}
+                  </NumButton>
+                  <NumButton onClick={handleNumButtonClick}>
+                    {shuffledKeypad[8]}
+                  </NumButton>
+                  <NumButton onClick={handleNumButtonClick}>
+                    {shuffledKeypad[9]}
+                  </NumButton>
+                  <NumButton>*</NumButton>
+                  <NumButton onClick={handleNumButtonClick}>
+                    {shuffledKeypad[0]}
+                  </NumButton>
+                  <NumButton>#</NumButton>
                 </NumButtonContainer>
+                <LockerLamp
+                  isWrongPassword={!minigameClear && enteredValue.length >= 4}
+                />
                 <OuterCircle />
                 <InnerCircle />
               </KeyPad>
@@ -166,6 +203,19 @@ const NumButton = styled(Box)`
   &:active {
     background-color: #87ceeb;
   }
+`;
+
+const LockerLamp = styled.div`
+  position: absolute;
+  top: 78%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 60px;
+  height: 60px;
+  border: 7px solid transparent;
+  border-top-color: ${(props) => (props.isWrongPassword ? "red" : "skyblue")};
+  border-radius: 50%;
+  overflow: hidden;
 `;
 
 const OuterCircle = styled.div`
