@@ -9,6 +9,8 @@ import LockerPage from "./pages/LockerPage";
 import AttendancePage from "./pages/AttendancePage";
 import EmojiPage from "./pages/EmojiPage";
 import KakaoLogin from "./pages/KakaoLogin";
+import TypoPage from "./pages/TypoPage";
+import GitbashPage from "./pages/GitbashPage";
 
 const Pages = styled.div`
   position: relative;
@@ -27,6 +29,8 @@ function App() {
           <Route path="/locker" element={<LockerPage />} />
           <Route path="/attendance" element={<AttendancePage />} />
           <Route path="/elevator" element={<ElevatorPage />} />
+          <Route path="/typo" element={<TypoPage />} />
+          <Route path="/git" element={<GitbashPage />} />
         </Routes>
       </Pages>
     </BrowserRouter>
