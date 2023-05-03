@@ -17,10 +17,10 @@ export default function GameComp(props) {
         borderRadius: 10,
         boxShadow: "0px 0px 3px 2px rgba(0,0,0,0.2)", // 그림자 추가하기
         backgroundColor: "rgba(0, 0, 0, 0.7)", // 배경색 투명하게 만들기
-        padding: 5,
-        maxWidth: "60%", // 최대 너비 값 설정
+        padding: 3,
+        maxWidth: "70%", // 최대 너비 값 설정
         width: "100%",
-        height: "60vh",
+        height: "72vh",
         overflow: "hidden",
       }}
     >

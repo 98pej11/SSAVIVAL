@@ -22,7 +22,7 @@ function Header(props) {
         position="relative"
         style={{
           backgroundColor: "transparent",
-          height: "140px",
+          height: "100px",
           boxShadow: "none",
         }}
       >
@@ -30,7 +30,7 @@ function Header(props) {
           <Toolbar
             disableGutters
             sx={{
-              height: "140px",
+              height: "100px",
               display: "flex",
               justifyContent: "space-between",
               alignItems: "center",
@@ -43,23 +43,23 @@ function Header(props) {
                 color: "black",
               }}
             >
-              <div style={{ fontSize: "1.5rem" }}>점수</div>
+              <div style={{ fontSize: "1.2rem" }}>점수</div>
               <div
                 style={{
                   display: "flex",
                   justifyContent: "center",
                   alignItems: "center",
-                  fontSize: "1.8rem",
+                  fontSize: "1.2rem",
                   margin: 10,
                 }}
               >
-                <img src={coin} alt="" style={{ width: "1.9rem" }} />
+                <img src={coin} alt="" style={{ width: "1.2rem" }} />
                 <div style={{ marginLeft: 5 }}>3,202 M</div>
               </div>
             </Box>
             <Box
               sx={{
-                fontSize: "2.5rem",
+                fontSize: "1.6rem",
                 textAlign: "center",
                 position: "relative",
               }}
@@ -67,7 +67,7 @@ function Header(props) {
               <img
                 src={title}
                 alt="background"
-                style={{ width: "100%", height: "120px" }}
+                style={{ width: "100%", height: "100px" }}
               />
               <div
                 style={{
@@ -89,7 +89,7 @@ function Header(props) {
                   textShadow:
                     "2px 0 0 black, 0 -2px 0 black, -2px 0 0 black, 0 2px 0 black",
                   position: "absolute", // 자식 요소를 absolute로 설정
-                  bottom: "20%",
+                  bottom: "25%",
                   left: "50%",
                   transform: "translateX(-50%)", // 가운데 정렬
                   whiteSpace: "nowrap",
@@ -104,13 +104,13 @@ function Header(props) {
                 color: "black",
               }}
             >
-              <div style={{ fontSize: "1.5rem" }}>남은시간</div>
+              <div style={{ fontSize: "1.2rem" }}>남은시간</div>
               <div
                 style={{
                   display: "flex",
                   justifyContent: "center",
                   alignItems: "center",
-                  fontSize: "1.8rem",
+                  fontSize: "1.2rem",
                   margin: 10,
                 }}
               >
