@@ -14,7 +14,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Game {
+public class Game implements Comparable<Game>{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long gameId;
@@ -40,5 +40,10 @@ public class Game {
                 .userId(userId)
                 .build();
         return gameDto;
+    }
+
+    @Override
+    public int compareTo(Game o) {
+        return o.totalScore-this.totalScore;
     }
 }
