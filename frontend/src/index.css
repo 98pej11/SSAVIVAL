@@ -7,3 +7,17 @@
 .my-font {
   font-family: 'neodgm', sans-serif;
 }
+
+/* cursor for typo game */
+.typo {
+  position: relative;
+  cursor: url('/public/pencilCursor.png') 0 100, auto;
+}
+
+/* font for typo game */
+@font-face {
+  font-family: 'ChosunSm';
+  src: url('/public/ChosunSm.TTF') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}

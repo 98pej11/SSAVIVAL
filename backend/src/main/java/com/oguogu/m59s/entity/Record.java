@@ -24,7 +24,7 @@ public class Record {
     private Short isWin;
     @Column
     @ColumnDefault("0")
-    private int date;
+    private String date;
     @Column
     @ColumnDefault("0")
     private long challengerId;

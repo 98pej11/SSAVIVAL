@@ -7,5 +7,4 @@ import java.util.List;
 public interface UserService {
     UserDto detailUser(long userId);
     List<UserDto> listUser();
-    public void modifyUser(UserDto userDto);
 }

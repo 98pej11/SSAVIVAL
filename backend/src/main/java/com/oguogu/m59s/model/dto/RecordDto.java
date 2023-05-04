@@ -20,7 +20,7 @@ public class RecordDto {
 
     private long recordId;
     private Short isWin;
-    private int date;
+    private String date;
     private long challengerId;
     private String challengerNickname;
     private String userNickname;

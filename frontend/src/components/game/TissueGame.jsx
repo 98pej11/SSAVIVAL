@@ -12,7 +12,6 @@ const imageStyle = {
 
 const image1Style = {
   top: "310px",
-
   width: "500px",
   position: "absolute",
   zIndex: 99,

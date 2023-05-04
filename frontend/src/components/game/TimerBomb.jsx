@@ -57,7 +57,7 @@ const BarContainer = styled.div`
   overflow: hidden;
   display: flex;
   align-items: center;
-  margin: 20px;
+  margin: 10px;
 `;
 
 const BombImg = styled.img`
