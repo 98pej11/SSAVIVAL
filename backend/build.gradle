@@ -31,6 +31,7 @@ dependencies {
 	implementation 'io.springfox:springfox-swagger2:2.9.2'
 	implementation 'io.springfox:springfox-swagger-ui:2.9.2'
 	implementation group: 'mysql', name: 'mysql-connector-java', version: '8.0.32'
+
 	//AWS s3
 	// https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-starter-aws
 	implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-aws', version: '2.2.6.RELEASE'
@@ -38,6 +39,9 @@ dependencies {
 	implementation group: 'org.springframework.cloud', name: 'spring-cloud-aws-context', version: '2.2.6.RELEASE'
 	// https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-aws-autoconfigure
 	implementation group: 'org.springframework.cloud', name: 'spring-cloud-aws-autoconfigure', version: '2.2.6.RELEASE'
+
+	implementation 'org.json:json:20210307'
+	implementation 'com.squareup.okhttp3:okhttp:4.9.1'
 }
 
 tasks.named('test') {

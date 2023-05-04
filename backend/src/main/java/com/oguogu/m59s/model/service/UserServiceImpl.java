@@ -46,10 +46,4 @@ public class UserServiceImpl implements UserService{
         return rankDtoList;
     }
 
-    //유저 사진 미드저니로 수정 대비 만들어둠 (지금은 쓸 일 없음)
-    @Override
-    public void modifyUser(UserDto userDto) {
-        System.out.println("USERDTO "+ userDto);
-        userRepository.save(userDto.toEntity());
-    }
 }
