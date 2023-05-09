@@ -1,13 +1,10 @@
 import React from "react";
 import styled from "styled-components";
-import { useSelector } from "react-redux";
 import GameComp from "../components/game/GameComp";
-import GameComp2 from "../components/game/GameComp2";
 import Header from "../components/game/Header";
-import LockerGame from "../components/game/LockerGame";
+import DifferenceGame from "../components/game/DifferenceGame";
 import game from "../assets/game.png";
 
-// 추후 게임 배경 베이지색 사물함 벽으로 교체?
 const Pages = styled.div`
   position: relative;
   background-image: url(${game});
@@ -17,12 +14,11 @@ const Pages = styled.div`
 `;
 
 const myProps = {
-  title: "사물함 비밀번호 입력해보자",
-  number: 3,
+  title: "두 그림에서 서로 다른 곳은?",
+  number: 9,
 };
 
 export default function LockerPage() {
-  const gameMode = useSelector((state) => state.gameMode);
   return (
     <Pages>
       <Header props={myProps} />
@@ -33,15 +29,9 @@ export default function LockerPage() {
           height: "100vh",
         }}
       >
-        {gameMode === "single" ? (
-          <GameComp props={myProps}>
-            <LockerGame {...myProps} />
-          </GameComp>
-        ) : (
-          <GameComp2 props={myProps}>
-            <LockerGame {...myProps} />
-          </GameComp2>
-        )}
+        <GameComp props={myProps}>
+          <DifferenceGame {...myProps} />
+        </GameComp>
       </div>
     </Pages>
   );

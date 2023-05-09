@@ -1,6 +1,10 @@
+# (영준) config.py에 AWS S3 정보 기록 후 불러오기
+from config import AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, AWS_REGION, AWS_S3_BUCKET, AWS_S3_BUCKET_URL
 from flask import Flask, jsonify, request
 from flask_restful import Api, Resource
 from flask_cors import CORS
+from io import BytesIO
+import boto3
 
 #   코드 출처 : https://github.com/GalaxyOverMe/SpotTheDifference_Generator
 #   원본 코드에서 사용한 라이브러리
@@ -9,11 +13,15 @@ import cv2
 import numpy as np
 import random
 import os
-import json
 
 app = Flask(__name__)
 api = Api(app)
 CORS(app)
+
+s3 = boto3.client('s3',
+                  aws_access_key_id=AWS_ACCESS_KEY_ID,
+                  aws_secret_access_key=AWS_SECRET_ACCESS_KEY,
+                  region_name=AWS_REGION)
 
 ####     **   객체 탐지   **
 
@@ -178,8 +186,7 @@ def centering_image(src, dst, ref, width = 400, height = 600):
 def get_pts_center(pts):
     pts_c = []
     for pts_i in pts:
-        # pts_c.append([(pts_i[0]+pts_i[2])//2, (pts_i[1]+pts_i[3])//2, 0])
-        pts_c.append([(pts_i[0]+pts_i[2])//2, (pts_i[1]+pts_i[3])//2]) # (영준) 뒤의 0이 굳이 필요 있나?
+        pts_c.append([(pts_i[0]+pts_i[2])//2, (pts_i[1]+pts_i[3])//2, 0])
 
     return pts_c
 
@@ -199,36 +206,46 @@ def create_wx_bitmap(cv2_image):
 
     return wxBitmap, width, height
 
-class LoadShuffledImages(Resource):
-    #   이미지를 로드하는 함수
-    #   in: None
-    #   out: 셔플된 이미지 경로 모음 배열
-    def get(self):
-        folder_path = os.path.join(".", "backend_flask", "images")
-        ImageExt = ['png', 'jpg', 'jpeg', 'bmp']
-        images = []
-        for img in os.listdir(folder_path):
-            Ext = img.split('.')[-1]
-            # 이미지 파일이면 추가
-            if Ext in ImageExt:
-                # images.append(folder_path + '/' + img)
-                images.append(img) # (영준) 리눅스는 폴더 경로에 '/' 대신 '\'를 사용하므로 맞춰서 수정
+# (영준) 이미지 로컬에 저장 + AWS S3에 업로드
+def save_and_upload(quizImg, quizImgName, quizImgFolder):
+    BackendFlaskPath = os.path.join(".", "backend_flask")
+    quizImgPath = os.path.join(BackendFlaskPath, quizImgFolder, quizImgName)
 
-        random.shuffle(images)
-        response = {
-            'imgNameArray' : images
-        }
+    wxBitmap, width, height = create_wx_bitmap(quizImg)
+    quizImg = wxBitmap.ConvertToImage()
+    quizImg.SaveFile(quizImgPath, BITMAP_TYPE_PNG)
 
-        return jsonify(response)
+    s3_file_path = f"{quizImgFolder}/{quizImgName}"
+    s3.upload_file(quizImgPath, AWS_S3_BUCKET, s3_file_path)
+
+    quizImgUrl = f"https://{AWS_S3_BUCKET}.s3.{AWS_REGION}.amazonaws.com/{s3_file_path}"
+    return quizImgUrl, width, height
+
+#   이미지를 로드하는 함수
+#   in: None
+#   out: 셔플된 이미지 경로 모음 배열
+def load_shuffled_images(BackendFlaskPath, ImgFolder):
+    folder_path = os.path.join(BackendFlaskPath, ImgFolder)
+    ImageExt = ['png', 'jpg', 'jpeg', 'bmp']
+    images = []
+    for img in os.listdir(folder_path):
+        Ext = img.split('.')[-1]
+        # 이미지 파일이면 추가
+        if Ext in ImageExt:
+            images.append(img) # (영준) 리눅스는 폴더 경로에 '/' 대신 '\'를 사용하므로 맞춰서 수정
+
+    random.shuffle(images)
+    return images
 
 class GetNextQuiz(Resource):
     #   다음 퀴즈를 불러오는 함수
     #   in: 다음 이미지 주소
     #   out: (원본, 틀린그림, 정답그림)순서의 병합된 이미지, 정답 좌표, 이동한 좌표
-    def post(self):
+    def get(self):
         BackendFlaskPath = os.path.join(".", "backend_flask")
         ImgFolder = "images"
-        ImgName = request.form.get('imgName').replace('"','') # (영준) 문자열 형태로 보낼 때 ""가 붙은 채로 오는 버그
+        ImgName = load_shuffled_images(BackendFlaskPath, ImgFolder)[0]
+
         ImgPath = os.path.join(BackendFlaskPath, ImgFolder, ImgName) # (영준) 리눅스는 폴더 경로에 '/' 대신 '\'를 사용하므로 맞춰서 수정
         src = cv2.imread(ImgPath)         # 이미지를 로드해서
 
@@ -254,32 +271,32 @@ class GetNextQuiz(Resource):
         cv2.xphoto.inpaint(ref, imgMask, dst, 0)
 
         # 이미지 중앙으로 위치시키기
-        src, dst, ref , t = centering_image(src, dst, ref)
+        # src, dst, ref , t = centering_image(src, dst, ref)
 
         # 이미지를 가로로 병합하기
-        img = np.hstack([src,dst,ref])
+        # img = np.hstack([src,dst,ref])
 
-        # (영준) 생성된 이미지를 PNG로 저장
+        # (영준) 생성된 이미지를 AWS S3에 업로드
+        quizImgLeftName, quizImgRightName, quizImgAnsName = "quizImgLeft.png", "quizImgRight.png", "quizImgAns.png"
         quizImgFolder = "quizImg"
-        quizImgName = "quizImg.png"
-        quizImgPath = os.path.join(BackendFlaskPath, quizImgFolder, quizImgName)
 
-        wxBitmap, width, height = create_wx_bitmap(img)
-        quizImage = wxBitmap.ConvertToImage()
-        quizImage.SaveFile(quizImgPath, BITMAP_TYPE_PNG)
+        quizImgLeftUrl, width, height = save_and_upload(src, quizImgLeftName, quizImgFolder)
+        quizImgRightUrl, width, height = save_and_upload(dst, quizImgRightName, quizImgFolder)
+        quizImgAnsUrl, width, height = save_and_upload(ref, quizImgAnsName, quizImgFolder)
 
         # (영준) 추가 필요 : 이미지 제외 나머지 데이터도 로컬에 저장해 두기, 추후 불러올 필요도 있음
         response = {
-            'quizImgName' : quizImgName,
+            'quizImgLeftUrl' : quizImgLeftUrl,
+            'quizImgRightUrl' : quizImgRightUrl,
+            'quizImgAnsUrl' : quizImgAnsUrl,
             'width' : width,
             'height' : height,
-            'pts' : pts_c,
-            't' : t
+            'pts' : pts_c
+            # 't' : t
         } # (영준) 병합된 이미지 경로(원본, 틀린그림, 정답그림), 가로, 세로, 정답 좌표, 이동한 좌표
         return jsonify(response)
 
-api.add_resource(LoadShuffledImages, '/game/difference/load-shuffled-images', methods=['GET'])
-api.add_resource(GetNextQuiz, '/game/difference/get-next-quiz', methods=['POST'])
+api.add_resource(GetNextQuiz, '/game/difference/get-next-quiz', methods=['GET'])
 
 if __name__ == "__main__":
     app.run(debug=True, host='0.0.0.0') # (영준) 디버그 모드로 실행, 호스트 설정

@@ -11,6 +11,7 @@ import EmojiPage from "./pages/EmojiPage";
 import KakaoLogin from "./pages/KakaoLogin";
 import TypoPage from "./pages/TypoPage";
 import GitbashPage from "./pages/GitbashPage";
+import DifferencePage from "./pages/DifferencePage";
 import VideoHandler from "./components/video/VideoHandler";
 import RemindPage from "./pages/RemindPage";
 import GamePage from "./pages/GamePage";
@@ -36,6 +37,7 @@ function App() {
           <Route path="/elevator" element={<ElevatorPage />} />
           <Route path="/typo" element={<TypoPage />} />
           <Route path="/git" element={<GitbashPage />} />
+          <Route path="/difference" element={<DifferencePage />} />
           <Route path="/remind" element={<RemindPage />} />
           <Route path="/video" element={<VideoHandler />} /> */}
         </Routes>

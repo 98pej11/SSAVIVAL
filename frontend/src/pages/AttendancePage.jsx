@@ -11,8 +11,8 @@ const Pages = styled.div`
   position: relative;
   background-image: url(${game});
   background-size: cover;
-  // width: "100vh";
-  // height: "100vh";
+  width: 100%;
+  height: 100%;
 `;
 
 const myProps = {
