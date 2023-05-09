@@ -39,12 +39,12 @@ export default function MainComp1() {
 
   const handleSinglePlayerClick = () => {
     dispatch({ type: "SET_GAME_MODE", payload: { gameMode: "single" } });
-    navigate("/emoji"); // /emoji 경로로 이동
+    navigate("/game"); // /game 경로로 이동
   };
 
   const handleMultiPlayerClick = () => {
     dispatch({ type: "SET_GAME_MODE", payload: { gameMode: "multi" } });
-    navigate("/emoji"); // /emoji 경로로 이동
+    navigate("/game"); // /game 경로로 이동
   };
 
   return (

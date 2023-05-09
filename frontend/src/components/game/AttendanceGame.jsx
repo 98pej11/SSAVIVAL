@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Box } from "@mui/material";
 import styled from "styled-components";
 import buttonLeave from "../../assets/game_attendance/button_leave.png";
 import buttonLeaveHover from "../../assets/game_attendance/button_leave_hover.png";
 import bannerAttendance from "../../assets/game_attendance/banner_attendance.png";
 import bannerClear from "../../assets/game_attendance/banner_clear.png";
+import { useDispatch } from "react-redux";
 
 const AttendanceGame = () => {
   const buttonRunCount = 10;
@@ -16,6 +17,16 @@ const AttendanceGame = () => {
     top: 162,
     left: 420,
   });
+
+  const dispatch = useDispatch();
+  const gameData = {
+    title: "제한 시간 내 주어진 명령어를 모두 입력하라",
+    timeLimit: 10,
+    bgPath: "",
+  };
+  useEffect(() => {
+    dispatch({ type: "SET_GAME", payload: gameData });
+  }, []);
 
   const handleMouseEnter = () => {
     setButtonHover(true);

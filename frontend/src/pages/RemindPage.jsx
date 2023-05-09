@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { GameAction } from "../redux/actions/GameAction";
 import styled from "styled-components";
-import { useSelector } from "react-redux";
 import GameComp from "../components/game/GameComp";
 import GameComp2 from "../components/game/GameComp2";
 import RemindGame from "../components/game/RemindGame";
@@ -20,8 +21,14 @@ const myProps = {
   number: 10,
 };
 
-export default function RemindPage() {
+function RemindPage() {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(GameAction.getRemindAnswer("음식"));
+  }, []);
+
   const gameMode = useSelector((state) => state.gameMode);
+
   return (
     <Pages>
       <Header props={myProps} />
@@ -46,3 +53,5 @@ export default function RemindPage() {
     </Pages>
   );
 }
+
+export default RemindPage;

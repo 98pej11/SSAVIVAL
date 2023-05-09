@@ -3,6 +3,7 @@ import { Box } from "@mui/material";
 import paperPassword from "../../assets/game_locker/paper_password.png";
 import lockerBook from "../../assets/game_locker/locker_book.png";
 import React, { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
 
 function generateRandomPassword() {
   const randomNumber = Math.floor(Math.random() * 10000);
@@ -17,6 +18,16 @@ const LockerGame = () => {
   // 추후 비밀번호를 props로 받아오게 만들 수도 있음
   const [correctPassword, setCorrectPassword] = useState("");
   const [shuffledKeypad, setShuffledKeypad] = useState([]);
+
+  const dispatch = useDispatch();
+  const gameData = {
+    title: "제한 시간 내 주어진 명령어를 모두 입력하라",
+    timeLimit: 10,
+    bgPath: "",
+  };
+  useEffect(() => {
+    dispatch({ type: "SET_GAME", payload: gameData });
+  }, []);
 
   useEffect(() => {
     setCorrectPassword(generateRandomPassword());

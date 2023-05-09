@@ -17,16 +17,21 @@ import Toolbar from "@mui/material/Toolbar";
 import Container from "@mui/material/Container";
 import coin from "../../assets/coin.png";
 import time from "../../assets/time.png";
-import title from "../../assets/title.png";
 import menu from "../../assets/menu.png";
 import yes from "../../assets/yes.png";
 import onemore from "../../assets/onemore.png";
-
+import titleBox from "../../assets/title.png";
 const HeaderComp = styled.div`
   font-family: "neodgm", sans-serif;
 `;
 
 function Header(props) {
+  const round = useSelector((state) => state.gameReducer.round);
+  const title = useSelector((state) => state.gameReducer.title);
+  const totalScore = useSelector((state) => state.gameReducer.totalScore);
+  const totalTimeLimit = useSelector(
+    (state) => state.gameReducer.totalTimeLimit
+  );
   const [open, setOpen] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -87,7 +92,7 @@ function Header(props) {
                   }}
                 >
                   <img src={coin} alt="" style={{ width: "1.2rem" }} />
-                  <div style={{ marginLeft: 5 }}>3,202 M</div>
+                  <div style={{ marginLeft: 5 }}>{totalScore} M</div>
                 </div>
               </div>
             </Box>
@@ -155,7 +160,7 @@ function Header(props) {
               }}
             >
               <img
-                src={title}
+                src={titleBox}
                 alt="background"
                 style={{ width: "70%", height: "100px" }}
               />
@@ -171,7 +176,7 @@ function Header(props) {
                   whiteSpace: "nowrap",
                 }}
               >
-                {props.props.number} of 20 ROUND
+                {round} of 10 ROUND
               </div>
               <div
                 style={{
@@ -185,7 +190,7 @@ function Header(props) {
                   whiteSpace: "nowrap",
                 }}
               >
-                ~ {props.props.title} ~
+                ~ {title} ~
               </div>
             </Box>
 
@@ -206,7 +211,7 @@ function Header(props) {
                 }}
               >
                 <img src={time} alt="" style={{ width: "1.9rem" }} />
-                <div style={{ marginLeft: 7 }}>2:00:00</div>
+                <div style={{ marginLeft: 7 }}>{totalTimeLimit}</div>
               </div>
             </Box>
           </Toolbar>
