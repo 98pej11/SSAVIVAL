@@ -20,6 +20,8 @@ public class UserDto {
     private String nickname;
     private int campus;
     private int mileage;
+    private String email;
+
 
     public User toEntity() {
         User user = User.builder()
@@ -27,6 +29,7 @@ public class UserDto {
                 .nickname(nickname)
                 .campus(campus)
                 .mileage(mileage)
+                .email(email)
                 .build();
         return user;
     }

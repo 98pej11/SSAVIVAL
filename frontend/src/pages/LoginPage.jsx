@@ -13,6 +13,7 @@ import kakao from "../assets/kakao.png";
 //   APP_ADMIN_KEY,
 // } from "../components/KakaoLoginData";
 import ssavival from "../assets/ssavival.png";
+import { REST_API_KEY , REDIRECT_URI , LOGOUT_REDIRECT_URI , APP_ADMIN_KEY } from "../components/KakaoLoginData";
 
 export default function LoginPage() {
   // var characterElement = document.querySelector(".Character");
@@ -111,11 +112,11 @@ export default function LoginPage() {
   // setActive(activeIndex);
 
   //  카카오 로그인
-  // const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
+  const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
 
-  // const kakaoLogin = () => {
-  //   window.location.href = KAKAO_AUTH_URL;
-  // };
+  const kakaoLogin = () => {
+    window.location.href = KAKAO_AUTH_URL;
+  };
   // const kakaoLogout = () => {
   //   const ACCESS_TOKEN = localStorage.getItem("access_token");
 
@@ -211,7 +212,7 @@ export default function LoginPage() {
               </svg>
             </button>
           </div>
-          <img src={kakao} />
+          <a href={KAKAO_AUTH_URL}><img src={kakao}/></a>
           <div class="center">
             <br />
             <button

@@ -31,6 +31,9 @@ function App() {
           <Route path="/main" element={<MainPage />} />
           <Route path="/emoji" element={<EmojiPage />} />
           {/* 
+          <Route path="/emoji" element={<EmojiPage />} />
+          <Route path="/main" element={<MainPage />} />
+          <Route path="/user/kakao/check" element={<KakaoLogin />} />
           <Route path="/tissue" element={<TissuePage />} />
           <Route path="/locker" element={<LockerPage />} />
           <Route path="/attendance" element={<AttendancePage />} />
