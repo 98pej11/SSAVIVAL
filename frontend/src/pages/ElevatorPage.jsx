@@ -1,7 +1,9 @@
 import React from "react";
 import styled from "styled-components";
+import { useSelector } from "react-redux";
 import ElevatorGame from "../components/game/ElevatorGame";
 import GameComp from "../components/game/GameComp";
+import GameComp2 from "../components/game/GameComp2";
 import Header from "../components/game/Header";
 import "../index.css";
 import game from "../assets/game.png";
@@ -20,6 +22,7 @@ const myProps = {
 };
 
 export default function ElevatorPage() {
+  const gameMode = useSelector((state) => state.gameMode);
   return (
     <Pages>
       <Header props={myProps} />
@@ -32,9 +35,15 @@ export default function ElevatorPage() {
           height: "100vh",
         }}
       >
-        <GameComp props={myProps}>
-          <ElevatorGame {...myProps} />
-        </GameComp>
+        {gameMode === "single" ? (
+          <GameComp props={myProps}>
+            <ElevatorGame {...myProps} />
+          </GameComp>
+        ) : (
+          <GameComp2 props={myProps}>
+            <ElevatorGame {...myProps} />
+          </GameComp2>
+        )}
       </div>
     </Pages>
   );

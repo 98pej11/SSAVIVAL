@@ -1,8 +1,10 @@
 import React from "react";
 import styled from "styled-components";
+import { useSelector } from "react-redux";
 import Header from "../components/game/Header";
 import TissueGame from "../components/game/TissueGame";
 import GameComp from "../components/game/GameComp";
+import GameComp2 from "../components/game/GameComp2";
 import "../index.css";
 import game from "../assets/game.png";
 
@@ -22,6 +24,7 @@ const myProps = {
 };
 
 export default function TissuePage() {
+  const gameMode = useSelector((state) => state.gameMode);
   return (
     <Pages>
       <Header props={myProps} />
@@ -34,9 +37,15 @@ export default function TissuePage() {
           height: "100vh",
         }}
       >
-        <GameComp props={myProps}>
-          <TissueGame {...myProps} />
-        </GameComp>
+        {gameMode === "single" ? (
+          <GameComp props={myProps}>
+            <TissueGame {...myProps} />
+          </GameComp>
+        ) : (
+          <GameComp2 props={myProps}>
+            <TissueGame {...myProps} />
+          </GameComp2>
+        )}
       </div>
     </Pages>
   );

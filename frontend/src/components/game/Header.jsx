@@ -1,20 +1,52 @@
 /* eslint-disable no-console */
-import React from "react";
+import React, { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
+
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
+import Dialog from "@mui/material/Dialog";
+import Typography from "@mui/material/Typography";
+// import DialogTitle from "@mui/material/DialogTitle";
+// import DialogContent from "@mui/material/DialogContent";
+// import DialogActions from "@mui/material/DialogActions";
+import Button from "@mui/material/Button";
 import Toolbar from "@mui/material/Toolbar";
 // import MenuIcon from "@mui/icons-material/Menu";
 import Container from "@mui/material/Container";
 import coin from "../../assets/coin.png";
 import time from "../../assets/time.png";
 import title from "../../assets/title.png";
+import menu from "../../assets/menu.png";
+import yes from "../../assets/yes.png";
+import onemore from "../../assets/onemore.png";
 
 const HeaderComp = styled.div`
   font-family: "neodgm", sans-serif;
 `;
 
 function Header(props) {
+  const [open, setOpen] = useState(false);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const offGame = () => {
+    // 게임 점수 저장 코드 필요
+    navigate("/main"); // /emoji 경로로 이동
+  };
+
+  const moreGame = () => {
+    // 게임 점수 저장 및 첫번째 게임으로 다시 돌아가자
+    navigate("/emoji");
+  };
   return (
     <HeaderComp>
       <AppBar
@@ -37,37 +69,95 @@ function Header(props) {
             }}
           >
             <Box
-              to="/mainPage"
+              onClick={handleClickOpen}
               sx={{
                 textAlign: "center",
                 color: "black",
               }}
             >
-              <div style={{ fontSize: "1.2rem" }}>점수</div>
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  fontSize: "1.2rem",
-                  margin: 10,
-                }}
-              >
-                <img src={coin} alt="" style={{ width: "1.2rem" }} />
-                <div style={{ marginLeft: 5 }}>3,202 M</div>
+              <div>
+                <div style={{ fontSize: "1.2rem" }}>점수</div>
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    fontSize: "1.2rem",
+                    margin: 10,
+                  }}
+                >
+                  <img src={coin} alt="" style={{ width: "1.2rem" }} />
+                  <div style={{ marginLeft: 5 }}>3,202 M</div>
+                </div>
               </div>
             </Box>
+            <Dialog open={open} onClose={handleClose}>
+              <img src={menu} alt="" />
+              <Typography
+                sx={{
+                  fontFamily: "neodgm",
+                  position: "absolute",
+                  top: "36%",
+                  left: "50%",
+                  transform: "translate(-50%, -50%)",
+                  color: "black",
+                }}
+                variant="h6"
+              >
+                3,202M
+              </Typography>
+              <Typography
+                sx={{
+                  fontFamily: "neodgm",
+                  position: "absolute",
+
+                  top: "70%",
+                  left: "50%",
+                  transform: "translate(-50%, -50%)",
+                  color: "#FFD525",
+                }}
+                variant="h6"
+              >
+                게임을 종료하시겠습니까?
+              </Typography>
+              <img
+                src={yes}
+                alt=""
+                style={{
+                  position: "absolute",
+                  top: "80%",
+                  left: "35%",
+                  transform: "translate(-50%, -50%)",
+                  cursor: "pointer",
+                }}
+                onClick={offGame}
+              />
+              <img
+                src={onemore}
+                alt=""
+                style={{
+                  position: "absolute",
+                  top: "80%",
+                  left: "65%",
+                  transform: "translate(-50%, -50%)",
+                  cursor: "pointer",
+                }}
+                onClick={moreGame}
+              />
+            </Dialog>
+
             <Box
               sx={{
                 fontSize: "1.6rem",
                 textAlign: "center",
                 position: "relative",
+                flex: 1,
               }}
             >
               <img
                 src={title}
                 alt="background"
-                style={{ width: "100%", height: "100px" }}
+                style={{ width: "70%", height: "100px" }}
               />
               <div
                 style={{
@@ -98,6 +188,7 @@ function Header(props) {
                 ~ {props.props.title} ~
               </div>
             </Box>
+
             <Box
               sx={{
                 textAlign: "center",

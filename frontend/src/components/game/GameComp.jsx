@@ -16,7 +16,6 @@ export default function GameComp(props) {
         display: "flex",
         justifyContent: "center",
         alignItems: "flex-start",
-
         flexWrap: "wrap",
         border: "none", // 테두리 없애기
         borderRadius: 10,
