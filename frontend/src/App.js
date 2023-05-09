@@ -26,7 +26,7 @@ function App() {
       <Pages>
         <Routes>
           <Route path="/" element={<LoginPage />} />
-          <Route path="/callback/kakao" element={<KakaoLogin />} />
+          <Route path="/user/kakao/check" element={<KakaoLogin />} />
           <Route path="/game" element={<GamePage />} />
           <Route path="/main" element={<MainPage />} />
           <Route path="/emoji" element={<EmojiPage />} />
