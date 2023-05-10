@@ -22,7 +22,7 @@ const myProps = {
 };
 
 export default function ElevatorPage() {
-  const gameMode = useSelector((state) => state.gameMode);
+  // const gameMode = useSelector((state) => state.gameMode);
   return (
     <Pages>
       <Header props={myProps} />
@@ -35,7 +35,10 @@ export default function ElevatorPage() {
           height: "100vh",
         }}
       >
-        {gameMode === "single" ? (
+        <GameComp props={myProps}>
+          <ElevatorGame {...myProps} />
+        </GameComp>
+        {/* {gameMode === "single" ? (
           <GameComp props={myProps}>
             <ElevatorGame {...myProps} />
           </GameComp>
@@ -43,7 +46,7 @@ export default function ElevatorPage() {
           <GameComp2 props={myProps}>
             <ElevatorGame {...myProps} />
           </GameComp2>
-        )}
+        )} */}
       </div>
     </Pages>
   );

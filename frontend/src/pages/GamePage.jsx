@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Header from "../components/game/Header";
 import "../index.css";
 import Box from "@mui/material/node/Box";
 import GitbashGame from "../components/game/GitbashGame";
 import TypoGame from "../components/game/TypoGame";
-import { store } from "../redux/store";
 import { useSelector } from "react-redux";
 import TimerBomb from "../components/game/TimerBomb";
 import TissueGame from "../components/game/TissueGame";

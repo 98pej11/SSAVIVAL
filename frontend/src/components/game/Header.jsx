@@ -36,6 +36,7 @@ function Header(props) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  console.log(props);
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -96,61 +97,6 @@ function Header(props) {
                 </div>
               </div>
             </Box>
-            <Dialog open={open} onClose={handleClose}>
-              <img src={menu} alt="" />
-              <Typography
-                sx={{
-                  fontFamily: "neodgm",
-                  position: "absolute",
-                  top: "36%",
-                  left: "50%",
-                  transform: "translate(-50%, -50%)",
-                  color: "black",
-                }}
-                variant="h6"
-              >
-                3,202M
-              </Typography>
-              <Typography
-                sx={{
-                  fontFamily: "neodgm",
-                  position: "absolute",
-
-                  top: "70%",
-                  left: "50%",
-                  transform: "translate(-50%, -50%)",
-                  color: "#FFD525",
-                }}
-                variant="h6"
-              >
-                게임을 종료하시겠습니까?
-              </Typography>
-              <img
-                src={yes}
-                alt=""
-                style={{
-                  position: "absolute",
-                  top: "80%",
-                  left: "35%",
-                  transform: "translate(-50%, -50%)",
-                  cursor: "pointer",
-                }}
-                onClick={offGame}
-              />
-              <img
-                src={onemore}
-                alt=""
-                style={{
-                  position: "absolute",
-                  top: "80%",
-                  left: "65%",
-                  transform: "translate(-50%, -50%)",
-                  cursor: "pointer",
-                }}
-                onClick={moreGame}
-              />
-            </Dialog>
-
             <Box
               sx={{
                 fontSize: "1.6rem",

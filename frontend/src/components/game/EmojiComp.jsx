@@ -5,25 +5,25 @@ import Avatar from "@mui/material/Avatar";
 import Box from "@mui/material/Box";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
-import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import pepe from "../../assets/pepe.jpg";
 import header from "../../assets/header.png";
 import online from "../../assets/online.png";
 import mmtop from "../../assets/mmtop.png";
 import MattermostEmoji from "./MattermostEmoji";
-import { useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 
 export default function Emoji() {
   const dispatch = useDispatch();
   const gameData = {
-    title: "제한 시간 내 주어진 명령어를 모두 입력하라",
+    title: "상황에 맞는 MM 이모지를 선택해보쟈",
     timeLimit: 10,
     bgPath: "",
   };
   useEffect(() => {
     dispatch({ type: "SET_GAME", payload: gameData });
   }, []);
+
   return (
     <div>
       <Box
@@ -102,7 +102,7 @@ export default function Emoji() {
             </CardContent>
 
             <CardActions>
-              <Typography sx={{ color: "blue" }}>
+              <Typography sx={{ color: "blue", fontFamily: "neodgm" }}>
                 * 이모지를 선택해보쟈 * ☞
               </Typography>
               <MattermostEmoji />

@@ -122,14 +122,14 @@ export default function GameComp(props) {
     <Box
       id="capture-area" // 녹화할 요소의 id를 부여합니다.
       sx={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "flex-start",
+        // display: "flex",
+        // justifyContent: "center",
+        // alignItems: "flex-start",
         flexWrap: "wrap",
         border: "none",
         borderRadius: 10,
         boxShadow: "0px 0px 3px 2px rgba(0,0,0,0.2)",
-        backgroundColor: "rgba(0, 0, 0, 0.7)",
+        backgroundColor: "rgba(255, 255, 255, 0.7)",
         padding: 3,
         maxWidth: "70%",
         width: "100%",
@@ -144,8 +144,8 @@ export default function GameComp(props) {
       <TimerBomb timeLimit={10} />
       {/* <canvas ref={canvasRef} style={{ backgroundColor: "green" }} /> */}
       {children}
-      <button onClick={startRecording}>녹화 시작</button>
-      <button onClick={stopRecording}>녹화 종료</button>
+      {/* <button onClick={startRecording}>녹화 시작</button>
+      <button onClick={stopRecording}>녹화 종료</button> */}
     </Box>
   );
 }

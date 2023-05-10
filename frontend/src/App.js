@@ -2,12 +2,10 @@ import React from "react";
 import styled from "styled-components";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import LoginPage from "./pages/LoginPage";
-import ElevatorPage from "./pages/ElevatorPage";
-import TissuePage from "./pages/TissuePage";
+import StartPage from "./pages/StartPage";
 import MainPage from "./pages/MainPage";
-import LockerPage from "./pages/LockerPage";
-import AttendancePage from "./pages/AttendancePage";
 import EmojiPage from "./pages/EmojiPage";
+import ElevatorPage from "./pages/ElevatorPage";
 import KakaoLogin from "./pages/KakaoLogin";
 import TypoPage from "./pages/TypoPage";
 import GitbashPage from "./pages/GitbashPage";
@@ -26,10 +24,13 @@ function App() {
       <Pages>
         <Routes>
           <Route path="/" element={<LoginPage />} />
+          <Route path="/start" element={<StartPage />} />
+          <Route path="/callback/kakao" element={<KakaoLogin />} />
           <Route path="/user/kakao/check" element={<KakaoLogin />} />
           <Route path="/game" element={<GamePage />} />
           <Route path="/main" element={<MainPage />} />
           <Route path="/emoji" element={<EmojiPage />} />
+          <Route path="/elevator" element={<ElevatorPage />} />
           {/* 
           <Route path="/emoji" element={<EmojiPage />} />
           <Route path="/main" element={<MainPage />} />

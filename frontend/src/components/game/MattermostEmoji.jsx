@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { IconButton, Popover } from "@mui/material";
 import MoodIcon from "@mui/icons-material/Mood";
 import happyloopy from "../../assets/happy_loopy.png";
@@ -16,7 +17,8 @@ const emojis = [happyloopy, nepp, pepesad, pepe, sadshin, thanks, yes, zzang];
 
 const MattermostEmoji = () => {
   const [anchorEl, setAnchorEl] = useState(null);
-  const [selectedEmoji, setSelectedEmoji] = useState(null);
+  const [selectedEmojiIndex, setSelectedEmojiIndex] = useState(null);
+  const dispatch = useDispatch();
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -26,11 +28,19 @@ const MattermostEmoji = () => {
     setAnchorEl(null);
   };
 
-  const handleEmojiClick = (emojiName) => {
-    setSelectedEmoji(emojiName);
+  const handleEmojiClick = (emojiIndex) => {
+    console.log(emojiIndex);
+    setSelectedEmojiIndex(emojiIndex);
+    dispatch({ type: "SET_EMOJI_INDEX", payload: emojiIndex });
+    if (emojiIndex === 3) {
+      dispatch({ type: "SET_EMOJI_RESULT", payload: true });
+      alert("정답!");
+    } else {
+      dispatch({ type: "SET_EMOJI_RESULT", payload: false });
+      alert("틀렸어요!");
+    }
     handleClose();
   };
-
   const open = Boolean(anchorEl);
   return (
     <Emo>
@@ -59,19 +69,24 @@ const MattermostEmoji = () => {
             padding: "8px",
           }}
         >
-          {emojis.map((emoji) => (
+          {emojis.map((emoji, index) => (
             <span
               key={emoji}
               style={{ cursor: "pointer", padding: "4px" }}
-              onClick={() => handleEmojiClick(emoji)}
+              onClick={() => handleEmojiClick(index)}
             >
-              <img src={emoji} alt={emoji} width={40} height={40} />
+              <img src={emoji} alt={`emoji-${index}`} width={40} height={40} />
             </span>
           ))}
         </div>
       </Popover>
-      {selectedEmoji && (
-        <img src={selectedEmoji} alt={selectedEmoji} width={40} height={40} />
+      {selectedEmojiIndex !== null && (
+        <img
+          src={emojis[selectedEmojiIndex]}
+          alt={`emoji-${selectedEmojiIndex}`}
+          width={40}
+          height={40}
+        />
       )}
     </Emo>
   );
@@ -81,4 +96,5 @@ const Emo = styled.div`
   display: flex;
   align-items: center;
 `;
+
 export default MattermostEmoji;

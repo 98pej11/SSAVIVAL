@@ -10,6 +10,8 @@ const initialState = {
   nextComp: false,
   count: 0,
   gameMode: "single",
+  selectedEmojiIndex: null,
+  emojiResult: "false",
 };
 function gameReducer(state = initialState, action = {}) {
   const { type, payload } = action;
@@ -29,6 +31,7 @@ function gameReducer(state = initialState, action = {}) {
         bgPath: payload.bgPath,
         round: state.round + 1,
       };
+
     case "UPDATE_SCORE":
       return { ...state, totalScore: state.totalScore + payload };
     case "TIME_OVER":
@@ -37,6 +40,18 @@ function gameReducer(state = initialState, action = {}) {
       return { ...state, count: payload.count + 1 };
     case "SET_GAME_MODE":
       return { ...state, gameMode: payload.gameMode };
+    case "SET_EMOJI_INDEX":
+      console.log(payload);
+      return {
+        ...state,
+        selectedEmojiIndex: payload,
+      };
+    case "SET_EMOJI_RESULT":
+      console.log(payload);
+      return {
+        ...state,
+        emojiResult: payload,
+      };
     default:
       return { ...state };
   }
