@@ -3,11 +3,13 @@ package com.oguogu.m59s.model.dto;
 import com.oguogu.m59s.entity.MiniGame;
 import com.oguogu.m59s.entity.MiniGameDetail;
 import lombok.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import java.util.List;
 
 @Setter
 @Getter
@@ -22,7 +24,6 @@ public class MiniGameDto {
     private int score;
     private long gameId;
     private long miniGameDetailId;
-
 
     public MiniGame toEntity() {
         MiniGame miniGame = MiniGame.builder()
