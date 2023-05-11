@@ -4,25 +4,34 @@ import TimerBomb from "./TimerBomb";
 
 export default function GameComp(props) {
   const { children } = props;
-  const [recorder, setRecorder] = React.useState(null);
+  const [recorder, setRecorder] = useState(null);
+  const [recordedChunks, setRecordedChunks] = useState([]);
+  const [flag, setFlag] = useState(false);
 
   const startRecording = () => {
     const canvas = document.createElement("canvas");
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
 
+    console.log(canvas);
     const ctx = canvas.getContext("2d");
     const element = document.getElementById("capture-area");
 
     const stream = canvas.captureStream();
+
     const chunks = [];
+
+    console.log("STREAM", stream);
 
     const newRecorder = new MediaRecorder(stream);
     newRecorder.ondataavailable = (e) => {
+      console.log("ONDATAAVIAL");
       chunks.push(e.data);
+      setRecordedChunks((prev) => prev.concat(e.data));
       console.log(chunks.length);
     };
     newRecorder.onstop = () => {
+      console.log("ONSTOP");
       const blob = new Blob(chunks, { type: "video/mp4" });
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
@@ -34,8 +43,6 @@ export default function GameComp(props) {
       window.URL.revokeObjectURL(url);
     };
 
-    setRecorder(newRecorder);
-
     if (
       element &&
       (element instanceof HTMLCanvasElement ||
@@ -45,8 +52,20 @@ export default function GameComp(props) {
       // 유효한 이미지 객체인지 확인
       ctx.drawImage(element, 0, 0, canvas.width, canvas.height);
     }
+    console.log("BEFORE", newRecorder);
+
     newRecorder.start();
+    setRecorder(newRecorder);
+
+    console.log(newRecorder);
+    setFlag(true);
   };
+
+  useEffect(() => {
+    if (flag) {
+      console.log(recorder);
+    }
+  }, [flag]);
 
   // 녹화 종료
   const stopRecording = () => {
@@ -142,7 +161,16 @@ export default function GameComp(props) {
       }}
     >
       <TimerBomb timeLimit={10} />
-      {/* <canvas ref={canvasRef} style={{ backgroundColor: "green" }} /> */}
+      <canvas
+        id="canvas"
+        style={{
+          position: "absolute",
+          top: "20%",
+          width: "700px",
+          height: "500px",
+          backgroundColor: "green",
+        }}
+      />
       {children}
       {/* <button onClick={startRecording}>녹화 시작</button>
       <button onClick={stopRecording}>녹화 종료</button> */}

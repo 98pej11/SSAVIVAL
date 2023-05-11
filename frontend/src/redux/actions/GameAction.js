@@ -23,6 +23,32 @@ function getRemindAnswer(question) {
   };
 }
 
+function gameDone(inputs) {
+  console.log("ACTION ", inputs);
+  for (const [key, value] of inputs.entries()) {
+    // for (const [key2, value2] of value.entries()) {
+    console.log(key, value);
+  }
+  // }
+  return async () => {
+    const url = `${baseUrl}/game/done`;
+    await axios
+      .post(url, inputs, {
+        headers: {
+          "content-type": "multipart/form-data",
+        },
+      })
+      .then((response) => {
+        const { data } = response;
+        console.log("data", data);
+      })
+      .catch((error) => {
+        console.log("MODIFYUSER", error);
+      });
+  };
+}
+
 export const GameAction = {
   getRemindAnswer,
+  gameDone,
 };
