@@ -6,7 +6,8 @@ const initialState = {
   round: 0,
   title: null,
   timeLimit: 0,
-  bgPath: null,
+  pageBg: null,
+  gameContainerBg: null,
   totalScore: 0,
   totalTimeLimit: 120,
   nextComp: false,
@@ -54,7 +55,8 @@ function gameReducer(state = initialState, action = {}) {
         ...state,
         title: payload.title,
         timeLimit: payload.timeLimit,
-        bgPath: payload.bgPath,
+        pageBg: payload.pageBg,
+        gameContainerBg: payload.gameContainerBg,
         round: state.round + 1,
       };
 

@@ -16,7 +16,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGitAlt } from "@fortawesome/free-brands-svg-icons";
 import styled, { keyframes } from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
-import game from "../../assets/game.png";
+import desk_monitor from "../../assets/backgrounds/desk_monitor.png";
+import monitor from "../../assets/backgrounds/monitor.png";
 
 export default function GitbashGame() {
   const errorSound = new Audio("/soundEffect/error.mp3");
@@ -25,8 +26,9 @@ export default function GitbashGame() {
   const dispatch = useDispatch();
   const gameData = {
     title: "제한 시간 내 주어진 명령어를 모두 입력하라",
-    timeLimit: 15,
-    bgPath: game,
+    timeLimit: 10,
+    pageBg: desk_monitor,
+    gameContainerBg: monitor,
   };
   useEffect(() => {
     dispatch({ type: "SET_GAME", payload: gameData });
@@ -41,17 +43,11 @@ export default function GitbashGame() {
 
   // 순서대로 제시할 명령어 리스트
   const commandList = [
-    [
-      "git clone https://lab.ssafy.com/Ssavival.git",
-      "cd Ssavival",
-      "git checkout -b feature/gitbash",
-    ],
-    [
-      "git add .",
-      'git commit -m "FEAT : Idea Thinking"',
-      "git push origin feature/gitbash",
-    ],
-    ["git status", "git stash", "git stash list", "git stash apply"],
+    ["git clone https://lab.ssafy.com/Ssavival.git"],
+    ["cd Ssavival", "git checkout -b feature/gitbash"],
+    ["git add .", 'git commit -m "FEAT : Idea Thinking"'],
+    ["git push origin feature/gitbash"],
+    ["git status", "git stash", "git stash apply"],
   ];
 
   const [index, setIndex] = useState(
@@ -122,7 +118,7 @@ export default function GitbashGame() {
       className="git"
       sx={{
         display: "flex",
-        transform: "translate(0%, -25%)",
+        transform: "translate(0%, -17%)",
       }}
     >
       {/* gitbash 창 구현 */}
