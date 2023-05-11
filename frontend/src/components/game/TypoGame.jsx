@@ -1,16 +1,43 @@
 import React, { useEffect, useRef, useState } from "react";
 import Box from "@mui/material/Box";
-import correctTypos from "../../assets/game_typo/correctTypos.png";
-import { Translate } from "@mui/icons-material";
+import typo1 from "../../assets/game_typo/Typo1.png";
+import typo2 from "../../assets/game_typo/Typo2.png";
+import typo3 from "../../assets/game_typo/Typo3.png";
+import scoring from "../../assets/game_typo/scoring.gif";
 import { useDispatch } from "react-redux";
 
 // 오타 위치 좌표
 const typoSpots = [
-  { x: 243.59443709995608, y: 345.51414077549026, found: false, letter: "의" },
-  { x: 715.615742074012, y: 486.0469203488011, found: false, letter: "얻" },
-  { x: 166.65497829514896, y: 557.3655022912792, found: false, letter: "되" },
-  { x: 386.33598529655745, y: 698.3817893139062, found: false, letter: "제" },
-  { x: 494.9347350726036, y: 839.3980763365333, found: false, letter: "개" },
+  [
+    {
+      x: 417.92048592511196,
+      y: 527.1409033933193,
+      found: false,
+      letter: "끊",
+    },
+    { x: 342.7137573875479, y: 786.9067143330626, found: false, letter: "얻" },
+    { x: 593.5875093498555, y: 786.9067143330626, found: false, letter: "되" },
+  ],
+  [
+    {
+      x: 309.7461568261866,
+      y: 440.18809119880666,
+      found: false,
+      letter: "개",
+    },
+    { x: 840.0631412228695, y: 438.923064273777, found: false, letter: "제" },
+    { x: 515.6150259749427, y: 894.4804794709338, found: false, letter: "쌓" },
+  ],
+  [
+    {
+      x: 268.837121383163,
+      y: 531.6051104806425,
+      found: false,
+      letter: "습",
+    },
+    { x: 440.29166930071034, y: 621.5672329926813, found: false, letter: "서" },
+    { x: 192.71212025428713, y: 713.8967797813528, found: false, letter: "의" },
+  ],
 ];
 
 // 맞힌 개수 표시
@@ -22,15 +49,15 @@ const styles = {
 };
 
 export default function TypoGame() {
-  // canvas 기본 설정
-  const canvasRef = useRef(null);
-  const [getCtx, setGetCtx] = useState(null);
-  // 찾은 typoSpot 리스트
-  const [foundSpots, setFoundSpots] = useState([]);
+  //소리 효과
+  const pencilSound = new Audio("/soundEffect/pencil.mp3");
+  const errorSound = new Audio("/soundEffect/error.mp3");
+  const blobSound = new Audio("/soundEffect/blob.mp3");
 
+  // 게임이 마운트될 때 redux값 변경
   const dispatch = useDispatch();
   const gameData = {
-    title: "제한 시간 내 주어진 명령어를 모두 입력하라",
+    title: "자소서에서 오타를 찾아라",
     timeLimit: 10,
     bgPath: "",
   };
@@ -38,27 +65,42 @@ export default function TypoGame() {
     dispatch({ type: "SET_GAME", payload: gameData });
   }, []);
 
+  // 자소서 랜덤 선택 및 소리효과 설정
+  const typoImgList = [typo1, typo2, typo3];
+  const [index, setIndex] = useState(
+    Math.floor(Math.random() * typoImgList.length)
+  );
+  const typoImg = typoImgList[index];
+
+  // 찾은 typoSpot 리스트
+  const [foundSpots, setFoundSpots] = useState([]);
+
+  // canvas 기본 설정
+  const canvasRef = useRef(null);
+  const [getCtx, setGetCtx] = useState(null);
+
+  // canvas 그리기
   useEffect(() => {
     const canvas = canvasRef.current;
     const ctx = canvas.getContext("2d");
     ctx.strokeStyle = "red";
     ctx.lineWidth = 5;
 
-    // 배경 이미지 넣기
+    // canvas 배경 이미지 넣기
     const bgImg = new Image();
-    bgImg.src = correctTypos;
+    bgImg.src = typoImg;
     bgImg.onload = function () {
       ctx.drawImage(bgImg, 0, 0, 1000, 1000);
 
       // 이미지 로드된 이후 오타 박스 넣기
       // (이미지가 canvas를 covers하기 때문에 cover image 넣은 뒤 rectangle 넣도록 순서 주의)
-      typoSpots.forEach((spot) => {
+      typoSpots[index].forEach((spot) => {
         if (spot.found) {
           ctx.fillStyle = "#e4e5e5";
-          ctx.fillRect(spot.x - 15, spot.y - 20, 30, 40);
+          ctx.fillRect(spot.x - 15, spot.y - 25, 35, 55);
           ctx.fillStyle = "blue";
-          ctx.font = "2vw ChosunSm";
-          ctx.fillText(spot.letter, spot.x - 15, spot.y + 10);
+          ctx.font = "2.5vw ChosunSm";
+          ctx.fillText(spot.letter, spot.x - 15, spot.y + 15);
         }
       });
     };
@@ -78,7 +120,7 @@ export default function TypoGame() {
     setMousePos({ x, y });
 
     if (!painting) {
-      getCtx.beginPath();
+      // getCtx.beginPath();
       getCtx.moveTo(mousePos.x, mousePos.y);
     } else {
       getCtx.lineTo(mousePos.x, mousePos.y);
@@ -86,41 +128,67 @@ export default function TypoGame() {
     }
   };
 
-  // typo spot 찾고
+  // 찾은 오타 표시
   function handleSpotClick(spot) {
     spot.found = true;
     setFoundSpots([...foundSpots, spot]);
+    if (foundSpots.length === typoSpots[index].length) {
+      window.alert("게임 성공");
+    }
   }
 
   // Typo spot 클릭하면(=오타 찾으면) handleSpotClick 실행
   function handleCanvasClick() {
     console.log(mousePos.x, mousePos.y);
-    typoSpots.forEach((spot) => {
+    let flag = false;
+    typoSpots[index].forEach((spot) => {
       const dx = mousePos.x - spot.x;
       const dy = mousePos.y - spot.y;
       const distance = Math.sqrt(dx * dx + dy * dy);
       if (distance < 50 && !spot.found) {
+        pencilSound.play();
+        setIsScoring(true);
         handleSpotClick(spot);
+        flag = true;
       }
     });
+    if (!flag) {
+      blobSound.play();
+    }
+  }
+
+  // 채점 효과(with scoring.gif)
+  const [isScoring, setIsScoring] = useState(false);
+  if (isScoring) {
+    setTimeout(() => {
+      setIsScoring(false);
+    }, 800);
   }
 
   return (
-    <Box className="typo" width="500px" height="500px">
+    <Box
+      className="typo"
+      width="500px"
+      height="500px"
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        Padding: "10px",
+      }}
+    >
       <canvas
         width={1000}
-        height={1000}
-        style={{ position: "absolute", width: "100%" }}
+        height={1300}
+        style={{ height: "100%" }}
         ref={canvasRef}
         onMouseDown={() => setPainting(true)}
         onMouseUp={() => setPainting(false)}
         onMouseMove={(e) => drawFn(e)}
         onMouseLeave={() => setPainting(false)}
         onClick={handleCanvasClick}
-      >
-        {/* <img className='statement' src={correctTypos} width='100%' height='100%'/> */}
-      </canvas>
-      <Box
+      ></canvas>
+      {/* <Box
         sx={{
           position: "absolute",
           width: "50px",
@@ -132,9 +200,16 @@ export default function TypoGame() {
         <Box sx={{ ...styles, color: "red" }}>{foundSpots.length}</Box>
         <Box sx={{ ...styles, right: "14px", top: "9px" }}>/</Box>
         <Box sx={{ ...styles, right: "0px", top: "23px" }}>
-          {typoSpots.length}
+          {typoSpots[index].length}
         </Box>
-      </Box>
+      </Box> */}
+      {isScoring && (
+        <img
+          src={scoring}
+          alt="scoring.gif"
+          style={{ position: "absolute", width: "50%", height: "50%" }}
+        />
+      )}
     </Box>
   );
 }

@@ -6,7 +6,6 @@ import {
   IconButton,
   Stack,
   InputBase,
-  Hidden,
 } from "@mui/material";
 import MinimizeIcon from "@mui/icons-material/Minimize";
 import CloseIcon from "@mui/icons-material/Close";
@@ -14,17 +13,19 @@ import CropSquareIcon from "@mui/icons-material/CropSquare";
 import gitbash_logo from "../../assets/game_gitbash/gitbash_logo.png";
 import gitbash_bg from "../../assets/game_gitbash/monitor.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCircleDollarToSlot } from "@fortawesome/free-solid-svg-icons";
+import { faGitAlt } from "@fortawesome/free-brands-svg-icons";
 import styled, { keyframes } from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import game from "../../assets/game.png";
 
 export default function GitbashGame() {
-  //게임이 마운트될 때 state 값에 변경
+  const errorSound = new Audio("/soundEffect/error.mp3");
+
+  //게임이 마운트될 때 redux값 변경
   const dispatch = useDispatch();
   const gameData = {
     title: "제한 시간 내 주어진 명령어를 모두 입력하라",
-    timeLimit: 10,
+    timeLimit: 15,
     bgPath: game,
   };
   useEffect(() => {
@@ -39,17 +40,25 @@ export default function GitbashGame() {
   }, timeLimit * 1000);
 
   // 순서대로 제시할 명령어 리스트
-  const [order, setOrder] = useState(0);
-  const [mileage, setMileage] = useState(0);
-
   const commandList = [
-    "git clone https://lab.ssafy.com/Ssavival.git",
-    "cd Ssavival",
-    "git checkout -b feature/gitbash",
-    "git add .",
-    'git commit -m "FEAT : Idea Thinking"',
-    "git push origin feature/gitbash",
+    [
+      "git clone https://lab.ssafy.com/Ssavival.git",
+      "cd Ssavival",
+      "git checkout -b feature/gitbash",
+    ],
+    [
+      "git add .",
+      'git commit -m "FEAT : Idea Thinking"',
+      "git push origin feature/gitbash",
+    ],
+    ["git status", "git stash", "git stash list", "git stash apply"],
   ];
+
+  const [index, setIndex] = useState(
+    Math.floor(Math.random() * commandList.length)
+  );
+  const [order, setOrder] = useState(0);
+  const [passNum, setPassNum] = useState(0);
 
   // folderName 변경
   let folderName = null;
@@ -66,10 +75,15 @@ export default function GitbashGame() {
   // 정답인 경우 마일리지 누적 + 아이콘 flip효과
   function onKeyPress(e) {
     if (e.key === "Enter") {
-      if (e.target.value === commandList[order]) {
-        console.log("정답^_^");
-        setMileage(mileage + 100);
-        setOrder(order + 1);
+      if (e.target.value === commandList[index][order]) {
+        if (passNum + 1 === commandList[index].length) {
+          window.alert("게임 성공");
+        } else {
+          console.log("정답^_^");
+          setIsBouncing(true);
+          setPassNum(passNum + 1);
+          setOrder(order + 1);
+        }
       } else {
         console.log("오답ㅠ_ㅠ");
       }
@@ -77,29 +91,35 @@ export default function GitbashGame() {
     }
   }
 
-  useEffect(() => {
-    const icon = document.querySelector(".mileage-icon");
-    icon.classList.add("flip");
-    setTimeout(() => {
-      icon.classList.remove("flip");
-    }, 5000);
-  }, [mileage]);
-
   //흐르는 텍스트 구현
-  const flowing = keyframes`
-    0% {
-      transform: translate3d(0, 0, 0);
-    }
-    100% {
-      transform: translate3d(-500%, 0, 0);
-    }
-  `;
-  const Flow = styled.div`
-    animation: ${flowing} 30s linear infinite;
-  `;
+  // const flowing = keyframes`
+  //   0% {
+  //     transform: translate3d(0, 0, 0);
+  //   }
+  //   100% {
+  //     transform: translate3d(-500%, 0, 0);
+  //   }
+  // `;
+  // const Flow = styled.div`
+  //   animation: ${flowing} 30s linear infinite;
+  // `;
+
+  //git아이콘 bouncing effect
+  const [isBouncing, setIsBouncing] = useState(false);
+  if (isBouncing) {
+    setTimeout(() => {
+      setIsBouncing(false);
+    }, 2000);
+  }
+
+  // 기타 재미 요소(git bash 우측 아이콘 클릭)
+  function handleClick() {
+    errorSound.play();
+  }
 
   return (
     <Box
+      className="git"
       sx={{
         display: "flex",
         transform: "translate(0%, -25%)",
@@ -156,13 +176,13 @@ export default function GitbashGame() {
             }}
           >
             <IconButton fontSize="1vw" aria-label="minimize">
-              <MinimizeIcon />
+              <MinimizeIcon onClick={handleClick} />
             </IconButton>
             <IconButton fontSize="1vw" aria-label="maximize">
-              <CropSquareIcon />
+              <CropSquareIcon onClick={handleClick} />
             </IconButton>
             <IconButton fontSize="vw" aria-label="close">
-              <CloseIcon />
+              <CloseIcon onClick={handleClick} />
             </IconButton>
           </Box>
         </Box>
@@ -181,63 +201,40 @@ export default function GitbashGame() {
           <Box
             sx={{
               display: "flex",
+              justifyContent: "center",
               position: "absolute",
               flex: "0 0 auto",
               width: "100%",
               height: "30px",
-              overflow: "hidden",
-              whiteSpace: "nowrap",
+              // overflow: "hidden",
+              // whiteSpace: "nowrap",
               marginBottom: "20px",
             }}
           >
-            <Flow
+            <Box
+              className="blink"
               style={{ color: "white", fontSize: "1.4vw", textAlign: "center" }}
             >
-              {commandList[order]}{" "}
-            </Flow>
-            <Flow
-              style={{ color: "black", fontSize: "1.7vw", textAlign: "center" }}
-            >
-              복사 방지{" "}
-            </Flow>
-            <Flow
-              style={{ color: "white", fontSize: "1.4vw", textAlign: "center" }}
-            >
-              {commandList[order]}{" "}
-            </Flow>
-            <Flow
-              style={{ color: "black", fontSize: "1.7vw", textAlign: "center" }}
-            >
-              복사 방지{" "}
-            </Flow>
-            <Flow
-              style={{ color: "white", fontSize: "1.4vw", textAlign: "center" }}
-            >
-              {commandList[order]}{" "}
-            </Flow>
-            <Flow
-              style={{ color: "black", fontSize: "1.7vw", textAlign: "center" }}
-            >
-              복사 방지{" "}
-            </Flow>
+              {commandList[index][order]}{" "}
+            </Box>
           </Box>
 
           <Stack direction="row" spacing={1} marginTop="40px">
-            <Typography whiteSpace={"nowrap"} fontSize="1.3vw" color="#00FF00">
+            <Typography whiteSpace={"nowrap"} fontSize="1vw" color="#00FF00">
               SSAFY@DESKTOP-DOGVPUB
             </Typography>
-            <Typography whiteSpace={"nowrap"} fontSize="1.3vw" color="#FF00FF">
+            <Typography whiteSpace={"nowrap"} fontSize="1vw" color="#FF00FF">
               MINGW64
             </Typography>
             <Typography
               whiteSpace={"nowrap"}
               sx={{ overflow: "hidden", textOverflow: "ellipsis" }}
-              fontSize="1.3vw"
+              fontSize="1vw"
               color="#FFFF00"
             >
               ~/Desktop{folderName}
             </Typography>
-            <Typography whiteSpace={"nowrap"} fontSize="1.3vw" color="#00FFFF">
+            <Typography whiteSpace={"nowrap"} fontSize="1vw" color="#00FFFF">
               ({branchName})
             </Typography>
           </Stack>
@@ -263,12 +260,12 @@ export default function GitbashGame() {
             padding="10px"
           >
             <FontAwesomeIcon
-              className="mileage-icon"
-              icon={faCircleDollarToSlot}
+              className={isBouncing ? "bounce" : ""}
+              icon={faGitAlt}
               style={{ color: "#ffd91c", fontSize: "2vw" }}
             />
             <Typography color="white" fontSize="2vw" textAlign="center">
-              {mileage}/3
+              {passNum} / {commandList[index].length}
             </Typography>
           </Stack>
         </Box>
