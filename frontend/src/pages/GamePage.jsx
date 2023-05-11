@@ -29,7 +29,7 @@ const gameContainer = {
   border: "none", // 테두리 없애기
   borderRadius: 10,
   boxShadow: "0px 0px 3px 2px rgba(0,0,0,0.2)", // 그림자 추가하기
-  backgroundColor: "rgba(0, 0, 0, 0.7)", // 배경색 투명하게 만들기
+  backgroundColor: "rgba(255, 255, 255, 0.7)", // 배경색 투명하게 만들기
   padding: 3,
   maxWidth: "70%", // 최대 너비 값 설정
   width: "100%",
@@ -42,8 +42,32 @@ const gameContainer = {
   // backgroundRepeat: "no-repeat",
   // backgroundPosition: "center",
 };
+
+const gameContainer2 = {
+  display: "flex",
+  alignItems: "flex-start",
+  flexWrap: "wrap",
+  border: "none", // 테두리 없애기
+  borderRadius: 10,
+  boxShadow: "0px 0px 3px 2px rgba(0,0,0,0.2)", // 그림자 추가하기
+  backgroundColor: "rgba(255, 255, 255, 0.7)", // 배경색 투명하게 만들기
+  padding: 3,
+  maxWidth: "40%", // 최대 너비 값 설정
+  width: "100%",
+  height: "72vh",
+  overflow: "hidden",
+  marginRight: 10, //
+};
+
+const Comp = {
+  display: "flex",
+  justifyContent: "center",
+  gap: 10,
+};
+
 export default function GamePage() {
   const [index, setIndex] = useState(0);
+  const gameMode = useSelector((state) => state.gameMode);
   const dispatch = useDispatch();
   const timerBombActive = useSelector(
     (state) => state.gameReducer.timerBombActive
@@ -104,10 +128,23 @@ export default function GamePage() {
     >
       <Header />
       <Box sx={container}>
-        <Box sx={gameContainer}>
-          <TimerBomb />
-          {gameComps[index]}
-        </Box>
+        {gameMode === "single" ? (
+          <Box sx={gameContainer}>
+            <TimerBomb timeLimit={10} />
+            {gameComps[index]}
+          </Box>
+        ) : (
+          <Box sx={Comp}>
+            <Box sx={gameContainer2}>
+              <TimerBomb timeLimit={10} />
+              {gameComps[index]}
+            </Box>
+            <Box sx={gameContainer2}>
+              <TimerBomb timeLimit={10} />
+              {gameComps[index]}
+            </Box>
+          </Box>
+        )}
       </Box>
     </Box>
   );

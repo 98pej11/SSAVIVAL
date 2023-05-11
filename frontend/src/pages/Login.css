@@ -4,7 +4,22 @@ The comments here attempt to explain the implementations of spritesheet animatio
 We'll utilize a dynamic "pixel size" which will allow us to upscale the pixel art in even multiplications.
 EX: if an asset is designed as a 10px by 10px square, we can multiply by pixel size of 4 to enlarge the asset to 40px by 40px. This value can be adjusted per screen real estate. 
 */
+@keyframes p4-animation {
+  0% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+   opacity: 0.5;
+  }
+}
 
+.p4 {
+  animation: p4-animation 1.6s ease infinite;
+  animation-delay: 0.6s;
+}
 :root {
   --pixel-size: 4; /* Try playing with this value! */
 }

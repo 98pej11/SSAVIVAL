@@ -3,7 +3,6 @@ import styled from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
 import Box from "@mui/material/Box";
 import { Link, useNavigate } from "react-router-dom";
-import Button from "@mui/material/Button";
 import start from "../../assets/start.png";
 import exit from "../../assets/exit.png";
 import happy_pepe2 from "../../assets/happy_pepe2.png";
@@ -31,6 +30,18 @@ const HoverBox = styled.div`
   align-items: center;
   gap: 20px;
   height: 50%;
+
+  // Box img {
+  //   transition: all 0.2s linear;
+  // }
+
+  // &:hover img {
+  //   transform: scale(1.4);
+  // }
+
+  > div:hover {
+    transform: scale(1.2);
+  }
 `;
 export default function MainComp1() {
   const gameMode = useSelector((state) => state.gameMode);
