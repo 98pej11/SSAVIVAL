@@ -39,6 +39,7 @@ export default function KakaoLogin() {
     useEffect(() => {
         registCheck();
         console.log(2);
+        localStorage.setItem('email', email);
     }, [email]);
 
     // kakao에서 access-token 받기
@@ -103,8 +104,8 @@ export default function KakaoLogin() {
                 console.log(res);
                 // console.log(res.data.exist);
                 if (res.data.exist){
+                    
                     // console.log("test1");
-                    // localStorage.setItem('token', res.headers.authorization);
                     // 잘 작동한다 email을 kakao에서 잘 받아오면 된다.
                     window.location.href = "http://localhost:3000/main";
                 } else {
@@ -150,7 +151,7 @@ export default function KakaoLogin() {
         .then((res) => {
             console.log(res);
         }).catch(error => console.log(error))
-        // window.location.href = "localhost:3000/main";
+        window.location.href = "http://localhost:3000/main";
     }
     //kakao에서 받은 code를 backend로 넘기기
 
