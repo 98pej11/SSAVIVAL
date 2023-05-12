@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import styled from "styled-components";
+import PushPinIcon from "@mui/icons-material/PushPin";
 
 const Game = styled.div`
   position: relative;
@@ -10,7 +11,7 @@ const Game = styled.div`
   justify-content: center;
   align-items: center;
   text-align: center;
-  color: #fff;
+  color: black;
 `;
 
 const Input = styled.div`
@@ -20,12 +21,12 @@ const Input = styled.div`
     width: 80px;
     height: 80px;
     background-color: transparent;
-    border: 5px solid #fff;
+    border: 5px solid rgba(0, 0, 0, 0.5);
     border-radius: 5px;
     margin: 0px 5px;
     font-size: 40px;
     text-align: center;
-    color: #fff;
+    color: black;
     font-family: "neodgm";
     appearance: textfield;
   }
@@ -75,9 +76,12 @@ const PaperList = styled.ul`
 `;
 
 const PaperItem = styled.li`
+  display: flex;
+  justify-content: center;
+  align-items: center;
   position: relative;
   width: 150px;
-  height: 60px;
+  height: 120px;
   list-style-type: none;
   background: #ffff66;
   overflow-wrap: break-word;
@@ -88,54 +92,35 @@ const PaperItem = styled.li`
   float: left;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.2), inset 0 0 50px rgba(0, 0, 0, 0.1);
   border-radius: 60px 60px 120px 120px / 4px 4px 8px 8px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  font-family: neodgm;
 
-  .icon {
-    position: absolute;
-    color: #331a00;
-    top: 1px;
-    padding: 0 30%;
+  &:hover {
+    width: 20px;
+    opacity: 1;
   }
 
-  .erase {
+  .tack-icon {
     position: absolute;
-    top: 0;
-    left: 0;
-    height: 20px;
-    width: 0;
-    background-color: red;
-    color: white;
-    text-align: center;
-    display: inline-block;
-    opacity: 0;
-    transition: 0.2s linear;
-
-    &:hover {
-      width: 20px;
-      opacity: 1;
-    }
+    top: 10px;
+    left: 60px;
+    color: black;
   }
 `;
 
 export default function RemindGame() {
   const [inputs, setInputs] = useState("");
-  const answer = useSelector((state) => state.gameReducer.remindAnswer);
+  // const answer = useSelector((state) => state.gameReducer.remindAnswer);
+  const answer = "햄버거";
   const wordList = useSelector((state) => state.gameReducer.remindWordList);
 
   const [currentWords, setCurrentWords] = useState([]);
 
-  const dispatch = useDispatch();
-  // const gameData = {
-  //   title: "제한 시간 내 주어진 명령어를 모두 입력하라",
-  //   timeLimit: 10,
-  //   bgPath: "",
-  // };
-  // useEffect(() => {
-  //   dispatch({ type: "SET_GAME", payload: gameData });
-  // }, []);
-
   useEffect(() => {
     console.log(wordList);
     let currentIndex = 0;
+    setCurrentWords([]); // Clear the currentWords state initially
     const intervalId = setInterval(() => {
       console.log(currentIndex);
       if (currentIndex < wordList.length) {
@@ -149,25 +134,51 @@ export default function RemindGame() {
       }
     }, 1500);
 
-    return () => clearInterval(intervalId);
+    if (wordList.length > 0) {
+      setCurrentWords((currentWords) => [...currentWords, wordList[0]]); // Add the first word immediately
+
+      const intervalId = setInterval(() => {
+        currentIndex += 1;
+        if (currentIndex < wordList.length) {
+          setCurrentWords((currentWords) => [
+            ...currentWords,
+            wordList[currentIndex],
+          ]);
+        } else {
+          clearInterval(intervalId);
+        }
+      }, 1500);
+
+      return () => clearInterval(intervalId);
+    }
   }, [wordList]);
 
-  const onChangeHandler = (event) => {
-    event.preventDefault();
-    setInputs(event.target.value);
-  };
+  const onCheckButtonClick = (event) => {
+    const updatedInputs = Array.from(
+      event.target.parentNode.querySelectorAll("input")
+    )
+      .map((input) => input.value)
+      .join("");
+    setInputs(updatedInputs);
 
-  const onKeyDownHandler = (event) => {
-    if (event.code === "Enter") {
-      if (answer === inputs) {
-        console.log("정답", inputs);
-      }
+    if (updatedInputs === "") {
+      alert("단어를 입력해주세요");
+    } else if (answer === updatedInputs) {
+      // Inputs match the answer
+      alert("정답이에용");
+    } else {
+      // Inputs do not match the answer
+      console.log("오답", updatedInputs, answer);
+      alert("틀려써요");
     }
   };
 
   const renderWordList = () => {
     return currentWords.map((word, index) => (
-      <PaperItem key={index}>{word}</PaperItem>
+      <PaperItem key={index}>
+        <PushPinIcon className="tack-icon" />
+        {word}
+      </PaperItem>
     ));
   };
 
@@ -182,16 +193,8 @@ export default function RemindGame() {
           <input type="text" maxLength="1" />
           <input type="text" maxLength="1" />
         </Input>
-        <Check>Check</Check>
+        <Check onClick={onCheckButtonClick}>Check</Check>
       </Game>
-      {/* <input
-        type="text"
-        value={inputs}
-        onChange={(e) => onChangeHandler(e)}
-        onKeyDown={(e) => onKeyDownHandler(e)}
-      ></input>
-      {currentWords &&
-        currentWords.map((word, index) => <div key={index}>{word}</div>)} */}
     </div>
   );
 }

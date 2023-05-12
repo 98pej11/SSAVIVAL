@@ -53,18 +53,18 @@ export default function LoginPage() {
     navigationElements += `<button className="NavigationBubble index-${index}" onclick='setActive(${index})' />`;
   });
   if (characterElement !== null) {
-    // characterElement.insertAdjacentHTML("beforeend", spritesheetElements);
+    characterElement.insertAdjacentHTML("beforeend", spritesheetElements);
   }
 
-  // document
-  //   .querySelector(".Navigation")
-  //   .insertAdjacentHTML("beforeend", navigationElements);
+  document
+    .querySelector(".Navigation")
+    .insertAdjacentHTML("beforeend", navigationElements);
 
   const elementRef = useRef();
 
   useEffect(() => {
     if (elementRef.current) {
-      // elementRef.current.insertAdjacentHTML("beforeend", navigationElements);
+      elementRef.current.insertAdjacentHTML("beforeend", navigationElements);
     }
   }, []);
 

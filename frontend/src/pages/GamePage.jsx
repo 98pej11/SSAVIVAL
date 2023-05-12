@@ -138,8 +138,6 @@ export default function GamePage() {
     <TypoGame key="TypoGame" />,
     <RemindGame key="RemindGame" />,
     <TissueGame key="TissueGame" />,
-    // <RemindGame key="RemindGame" />,
-    <ElevatorGame key="ElevatorGame" />,
     <EmojiComp key="EmojiComp" />,
     <Puzzle key="Puzzle" />,
     <Seating key="Seating" />,
