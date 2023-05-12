@@ -16,6 +16,10 @@ import RemindPage from "./pages/RemindPage";
 import GamePage from "./pages/GamePage";
 import ImagePlayer from "./components/game/ImagePlayer";
 
+import IdCardPage from "./pages/IdCardPage";
+import SeatPage from "./pages/SeatPage";
+import TestPage from "./pages/TestPage";
+import PuzzlePage from "./pages/PuzzlePage";
 const Pages = styled.div`
   position: relative;
 `;
@@ -31,18 +35,17 @@ function App() {
           <Route path="/user/kakao/check" element={<KakaoLogin />} />
           <Route path="/game" element={<GamePage />} />
           <Route path="/main" element={<MainPage />} />
-          
+
           <Route path="/emoji" element={<EmojiPage />} />
           <Route path="/elevator" element={<ElevatorPage />} />
-<<<<<<< HEAD
-          <Route path="/tissue" element={<TissuePage />} />
-=======
           <Route path="/typo" element={<TypoPage />} />
           <Route path="/git" element={<GitbashPage />} />
-
+          <Route path="/seat" element={<SeatPage />} />
+          <Route path="/id-card" element={<IdCardPage />} />
+          <Route path="/puzzle" element={<PuzzlePage />} />
           <Route path="/video" element={<VideoHandler />} />
           <Route path="/image" element={<ImagePlayer />} />
->>>>>>> 2b4d95582049c090503f618641626d57f54071b0
+
           {/* 
           <Route path="/emoji" element={<EmojiPage />} />
           <Route path="/main" element={<MainPage />} />

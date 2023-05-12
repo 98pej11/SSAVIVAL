@@ -10,7 +10,7 @@ import sadshin from "../../assets/sad_shin.png";
 import thanks from "../../assets/thanks.png";
 import yes from "../../assets/yes.png";
 import zzang from "../../assets/zzang.png";
-import Emoji from "./EmojiComp";
+// import Emoji from "./EmojiComp";
 import styled from "styled-components";
 
 const emojis = [happyloopy, nepp, pepesad, pepe, sadshin, thanks, yes, zzang];
