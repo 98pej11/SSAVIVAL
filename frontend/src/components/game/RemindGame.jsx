@@ -137,12 +137,13 @@ export default function RemindGame() {
     console.log(wordList);
     let currentIndex = 0;
     const intervalId = setInterval(() => {
-      if (currentIndex <= wordList.length) {
+      console.log(currentIndex);
+      if (currentIndex < wordList.length) {
         setCurrentWords((currentWords) => [
           ...currentWords,
           wordList[currentIndex],
         ]);
-        currentIndex++;
+        currentIndex += 1;
       } else {
         clearInterval(intervalId);
       }
@@ -163,18 +164,17 @@ export default function RemindGame() {
       }
     }
   };
+
+  const renderWordList = () => {
+    return currentWords.map((word, index) => (
+      <PaperItem key={index}>{word}</PaperItem>
+    ));
+  };
+
   return (
     <div>
       <Blackboard>
-        <PaperList className="paper">
-          <PaperItem>Eat</PaperItem>
-        </PaperList>
-        <PaperList className="paper">
-          <PaperItem>Eat</PaperItem>
-        </PaperList>
-        <PaperList className="paper">
-          <PaperItem>Eat</PaperItem>
-        </PaperList>
+        <PaperList className="paper">{renderWordList()}</PaperList>;
       </Blackboard>
       <Game>
         <Input>
