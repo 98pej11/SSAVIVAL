@@ -144,7 +144,7 @@ export default function GameComp(props) {
         // display: "flex",
         // justifyContent: "center",
         // alignItems: "flex-start",
-        flexWrap: "wrap",
+        // flexWrap: "wrap",
         border: "none",
         borderRadius: 10,
         boxShadow: "0px 0px 3px 2px rgba(0,0,0,0.2)",

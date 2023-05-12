@@ -13,12 +13,21 @@ import kakao from "../assets/kakao.png";
 //   APP_ADMIN_KEY,
 // } from "../components/KakaoLoginData";
 import ssavival from "../assets/ssavival.png";
+import background from "../assets/background.png";
 import {
   REST_API_KEY,
   REDIRECT_URI,
   LOGOUT_REDIRECT_URI,
   APP_ADMIN_KEY,
 } from "../components/KakaoLoginData";
+
+const Pages = styled.div`
+  background-image: url(${background});
+  background-size: cover;
+  position: relative;
+  width: 100%;
+  height: 100vh; /* 화면의 세로 길이를 100%로 설정 */
+`;
 
 export default function LoginPage() {
   var characterElement = document.querySelector(".Character");
@@ -44,7 +53,7 @@ export default function LoginPage() {
     navigationElements += `<button className="NavigationBubble index-${index}" onclick='setActive(${index})' />`;
   });
   if (characterElement !== null) {
-    characterElement.insertAdjacentHTML("beforeend", spritesheetElements);
+    // characterElement.insertAdjacentHTML("beforeend", spritesheetElements);
   }
 
   // document
@@ -55,9 +64,10 @@ export default function LoginPage() {
 
   useEffect(() => {
     if (elementRef.current) {
-      elementRef.current.insertAdjacentHTML("beforeend", navigationElements);
+      // elementRef.current.insertAdjacentHTML("beforeend", navigationElements);
     }
   }, []);
+
   function setActive(index) {
     activeIndex = index;
     document.querySelectorAll(`.active`).forEach((node) => {
@@ -130,50 +140,64 @@ export default function LoginPage() {
   const kakaoLogin = () => {
     window.location.href = KAKAO_AUTH_URL;
   };
-  // const kakaoLogout = () => {
-  //   const ACCESS_TOKEN = localStorage.getItem("access_token");
+  class star {
+    constructor(x, y, size, time) {
+      this.x = x;
+      this.y = y;
+      this.size = size;
+      this.time = time;
+    }
 
-  //   fetch(
-  //     `https://kauth.kakao.com/oauth/logout?client_id=${REST_API_KEY}&logout_redirect_uri=${LOGOUT_REDIRECT_URI}`,
-  //     {
-  //       method: "GET",
-  //       // body: `client_id=${REST_API_KEY}&redirect_url=${REDIRECT_URI}`
-  //     }
-  //   ).then(() => {
-  //     console.log("here");
-  //     localStorage.clear();
-  //   });
+    set() {
+      this.x = Math.random() * window.innerWidth;
+      this.y = Math.random() * window.innerHeight;
+      this.size = Math.random() * 12;
+      this.time = Math.random() * 8;
 
-  //   fetch(`https://kapi.kakao.com/v1/user/unlink`, {
-  //     method: "POST",
-  //     headers: {
-  //       Authorization: `Bearer ${ACCESS_TOKEN}/KakaoAK ${APP_ADMIN_KEY}`,
-  //     },
-  //   }).then(() => {
-  //     console.log("here2");
-  //   });
-  // .then(res => res.json())
-  // .then(data => {
-  //     console.log(data);
-  //     console.log(data.id_token)
-  //     if(data.access_token) {
-  //         localStorage.setItem('access_token', data.access_token);
-  //         localStorage.setItem('refresh_token', data.refresh_token);
-  //     }
-  //     // navigate('/');
-  // });
-  // };
+      const starDiv = document.createElement("div");
+      starDiv.className = "star";
+
+      starDiv.style.position = "absolute";
+      starDiv.style.left = this.x + "px";
+      starDiv.style.top = this.y + "px";
+      starDiv.style.width = this.size + "px";
+      starDiv.style.height = this.size + "px";
+      starDiv.style.backgroundColor = "white";
+      starDiv.style.filter = "blur(5px)";
+      starDiv.style.animation = `blink ${this.time}s steps(5) infinite`;
+      const background = document.getElementById("main");
+      background.appendChild(starDiv);
+    }
+  }
+
+  const mainRef = useRef(null);
+
+  const addStarToMain = () => {
+    const starDiv = document.createElement("div");
+    starDiv.className = "starDiv";
+
+    if (mainRef.current) {
+      mainRef.current.appendChild(starDiv);
+    }
+  };
+  useEffect(() => {
+    for (let i = 0; i < 15; i++) {
+      const newStar = new star();
+      newStar.set();
+    }
+  }, []);
   return (
-    <div>
+    <Pages>
       <div
         style={{
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
-          marginTop: "10%",
+          // marginTop: "10%",
         }}
+        id="main"
       >
-        <main className="Container">
+        <div className="Container" ref={mainRef}>
           <img
             className="TitleImage PixelArtImage"
             src={ssavival}
@@ -399,8 +423,8 @@ export default function LoginPage() {
               </svg>
             </button>
           </div>
-        </main>
+        </div>
       </div>
-    </div>
+    </Pages>
   );
 }

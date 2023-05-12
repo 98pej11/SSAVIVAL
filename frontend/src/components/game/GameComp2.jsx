@@ -20,16 +20,16 @@ export default function GameComp(props) {
     <Comp>
       <Box
         sx={{
-          display: "flex",
-          alignItems: "flex-start",
-          flexWrap: "wrap",
+          // display: "flex",
+          // alignItems: "flex-start",
+          // flexWrap: "wrap",
           border: "none", // 테두리 없애기
           borderRadius: 10,
           boxShadow: "0px 0px 3px 2px rgba(0,0,0,0.2)", // 그림자 추가하기
-          backgroundColor: "rgba(0, 0, 0, 0.7)", // 배경색 투명하게 만들기
+          backgroundColor: "rgba(255, 255, 255, 0.7)", // 배경색 투명하게 만들기
           padding: 3,
-          maxWidth: "40%", // 최대 너비 값 설정
-          width: "100%",
+          // maxWidth: "40%", // 최대 너비 값 설정
+          width: "800px",
           height: "72vh",
           overflow: "hidden",
           marginRight: 10, //
@@ -47,17 +47,17 @@ export default function GameComp(props) {
 
       <Box
         sx={{
-          display: "flex",
-          alignItems: "flex-start",
+          // display: "flex",
+          // alignItems: "flex-start",
 
-          flexWrap: "wrap",
+          // flexWrap: "wrap",
           border: "none", // 테두리 없애기
           borderRadius: 10,
           boxShadow: "0px 0px 3px 2px rgba(0,0,0,0.2)", // 그림자 추가하기
-          backgroundColor: "rgba(0, 0, 0, 0.7)", // 배경색 투명하게 만들기
+          backgroundColor: "rgba(255, 255, 255, 0.7)", // 배경색 투명하게 만들기
           padding: 3,
-          maxWidth: "40%", // 최대 너비 값 설정
-          width: "100%",
+          // maxWidth: "40%", // 최대 너비 값 설정
+          width: "800px",
           height: "72vh",
           overflow: "hidden",
           // 게임 컴포넌트의 개별 배경이 있는 경우(ex_모니터)

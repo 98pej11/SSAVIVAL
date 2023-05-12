@@ -4,35 +4,34 @@ import countbox from "../../assets/countbox.png";
 import { useDispatch } from "react-redux";
 
 const imageStyle = {
-  position: "relative",
-  left: "36%",
-  width: "100%",
+  // position: "relative",
+  // left: "36%",
+  // width: "100%",
   height: "auto",
-  maxWidth: "600px",
+  // maxWidth: "600px",
 };
 
 const image1Style = {
-  top: "310px",
-  width: "500px",
-  position: "absolute",
+  // top: "310px",
+  width: "300px",
+  position: "relative",
   zIndex: 99,
-  alignSelf: "center",
+  // alignSelf: "center",
 };
 
 const image2Style = {
   zIndex: 100,
-  top: "150px",
-  left: "36% ",
-  width: "500px",
-  position: "absolute",
-  alignSelf: "center",
+  // top: "150px",
+  // left: "36% ",
+  width: "300px",
+  position: "relative",
+  // alignSelf: "center",
 };
 
 const image3Style = {
-  position: "absolute",
-  top: "520px",
-
-  width: "500px",
+  position: "relative",
+  // top: "300px",
+  width: "300px",
   zIndex: 99,
 };
 
@@ -40,7 +39,7 @@ const CountComp = styled.div`
   font-family: "neodgm";
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
   position: relative;
 `;
 const CountText = styled.span`
@@ -73,7 +72,7 @@ export default function TissueGame() {
 
   const dispatch = useDispatch();
   const gameData = {
-    title: "제한 시간 내 주어진 명령어를 모두 입력하라",
+    title: "~ 휴지를 최대한 많이 뽑아보자 ~",
     timeLimit: 10,
     bgPath: "",
   };
@@ -124,6 +123,10 @@ export default function TissueGame() {
 
   return (
     <div>
+      <CountComp>
+        <img src={countbox} alt=" " style={{ width: "150px" }}></img>
+        <CountText>{count}</CountText>
+      </CountComp>
       {count % 2 === 0 && (
         <img
           style={image2Style}
@@ -153,16 +156,14 @@ export default function TissueGame() {
         />
       )}
 
-      <CountComp>
-        <img src={countbox} alt=" " style={{ width: "180px" }}></img>
-        <CountText>{count}</CountText>
-      </CountComp>
       <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
+        style={
+          {
+            // display: "flex",
+            // justifyContent: "center",
+            // alignItems: "center",
+          }
+        }
       >
         <img
           src="고양이_휴지곽_뒷면.png"
