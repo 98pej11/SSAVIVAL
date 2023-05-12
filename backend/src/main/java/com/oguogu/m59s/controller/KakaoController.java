@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/user/kakao")
+@RequestMapping("/api/user/kakao")
 @CrossOrigin(origins = "*")
 public class KakaoController {
 

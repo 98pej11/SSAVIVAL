@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/token")
+@RequestMapping("/api/token")
 @CrossOrigin(origins = "*")
 public class TokenController {
 

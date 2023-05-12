@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Getter
 @Entity
@@ -27,6 +28,8 @@ public class Game implements Comparable<Game>{
     private int totalScore;
     @Column(nullable = false)
     private int totalCnt;
+    @Column
+    private Date gameDate;
     @Column(nullable = false)
     private long userId;
 
@@ -37,6 +40,7 @@ public class Game implements Comparable<Game>{
                 .failCnt(failCnt)
                 .totalScore(totalScore)
                 .totalCnt(totalCnt)
+                .gameDate(gameDate)
                 .userId(userId)
                 .build();
         return gameDto;

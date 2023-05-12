@@ -1,12 +1,12 @@
 package com.oguogu.m59s.model.service;
 
 import com.oguogu.m59s.entity.Game;
+import com.oguogu.m59s.entity.GameImage;
 import com.oguogu.m59s.entity.MiniGame;
 import com.oguogu.m59s.entity.MiniGameDetail;
+import com.oguogu.m59s.model.dto.*;
 import com.oguogu.m59s.model.dto.GameDto;
-import com.oguogu.m59s.model.dto.MiniGameDetailDto;
-import com.oguogu.m59s.model.dto.MiniGameDto;
-import com.oguogu.m59s.model.dto.MiniGameInfoDto;
+import com.oguogu.m59s.repository.GameImageRepository;
 import com.oguogu.m59s.repository.GameRepository;
 import com.oguogu.m59s.repository.MiniGameDetailRepository;
 import com.oguogu.m59s.repository.MiniGameRepository;
@@ -27,6 +27,8 @@ public class GameServiceImpl implements GameService{
     MiniGameDetailRepository miniGameDetailRepository;
     @Autowired
     GameRepository gameRepository;
+    @Autowired
+    GameImageRepository gameImageRepository;
 
     @Override
     public List<MiniGameInfoDto> listMiniGame(long gameId) {
@@ -51,7 +53,6 @@ public class GameServiceImpl implements GameService{
         }
         System.out.println("bbbbbbbbbbbb");
         List<GameDto> gameDtoList = new ArrayList<>();
-        //정렬안됐음 정렬 sort로 안될둣 훅훅
         gameList.sort(null);
         for (Game game : gameList) {
             GameDto dto = game.toDto();
@@ -60,4 +61,34 @@ public class GameServiceImpl implements GameService{
         return gameDtoList;
     }
 
+    @Override
+    public long findGameLastIndex() {
+        List<Game> list = gameRepository.findAll();
+        return list.size() + 1;
+    }
+
+    @Override
+    public long findMiniGameLastIndex() {
+        List<MiniGame> list = miniGameRepository.findAll();
+        return list.size() + 1;
+    }
+
+    @Override
+    public void saveGameImage(GameImageDto gameImageDto) {
+        gameImageRepository.save(gameImageDto.toEntity());
+    }
+    @Override
+    public void saveMiniGame(MiniGameDto miniGameDto) {
+        miniGameRepository.save(miniGameDto.toEntity());
+    }
+
+    @Override
+    public void saveGame(GameDto gameDto) {
+        gameRepository.save(gameDto.toEntitiy());
+    }
+
+    @Override
+    public void updateGame(GameDto gameDto) {
+        gameRepository.save(gameDto.toEntitiy());
+    }
 }
