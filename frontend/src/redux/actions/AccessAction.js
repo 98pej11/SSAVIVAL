@@ -1,4 +1,5 @@
 import axios from "axios";
+import { baseUrl } from "./url";
 
 function accessTokenTest() {
   return async (dispatch) => {
@@ -6,7 +7,7 @@ function accessTokenTest() {
     console.log(accessToken);
     try {
       const response = await axios.get(
-        `http://localhost:8084/token/access/valid?accessToken=${accessToken}`
+        `${baseUrl}/token/access/valid?accessToken=${accessToken}`
       );
       console.log("여기 access token 검사를 잘 했나 확인");
       console.log(response.data);
@@ -23,7 +24,7 @@ function refreshTokenTest() {
 
     try {
       const response = await axios.get(
-        `http://localhost:8084/token/refresh/valid?refreshToken=${refreshToken}`
+        `${baseUrl}/token/refresh/valid?refreshToken=${refreshToken}`
       );
       console.log("refresh 토큰 테스트");
       console.log(response);

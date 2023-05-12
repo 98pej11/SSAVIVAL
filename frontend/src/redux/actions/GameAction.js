@@ -23,6 +23,46 @@ function getRemindAnswer(question) {
   };
 }
 
+function gameDone(inputs) {
+  console.log("ACTION ", inputs);
+  for (const [key, value] of inputs.entries()) {
+    // for (const [key2, value2] of value.entries()) {
+    console.log(key, value);
+  }
+  // }
+  return async () => {
+    const url = `${baseUrl}/game/done`;
+    await axios
+      .post(url, inputs, {
+        headers: {
+          "content-type": "multipart/form-data",
+        },
+      })
+      .then((response) => {
+        const { data } = response;
+        console.log("data", data);
+      })
+      .catch((error) => {
+        console.log("MODIFYUSER", error);
+      });
+  };
+}
+
+function gameStart(userId) {
+  return async (dispatch) => {
+    try {
+      const response = await axios.get(`${baseUrl}/game/start/${userId}`);
+      console.log("게임 스따뚜");
+      console.log(response);
+      return response;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+}
+
 export const GameAction = {
   getRemindAnswer,
+  gameDone,
+  gameStart,
 };

@@ -136,8 +136,9 @@ export default function GamePage() {
     <AttendanceGame key="AttendanceGame" />,
     <GitbashGame key="GitbashGame" />,
     <TypoGame key="TypoGame" />,
-    <TissueGame key="TissueGame" />,
     <RemindGame key="RemindGame" />,
+    <TissueGame key="TissueGame" />,
+    // <RemindGame key="RemindGame" />,
     <ElevatorGame key="ElevatorGame" />,
     <EmojiComp key="EmojiComp" />,
     <Puzzle key="Puzzle" />,
@@ -145,27 +146,35 @@ export default function GamePage() {
     <IdCard key="Idcard" />,
   ];
 
-  let blobArray = [];
+  // redux : timeLimit(게임 제한시간)이랑 bgPath(게임 배경) 구독
+  // const timeLimit = useSelector((state) => state.gameReducer.timeLimit);
+  const bgPath = useSelector((state) => state.gameReducer.bgPath);
+
+  let blobs = [];
+  const [blobArray, setBlobArray] = useState([]);
+
+  // useEffect(() => {
+  //   saveBlobs(blobArray);
+  // }, [flag]);
 
   const onCapture = () => {
     console.log("onCapture");
     html2canvas(document.getElementById("gameContainer")).then((canvas) => {
       // onSaveAs(canvas.toDataURL("image/png"), "image-download.png");
       canvas.toBlob((blob) => {
-        console.log(blob);
-        blobArray.push(blob);
-        console.log("blobArray 길이 1", blobArray.length);
+        // console.log(blob);
+        blobs.push(blob);
+        // setBlobArray((prevBlobArray) => [...prevBlobArray, blob]);
         //게임 끝나는 조건 추가해야함
         if (blobArray.length === 20) {
           //점수, 시간, 아이디 저장
-          console.log("blobArray 길이 2", blobArray.length);
           setInputs({
             miniGameDetailId: round + 1,
             clearTime: "",
             score: 0,
             gameId: 0, //게임 시작 api에서 받아서 가져올 부분
           });
-          saveBlobs(blobArray);
+          setBlobArray(blobs);
         }
       }, "image/png");
     });
@@ -175,6 +184,7 @@ export default function GamePage() {
     console.log("save blobs");
     const formData = new FormData();
     console.log(blobs.length);
+
     for (let i = 0; i < blobs.length; i++) {
       formData.append("gameImages", blobs[i], `image${i}.png`);
     }
