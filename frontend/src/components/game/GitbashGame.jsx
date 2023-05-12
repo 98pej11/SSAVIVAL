@@ -24,22 +24,21 @@ export default function GitbashGame() {
 
   //게임이 마운트될 때 redux값 변경
   const dispatch = useDispatch();
-  const gameData = {
-    title: "제한 시간 내 주어진 명령어를 모두 입력하라",
-    timeLimit: 10,
-    pageBg: desk_monitor,
-    gameContainerBg: monitor,
-  };
-  useEffect(() => {
-    dispatch({ type: "SET_GAME", payload: gameData });
-  }, []);
+  // const gameData = {
+  //   title: "제한 시간 내 주어진 명령어를 모두 입력하라",
+  //   timeLimit: 10,
+  //   bgPath: game,
+  // };
+  // useEffect(() => {
+  //   dispatch({ type: "SET_GAME", payload: gameData });
+  // }, []);
 
   //게임이 끝난 후 점수 반영
-  const score = 100;
-  const timeLimit = useSelector((state) => state.gameReducer.timeLimit);
-  setTimeout(() => {
-    dispatch({ type: "UPDATE_SCORE", payload: score });
-  }, timeLimit * 1000);
+  // const score = 100;
+  // const timeLimit = useSelector((state) => state.gameReducer.timeLimit);
+  // setTimeout(() => {
+  //   dispatch({ type: "UPDATE_SCORE", payload: score });
+  // }, timeLimit * 1000);
 
   // 순서대로 제시할 명령어 리스트
   const commandList = [

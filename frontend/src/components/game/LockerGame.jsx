@@ -3,7 +3,7 @@ import { Box } from "@mui/material";
 import paperPassword from "../../assets/game_locker/paper_password.png";
 import lockerBook from "../../assets/game_locker/locker_book.png";
 import React, { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 function generateRandomPassword() {
   const randomNumber = Math.floor(Math.random() * 10000);
@@ -12,22 +12,17 @@ function generateRandomPassword() {
 }
 
 const LockerGame = () => {
-  // minigameClear를 redux로 옮겨야 할지도? 타이머에 클리어 정보를 전달해야 하는데, props와 emit으로는 너무 어려움
-  const [minigameClear, setMinigameClear] = useState(false);
   const [enteredValue, setEnteredValue] = useState("");
   // 추후 비밀번호를 props로 받아오게 만들 수도 있음
   const [correctPassword, setCorrectPassword] = useState("");
   const [shuffledKeypad, setShuffledKeypad] = useState([]);
 
+  const minigameClear = useSelector((state) => state.gameReducer.minigameClear);
+  const minigameActive = useSelector(
+    (state) => state.gameReducer.minigameActive
+  );
+
   const dispatch = useDispatch();
-  const gameData = {
-    title: "제한 시간 내 주어진 명령어를 모두 입력하라",
-    timeLimit: 10,
-    bgPath: "",
-  };
-  useEffect(() => {
-    dispatch({ type: "SET_GAME", payload: gameData });
-  }, []);
 
   useEffect(() => {
     setCorrectPassword(generateRandomPassword());
@@ -53,7 +48,9 @@ const LockerGame = () => {
         return innerText;
       }
       if (prev.length >= 3 && prev + innerText === correctPassword) {
-        setMinigameClear(true);
+        if (minigameActive) {
+          dispatch({ type: "SET_MINIGAME_CLEAR" });
+        }
       }
       return prev + innerText;
     });

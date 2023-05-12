@@ -16,16 +16,11 @@ const Pages = styled.div`
   height: 100%;
 `;
 
-const myProps = {
-  title: "사물함 비밀번호 입력해보자",
-  number: 3,
-};
-
 export default function LockerPage() {
   const gameMode = useSelector((state) => state.gameMode);
   return (
     <Pages>
-      <Header props={myProps} />
+      <Header />
       <div
         style={{
           display: "flex",
@@ -34,12 +29,12 @@ export default function LockerPage() {
         }}
       >
         {gameMode === "single" ? (
-          <GameComp props={myProps}>
-            <LockerGame {...myProps} />
+          <GameComp>
+            <LockerGame />
           </GameComp>
         ) : (
-          <GameComp2 props={myProps}>
-            <LockerGame {...myProps} />
+          <GameComp2>
+            <LockerGame />
           </GameComp2>
         )}
       </div>

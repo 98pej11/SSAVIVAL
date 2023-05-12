@@ -16,11 +16,6 @@ const Pages = styled.div`
   height: 100%;
 `;
 
-const myProps = {
-  title: "연상되는 단어를 입력해봐!",
-  number: 10,
-};
-
 function RemindPage() {
   const dispatch = useDispatch();
   useEffect(() => {
@@ -31,7 +26,7 @@ function RemindPage() {
 
   return (
     <Pages>
-      <Header props={myProps} />
+      <Header />
       <div
         style={{
           display: "flex",
@@ -41,12 +36,12 @@ function RemindPage() {
         }}
       >
         {gameMode === "single" ? (
-          <GameComp props={myProps}>
-            <RemindGame {...myProps} />
+          <GameComp>
+            <RemindGame />
           </GameComp>
         ) : (
-          <GameComp2 props={myProps}>
-            <RemindGame {...myProps} />
+          <GameComp2>
+            <RemindGame />
           </GameComp2>
         )}
       </div>

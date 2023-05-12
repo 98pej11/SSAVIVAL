@@ -25,7 +25,7 @@ const HeaderComp = styled.div`
   font-family: "neodgm", sans-serif;
 `;
 
-function Header(props) {
+function Header() {
   const round = useSelector((state) => state.gameReducer.round);
   const title = useSelector((state) => state.gameReducer.title);
   const totalScore = useSelector((state) => state.gameReducer.totalScore);
@@ -36,7 +36,7 @@ function Header(props) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  console.log(props);
+  // console.log(props);
   const handleClickOpen = () => {
     setOpen(true);
   };

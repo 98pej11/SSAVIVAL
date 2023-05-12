@@ -61,14 +61,14 @@ export default function ElevatorGame() {
   const dispatch = useDispatch();
   const targetFloorRef = useRef(null);
 
-  const gameData = {
-    title: "제한 시간 내 주어진 명령어를 모두 입력하라",
-    timeLimit: 10,
-    bgPath: "",
-  };
-  useEffect(() => {
-    dispatch({ type: "SET_GAME", payload: gameData });
-  }, []);
+  // const gameData = {
+  //   title: "제한 시간 내 주어진 명령어를 모두 입력하라",
+  //   timeLimit: 10,
+  //   bgPath: "",
+  // };
+  // useEffect(() => {
+  //   dispatch({ type: "SET_GAME", payload: gameData });
+  // }, []);
 
   const checkOverlap = () => {
     const diff = Math.abs(floor - 5);

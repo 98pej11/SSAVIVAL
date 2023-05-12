@@ -19,17 +19,12 @@ const Pages = styled.div`
   height: 100%;
 `;
 
-const myProps = {
-  title: "MM에 알맞은 이모지를 붙여보자",
-  number: 2,
-};
-
 export default function EmojiPage() {
   const gameMode = useSelector((state) => state.gameReducer.gameMode);
   console.log(gameMode);
   return (
     <Pages>
-      <Header props={myProps} />
+      <Header />
       <div
         style={{
           display: "flex",
@@ -39,12 +34,12 @@ export default function EmojiPage() {
         }}
       >
         {gameMode === "single" ? (
-          <GameComp props={myProps}>
-            <EmojiComp {...myProps} />
+          <GameComp>
+            <EmojiComp />
           </GameComp>
         ) : (
-          <GameComp2 props={myProps}>
-            <EmojiComp {...myProps} />
+          <GameComp2>
+            <EmojiComp />
           </GameComp2>
         )}
       </div>

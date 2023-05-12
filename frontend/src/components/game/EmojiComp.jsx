@@ -15,14 +15,14 @@ import { useSelector, useDispatch } from "react-redux";
 
 export default function Emoji() {
   const dispatch = useDispatch();
-  const gameData = {
-    title: "상황에 맞는 MM 이모지를 선택해보쟈",
-    timeLimit: 10,
-    bgPath: "",
-  };
-  useEffect(() => {
-    dispatch({ type: "SET_GAME", payload: gameData });
-  }, []);
+  // const gameData = {
+  //   title: "상황에 맞는 MM 이모지를 선택해보쟈",
+  //   timeLimit: 10,
+  //   bgPath: "",
+  // };
+  // useEffect(() => {
+  //   dispatch({ type: "SET_GAME", payload: gameData });
+  // }, []);
 
   return (
     <div>

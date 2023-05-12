@@ -56,14 +56,14 @@ export default function TypoGame() {
 
   // 게임이 마운트될 때 redux값 변경
   const dispatch = useDispatch();
-  const gameData = {
-    title: "자소서에서 오타를 찾아라",
-    timeLimit: 10,
-    bgPath: "",
-  };
-  useEffect(() => {
-    dispatch({ type: "SET_GAME", payload: gameData });
-  }, []);
+  // const gameData = {
+  //   title: "제한 시간 내 주어진 명령어를 모두 입력하라",
+  //   timeLimit: 10,
+  //   bgPath: "",
+  // };
+  // useEffect(() => {
+  //   dispatch({ type: "SET_GAME", payload: gameData });
+  // }, []);
 
   // 자소서 랜덤 선택 및 소리효과 설정
   const typoImgList = [typo1, typo2, typo3];

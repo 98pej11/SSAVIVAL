@@ -18,16 +18,11 @@ const Pages = styled.div`
   }
 `;
 
-const myProps = {
-  title: "휴지를 최대한 많이! 뽑아보쟈",
-  number: 2,
-};
-
 export default function TissuePage() {
   const gameMode = useSelector((state) => state.gameMode);
   return (
     <Pages>
-      <Header props={myProps} />
+      <Header />
 
       <div
         style={{
@@ -38,12 +33,12 @@ export default function TissuePage() {
         }}
       >
         {gameMode === "single" ? (
-          <GameComp props={myProps}>
-            <TissueGame {...myProps} />
+          <GameComp>
+            <TissueGame />
           </GameComp>
         ) : (
-          <GameComp2 props={myProps}>
-            <TissueGame {...myProps} />
+          <GameComp2>
+            <TissueGame />
           </GameComp2>
         )}
       </div>

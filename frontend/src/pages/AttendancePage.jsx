@@ -15,16 +15,11 @@ const Pages = styled.div`
   height: 100%;
 `;
 
-const myProps = {
-  title: "어떻게든 퇴실버튼을 누르쟈",
-  number: 4,
-};
-
 export default function AttendancePage() {
   const gameMode = useSelector((state) => state.gameMode);
   return (
     <Pages>
-      <Header props={myProps} />
+      <Header />
       <div
         style={{
           display: "flex",
@@ -33,12 +28,12 @@ export default function AttendancePage() {
         }}
       >
         {gameMode === "single" ? (
-          <GameComp props={myProps}>
-            <AttendanceGame {...myProps} />
+          <GameComp>
+            <AttendanceGame />
           </GameComp>
         ) : (
-          <GameComp2 props={myProps}>
-            <AttendanceGame {...myProps} />
+          <GameComp2>
+            <AttendanceGame />
           </GameComp2>
         )}
       </div>

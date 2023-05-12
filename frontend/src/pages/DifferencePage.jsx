@@ -13,15 +13,10 @@ const Pages = styled.div`
   height: 100%;
 `;
 
-const myProps = {
-  title: "두 그림에서 서로 다른 곳은?",
-  number: 9,
-};
-
 export default function LockerPage() {
   return (
     <Pages>
-      <Header props={myProps} />
+      <Header />
       <div
         style={{
           display: "flex",
@@ -29,8 +24,8 @@ export default function LockerPage() {
           height: "100vh",
         }}
       >
-        <GameComp props={myProps}>
-          <DifferenceGame {...myProps} />
+        <GameComp>
+          <DifferenceGame />
         </GameComp>
       </div>
     </Pages>

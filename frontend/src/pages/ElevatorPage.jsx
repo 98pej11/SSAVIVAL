@@ -16,16 +16,11 @@ const Pages = styled.div`
   height: 100%;
 `;
 
-const myProps = {
-  title: "엘레베이터를 붙잡아!",
-  number: 2,
-};
-
 export default function ElevatorPage() {
   // const gameMode = useSelector((state) => state.gameMode);
   return (
     <Pages>
-      <Header props={myProps} />
+      <Header />
 
       <div
         style={{
@@ -35,8 +30,8 @@ export default function ElevatorPage() {
           height: "100vh",
         }}
       >
-        <GameComp props={myProps}>
-          <ElevatorGame {...myProps} />
+        <GameComp>
+          <ElevatorGame />
         </GameComp>
         {/* {gameMode === "single" ? (
           <GameComp props={myProps}>
