@@ -21,3 +21,40 @@
   font-weight: normal;
   font-style: normal;
 }
+
+/* bounce effect */
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-20px);
+  }
+  60% {
+    transform: translateY(-10px);
+  }
+}
+.bounce {
+  animation-name: bounce;
+  animation-duration: 1.5s;
+  animation-fill-mode: both;
+}
+
+/* blinking effect */
+@keyframes blink-effect {
+  50% {
+    opacity: 0;
+  }
+}
+
+.blink {
+  animation: blink-effect 1s step-end infinite;
+}
+
+/* git game 드래그 방지 */
+.git {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-use-select: none;
+  user-select: none;
+ }

@@ -1,37 +1,72 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Box } from "@mui/material";
 import styled from "styled-components";
 import bombIdle from "../../assets/timer/bomb_idle.png";
 import bombBoom from "../../assets/timer/bomb_boom.png";
 import bombRed from "../../assets/timer/bomb_red.png";
+import { useDispatch, useSelector } from "react-redux";
 
-// timeLimit 값을 입력받아서 그 초만큼의 타이머를 생성
-// 2초 남으면 타이머의 색상이 노란색으로 바뀜
-// 1초 남으면 타이머와 폭탄의 색상이 빨간색으로 바뀜
-// 0초가 되면 폭탄이 터진 이미지로 교체
+const TimerBomb = () => {
+  const [timeLeft, setTimeLeft] = useState(0);
+  const [progress, setProgress] = useState(0);
+  const [before2sec, setBefore2sec] = useState(0);
+  const [before1sec, setBefore1sec] = useState(0);
+  const dispatch = useDispatch();
 
-const TimerBomb = ({ timeLimit }) => {
-  const [timeLeft, setTimeLeft] = useState(timeLimit * 100);
-  const progress = 100 - timeLeft / timeLimit;
-  const before2sec = ((timeLimit - 2) / timeLimit) * 100;
-  const before1sec = ((timeLimit - 1) / timeLimit) * 100;
+  const timerBombLimit = useSelector(
+    (state) => state.gameReducer.timerBombLimit
+  );
+  const timerBombActive = useSelector(
+    (state) => state.gameReducer.timerBombActive
+  );
+  const minigameClear = useSelector((state) => state.gameReducer.minigameClear);
+
+  const startTimeRef = useRef(Date.now());
 
   useEffect(() => {
-    let intervalId = null;
-    if (timeLeft > 0) {
-      intervalId = setInterval(() => {
-        setTimeLeft((prevTime) => prevTime - 1);
-      }, 10);
+    if (timerBombActive) {
+      setTimeLeft(timerBombLimit * 1000);
+      setBefore2sec(timerBombLimit - 2);
+      setBefore1sec(timerBombLimit - 1);
+      startTimeRef.current = Date.now();
     }
-    return () => clearInterval(intervalId);
-  }, [timeLeft]);
+  }, [timerBombActive, timerBombLimit]);
+
+  useEffect(() => {
+    let animationFrameId = null;
+    const updateTimer = () => {
+      const elapsedTime = Date.now() - startTimeRef.current;
+      // console.log(timerBombLimit, elapsedTime);
+      const newTimeLeft = Math.max(0, timerBombLimit * 1000 - elapsedTime);
+      setTimeLeft(newTimeLeft);
+
+      const newProgress =
+        ((timerBombLimit * 1000 - newTimeLeft) / (timerBombLimit * 1000)) * 100;
+      setProgress(newProgress.toFixed(2));
+
+      if (newTimeLeft === 0) {
+        dispatch({ type: "SET_MINIGAME_FAIL" });
+        return;
+      }
+
+      animationFrameId = requestAnimationFrame(updateTimer);
+    };
+
+    if (timerBombActive) {
+      animationFrameId = requestAnimationFrame(updateTimer);
+    } else if (minigameClear) {
+      dispatch({ type: "UPDATE_SCORE", payload: timeLeft });
+    }
+
+    return () => cancelAnimationFrame(animationFrameId);
+  }, [dispatch, minigameClear, timerBombActive, timerBombLimit, timeLeft]);
 
   return (
     <BarContainer>
       <BombImg
         src={
-          progress < 100
-            ? progress < before1sec
+          progress < 99
+            ? progress < (before1sec * 100) / timerBombLimit
               ? bombIdle
               : bombRed
             : bombBoom
@@ -40,8 +75,8 @@ const TimerBomb = ({ timeLimit }) => {
       />
       <ColoredBar
         progress={progress}
-        before1sec={before1sec}
-        before2sec={before2sec}
+        before1sec={(before1sec * 100) / timerBombLimit}
+        before2sec={(before2sec * 100) / timerBombLimit}
       >
         <GreyBar progress={progress} />
       </ColoredBar>

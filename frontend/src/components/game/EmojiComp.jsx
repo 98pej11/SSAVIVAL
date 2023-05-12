@@ -1,24 +1,35 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { styled } from "@mui/material/styles";
 import Badge from "@mui/material/Badge";
 import Avatar from "@mui/material/Avatar";
 import Box from "@mui/material/Box";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
-import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import pepe from "../../assets/pepe.jpg";
 import header from "../../assets/header.png";
 import online from "../../assets/online.png";
 import mmtop from "../../assets/mmtop.png";
 import MattermostEmoji from "./MattermostEmoji";
+import { useSelector, useDispatch } from "react-redux";
 
 export default function Emoji() {
+  const dispatch = useDispatch();
+  // const gameData = {
+  //   title: "상황에 맞는 MM 이모지를 선택해보쟈",
+  //   timeLimit: 10,
+  //   bgPath: "",
+  // };
+  // useEffect(() => {
+  //   dispatch({ type: "SET_GAME", payload: gameData });
+  // }, []);
+
   return (
     <div>
       <Box
         sx={{
           margin: "0 auto",
+          width: "80%",
           height: "100%",
           border: 1,
           borderColor: "gray",
@@ -91,7 +102,7 @@ export default function Emoji() {
             </CardContent>
 
             <CardActions>
-              <Typography sx={{ color: "blue" }}>
+              <Typography sx={{ color: "blue", fontFamily: "neodgm" }}>
                 * 이모지를 선택해보쟈 * ☞
               </Typography>
               <MattermostEmoji />

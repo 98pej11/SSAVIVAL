@@ -1,11 +1,12 @@
-import React from "react";
+import React, { useEffect , useState} from "react";
 import styled from "styled-components";
 import MainHeader from "../components/main/MainHeader";
 import MainComp1 from "../components/main/MainComp1";
 import MainComp2 from "../components/main/MainComp2";
 import MainComp3 from "../components/main/MainComp3";
 import MainComp4 from "../components/main/MainComp4";
-
+import { useDispatch } from "react-redux";
+import { AccessAction } from "../redux/actions/AccessAction"
 const Header = styled.div`
   margin-left: 20%;
   margin-right: 20%;
@@ -31,7 +32,44 @@ const Comp4 = styled.div`
   flex: 1;
   margin: 10px 10px;
 `;
-export default function MainPage() {
+function MainPage() {
+  const [accessTokenState, setAccessTokenState] = useState(true);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(AccessAction.accessTokenTest())
+    .then((res)=>{
+      //access_token이 유효하지 않을때 false로 바꿔주고 유효하면 true가 들어간다.
+      console.log(res);
+      setAccessTokenState(res.data.tokenState);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+    // dispatch(AccessAction.accessTokenTest());
+  }, []);
+
+  useEffect(() => {
+    //access_token이 유효하지 않으면 우선 refresh 토큰이 유효한지 확인(확인하고 유효하면 access_token 재발급해주기)
+    console.log("access_token 변화 확인 => true여도 변화로 인지")
+    // if(!accessTokenState){
+    if(!accessTokenState){
+      dispatch(AccessAction.refreshTokenTest())
+      .then((res) => {
+        //refresh 토큰이 유효할 때
+        if(res.data.tokenState){
+          localStorage.setItem("access_token", res.data.newAccessToken);
+        //refresj 토큰이 없거나 유효하지 않을 때
+        } else {
+          localStorage.removeItem("access_token");
+          localStorage.removeItem("refresh_token");
+          window.location.href = "http://localhost:3000"
+        }
+
+      })
+      console.log("췤22");
+
+    } 
+  }, [accessTokenState]);
   return (
     <div style={{ backgroundColor: "#F2F2F2", height: "100vh" }}>
       <Header>
@@ -57,3 +95,4 @@ export default function MainPage() {
     </div>
   );
 }
+export default MainPage;

@@ -1,8 +1,10 @@
 import React from "react";
 import styled from "styled-components";
+import { useSelector } from "react-redux";
 import Header from "../components/game/Header";
 import TissueGame from "../components/game/TissueGame";
 import GameComp from "../components/game/GameComp";
+import GameComp2 from "../components/game/GameComp2";
 import "../index.css";
 import game from "../assets/game.png";
 
@@ -16,15 +18,11 @@ const Pages = styled.div`
   }
 `;
 
-const myProps = {
-  title: "휴지를 최대한 많이! 뽑아보쟈",
-  number: 2,
-};
-
 export default function TissuePage() {
+  const gameMode = useSelector((state) => state.gameMode);
   return (
     <Pages>
-      <Header props={myProps} />
+      <Header />
 
       <div
         style={{
@@ -34,9 +32,15 @@ export default function TissuePage() {
           height: "100vh",
         }}
       >
-        <GameComp props={myProps}>
-          <TissueGame {...myProps} />
-        </GameComp>
+        {gameMode === "single" ? (
+          <GameComp>
+            <TissueGame />
+          </GameComp>
+        ) : (
+          <GameComp2>
+            <TissueGame />
+          </GameComp2>
+        )}
       </div>
     </Pages>
   );

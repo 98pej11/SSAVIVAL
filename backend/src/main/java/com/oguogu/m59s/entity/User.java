@@ -29,6 +29,8 @@ public class User {
     @Column
     private int mileage;
 
+    @Column(nullable = false)
+    private String email;
 
     public UserDto toDto() {
         UserDto userDto = UserDto.builder()
@@ -36,6 +38,7 @@ public class User {
                 .nickname(nickname)
                 .campus(campus)
                 .mileage(mileage)
+                .email(email)
                 .build();
         return userDto;
     }

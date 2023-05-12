@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
+import { useSelector, useDispatch } from "react-redux";
 import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
+import { Link, useNavigate } from "react-router-dom";
 import start from "../../assets/start.png";
 import exit from "../../assets/exit.png";
 import happy_pepe2 from "../../assets/happy_pepe2.png";
@@ -29,8 +30,34 @@ const HoverBox = styled.div`
   align-items: center;
   gap: 20px;
   height: 50%;
+
+  // Box img {
+  //   transition: all 0.2s linear;
+  // }
+
+  // &:hover img {
+  //   transform: scale(1.4);
+  // }
+
+  > div:hover {
+    transform: scale(1.2);
+  }
 `;
 export default function MainComp1() {
+  const gameMode = useSelector((state) => state.gameMode);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const handleSinglePlayerClick = () => {
+    dispatch({ type: "SET_GAME_MODE", payload: { gameMode: "single" } });
+    navigate("/game"); // /game 경로로 이동
+  };
+
+  const handleMultiPlayerClick = () => {
+    dispatch({ type: "SET_GAME_MODE", payload: { gameMode: "multi" } });
+    navigate("/game"); // /game 경로로 이동
+  };
+
   return (
     <Comp1>
       <Box
@@ -65,9 +92,12 @@ export default function MainComp1() {
               justifyContent: "center",
               alignItems: "center",
               fontSize: "1.2rem",
+              cursor: "pointer", // 추가
             }}
+            onClick={handleSinglePlayerClick}
           >
-            <div>게임시작</div>
+            <div>싱글플레이</div>
+
             <img src={start} alt="" style={{ width: "90%", height: "90%" }} />
           </Box>
           <Box
@@ -80,9 +110,12 @@ export default function MainComp1() {
               justifyContent: "center",
               alignItems: "center",
               fontSize: "1.2rem",
+              cursor: "pointer", // 추가
             }}
+            onClick={handleMultiPlayerClick}
           >
-            <div>퇴실하기</div>
+            <div>멀티플레이</div>
+
             <img src={exit} alt="" style={{ width: "100%", height: "100%" }} />
           </Box>
         </HoverBox>

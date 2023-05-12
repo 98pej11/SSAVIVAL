@@ -1,19 +1,15 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import Box from "@mui/material/Box";
 import elevator from "../../assets/elevator.png";
 import balloon from "../../assets/balloon.png";
 import girl from "../../assets/girl.png";
+import { useDispatch } from "react-redux";
 
 const ElevatorImageWrapper = styled.div`
   position: relative;
 `;
-// const CenterBox = styled.div`
-//   position: absolute;
-//   width: 100%;
-//   height: 10%; // 추가
-//   display: flex;
-// `;
+
 const ElevatorImage = styled.img`
   width: 120px;
   height: 80px;
@@ -42,34 +38,47 @@ const CenterBox = styled.div`
   display: flex;
   flex-direction: column;
 `;
-
-const ScoreComp = styled.div`
-  font-family: "neodgm", sans-serif;
-  font-size: 1.4rem;
-  color: white;
-`;
-
 const FloorComp = styled.div`
   font-family: "neodgm", sans-serif;
-  font-size: 1.4rem;
-  color: white;
+  font-size: 1.7rem;
+  color: black;
 `;
-
+const ScoreComp = styled.div`
+  font-family: "neodgm", sans-serif;
+  font-size: 1.7rem;
+  color: black;
+`;
 const Floor = styled.div`
   flex: 1;
   background-color: ${(props) => (props.active ? "yellow" : "transparent")};
 `;
+
 export default function ElevatorGame() {
   const [floor, setFloor] = useState(Math.floor(Math.random() * 5) + 1);
   const [score, setScore] = useState(0);
+  const [overlap, setOverlap] = useState(false);
+
+  const dispatch = useDispatch();
+  const targetFloorRef = useRef(null);
+
+  // const gameData = {
+  //   title: "제한 시간 내 주어진 명령어를 모두 입력하라",
+  //   timeLimit: 10,
+  //   bgPath: "",
+  // };
+  // useEffect(() => {
+  //   dispatch({ type: "SET_GAME", payload: gameData });
+  // }, []);
 
   const checkOverlap = () => {
     const diff = Math.abs(floor - 5);
-    return diff <= 2;
+    const newOverlap = diff <= 2;
+    setOverlap(newOverlap);
+    return newOverlap;
   };
 
   const increaseScore = () => {
-    if (checkOverlap()) {
+    if (overlap) {
       setScore(score + 1);
     }
   };
@@ -102,10 +111,10 @@ export default function ElevatorGame() {
         display: "flex",
         flexDirection: "row",
         justifyContent: "space-between",
-        // alignItems: "center",
+        alignItems: "center",
       }}
     >
-      <div>
+      <div style={{ width: "30%" }}>
         <FloorComp>Floor: {floor} </FloorComp>
         <ScoreComp>Score: {score}</ScoreComp>
       </div>
@@ -116,6 +125,7 @@ export default function ElevatorGame() {
           justifyContent: "center",
           alignItems: "center",
           position: "relative",
+          width: "40%",
         }}
       >
         <ElevatorImageWrapper>
@@ -123,7 +133,15 @@ export default function ElevatorGame() {
           <CenterBox>{floors}</CenterBox>
         </ElevatorImageWrapper>
       </Box>
-      <div>
+      <div
+        style={{
+          width: "30%",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          flexDirection: "column",
+        }}
+      >
         <img src={girl} alt=" " style={{ width: "50px" }} />
         <br />
         <div style={{ position: "relative", display: "inline-block" }}>
