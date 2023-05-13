@@ -16,6 +16,7 @@ import AttendanceGame from "../components/game/AttendanceGame";
 import Puzzle from "../components/game/PuzzleComp";
 import Seating from "../components/game/SeatComp";
 import IdCard from "../components/game/IdCardComp";
+import DifferenceGame from "../components/game/DifferenceGame";
 
 import html2canvas from "html2canvas";
 import { GameAction } from "../redux/actions/GameAction";
@@ -132,6 +133,7 @@ export default function GamePage() {
 
   // 갈아끼울 게임 컴포넌트 리스트
   const gameComps = [
+    <DifferenceGame key="DifferenceGame" />,
     <LockerGame key="LockerGame" />,
     <AttendanceGame key="AttendanceGame" />,
     <GitbashGame key="GitbashGame" />,

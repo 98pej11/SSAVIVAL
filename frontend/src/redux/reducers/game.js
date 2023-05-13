@@ -2,6 +2,7 @@ import monitor from "../../assets/game_gitbash/monitor.png";
 import desk from "../../assets/game_typo/desk.png";
 const initialState = {
   gameTitleData: [
+    "틀린그림찾기 테스트",
     "사물함을 열어서 책을 꺼내자",
     "어떻게든 퇴실버튼을 누르자",
     "제한 시간 내 주어진 명령어를 모두 입력하라",
@@ -14,7 +15,7 @@ const initialState = {
     "윤주꺼 2",
     "윤주꺼 3",
   ],
-  gameBgPathData: ["", "", monitor, desk, "", "", "", "", "", "", ""],
+  gameBgPathData: ["", "", "", monitor, desk, "", "", "", "", "", "", ""],
   remindAnswer: "",
   remindWordList: ["빵", "패티", "양배추", "치즈", "토마토"],
   round: 0,
@@ -31,6 +32,9 @@ const initialState = {
   gameMode: "single",
   selectedEmojiIndex: null,
   emojiResult: "false",
+  pointsCenter: [[0, 0, 0]],
+  quizImgSize: { width: 600, height: 400 },
+  quizImgUrl: { left: "", right: "" },
 };
 
 function gameReducer(state = initialState, action = {}) {
@@ -76,7 +80,6 @@ function gameReducer(state = initialState, action = {}) {
         minigameActive: false,
       };
     case "UPDATE_SCORE":
-      console.log(payload);
       return {
         ...state,
         totalScore: state.totalScore + Math.ceil(payload / 10),
@@ -92,6 +95,18 @@ function gameReducer(state = initialState, action = {}) {
       return {
         ...state,
         emojiResult: payload,
+      };
+    case "FETCH_QUIZ_IMAGE":
+      return {
+        ...state,
+        pointsCenter: payload.pointsCenter,
+        quizImgSize: payload.quizImgSize,
+        quizImgUrl: payload.quizImgUrl,
+      };
+    case "UPDATE_POINTS_CENTER":
+      return {
+        ...state,
+        pointsCenter: payload,
       };
     default:
       return { ...state };

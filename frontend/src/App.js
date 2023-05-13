@@ -10,7 +10,8 @@ import TissuePage from "./pages/TissuePage";
 import KakaoLogin from "./pages/KakaoLogin";
 import TypoPage from "./pages/TypoPage";
 import GitbashPage from "./pages/GitbashPage";
-
+import LockerPage from "./pages/DifferencePage";
+import AttendancePage from "./pages/AttendancePage";
 import DifferencePage from "./pages/DifferencePage";
 import VideoHandler from "./components/video/VideoHandler";
 import RemindPage from "./pages/RemindPage";
@@ -42,13 +43,10 @@ function App() {
           <Route path="/git" element={<GitbashPage />} />
           <Route path="/video" element={<VideoHandler />} />
           {/* <Route path="/image" element={<ImagePlayer />} /> */}
-          <Route path="/remind" element={<RemindPage />} />
-          {/* 
+          <Route path="/difference" element={<DifferencePage />} />
           <Route path="/locker" element={<LockerPage />} />
           <Route path="/attendance" element={<AttendancePage />} />
-          <Route path="/difference" element={<DifferencePage />} />
-      
-           */}
+          <Route path="/remind" element={<RemindPage />} />
         </Routes>
       </Pages>
     </BrowserRouter>
