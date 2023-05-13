@@ -1,36 +1,48 @@
 import React, { useCallback, useEffect } from "react";
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { useSpring, animated, Any } from "react-spring";
 import { StyledEngineProvider, styled } from "@mui/material/styles";
-import pepe_sad from "../../assets/pepe_sad.png";
-import pepe_finding from "../../assets/pepe_finding.svg";
+
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 
 export default function Puzzle() {
+  // 이미지
   const [images, setImages] = useState([]);
-
+  // 정답 개수 카운트
+  const [count, setCount] = useState(0);
+  // 성공 메세지 플래그
+  const [showSuccess, setShowSuccess] = useState(false);
+  // 성공 표시 함수
+  useEffect(() => {
+    if (showSuccess) {
+      setTimeout(() => {
+        setShowSuccess(false);
+      }, 500);
+    }
+  });
+  // 퍼즐판
   useEffect(() => {
     const fetchImages = async () => {
       console.log("나 이미지 변경됐어");
-      const newImages = await CutImages("child_pepe.png");
 
-      console.log("나 유즈이펙트 안의 이미지야", newImages);
+      // 이미지 6분할
+      const newImages = await CutImages("pompom.png");
+      console.log("함수 끝나고 newImages는", newImages);
+      // 이미지 6분할한 것 저장
       setImages(newImages);
+      console.log("흠.........", images);
       const updateState = {
         items1: [
           { id: "items5", content: "Item 5", imgUrl: newImages[1] },
-          { id: "items11", content: "Item 11", imgUrl: newImages[7] },
-          { id: "items8", content: "Item 8", imgUrl: newImages[4] },
+          { id: "items9", content: "Item 9", imgUrl: newImages[5] },
         ],
         items2: [
           { id: "items6", content: "Item 6", imgUrl: newImages[2] },
-          { id: "items12", content: "Item 12", imgUrl: newImages[8] },
-          { id: "items4", content: "Item 4", imgUrl: newImages[0] },
+          { id: "items8", content: "Item 8", imgUrl: newImages[4] },
         ],
         items3: [
-          { id: "items9", content: "Item 9", imgUrl: newImages[5] },
+          { id: "items4", content: "Item 4", imgUrl: newImages[0] },
           { id: "items7", content: "Item 7", imgUrl: newImages[3] },
-          { id: "items10", content: "Item 10", imgUrl: newImages[6] },
         ],
         items4: [],
         items5: [],
@@ -38,9 +50,6 @@ export default function Puzzle() {
         items7: [],
         items8: [],
         items9: [],
-        items10: [],
-        items11: [],
-        items12: [],
       };
       setState(updateState);
       console.log("the latest", state.items1);
@@ -50,6 +59,7 @@ export default function Puzzle() {
     }
   }, []);
 
+  // 이미지 6분할 하는 함수
   const CutImages = async (src) => {
     return new Promise((resolve, reject) => {
       const img = new Image();
@@ -57,19 +67,19 @@ export default function Puzzle() {
       img.src = src;
       const newImages = [];
       img.onload = () => {
-        console.log("onload 함수에 들어왔습니다?");
+        console.log("Have you entered the onload function?");
         const canvas = document.createElement("canvas");
         const ctx = canvas.getContext("2d");
         canvas.width = img.width;
         canvas.height = img.height;
         ctx.drawImage(img, 0, 0);
-        // 이미지 채워넣기
+        // fill the image
         for (let i = 0; i < 3; i++) {
-          for (let j = 0; j < 3; j++) {
-            const x = (j * img.width) / 3;
+          for (let j = 0; j < 2; j++) {
+            const x = (j * img.width) / 2;
             const y = (i * img.height) / 3;
-            const width = img.width / 3;
-            const height = img.height / 3;
+            const width = img.width / 2;
+            const height = img.height / 2;
             const data = ctx.getImageData(x, y, width, height);
             const canvas2 = document.createElement("canvas");
             canvas2.width = width;
@@ -81,25 +91,27 @@ export default function Puzzle() {
           }
         }
         resolve(newImages);
+        console.log("cut이미지 끝나고", newImages);
       };
     });
   };
 
+  // 퍼즐판 이동 현황
   const [state, setState] = useState({
     items1: [
       { id: "items5", content: "Item 5", imgUrl: images[1] },
-      { id: "items11", content: "Item 11", imgUrl: images[7] },
-      { id: "items8", content: "Item 8", imgUrl: images[4] },
+      { id: "items9", content: "Item 9", imgUrl: images[5] },
+      // { id: "items8", content: "Item 8", imgUrl: images[4] },
     ],
     items2: [
       { id: "items6", content: "Item 6", imgUrl: images[2] },
-      { id: "items12", content: "Item 12", imgUrl: images[8] },
-      { id: "items4", content: "Item 4", imgUrl: images[0] },
+      { id: "items8", content: "Item 8", imgUrl: images[4] },
+      // { id: "items4", content: "Item 4", imgUrl: images[0] },
     ],
     items3: [
-      { id: "items9", content: "Item 9", imgUrl: images[5] },
+      { id: "items4", content: "Item 4", imgUrl: images[0] },
       { id: "items7", content: "Item 7", imgUrl: images[3] },
-      { id: "items10", content: "Item 10", imgUrl: images[6] },
+      // { id: "items10", content: "Item 10", imgUrl: images[6] },
     ],
     items4: [],
     items5: [],
@@ -107,11 +119,60 @@ export default function Puzzle() {
     items7: [],
     items8: [],
     items9: [],
-    items10: [],
-    items11: [],
-    items12: [],
+    // items10: [],
+    // items11: [],
+    // items12: [],
   });
   console.log(state);
+
+  useEffect(() => {
+    if (state.items4.some((item) => item.id === "items4")) {
+      console.log("4");
+      isRightAnswer("items4");
+    }
+    if (
+      state.items5.some((item) => item.id === "items5") &&
+      check.items5 === false
+    ) {
+      console.log("5");
+      isRightAnswer("items5");
+    }
+    if (
+      state.items6.some((item) => item.id === "items6") &&
+      check.items6 === false
+    ) {
+      console.log("6");
+      isRightAnswer("items6");
+    }
+    if (
+      state.items7.some((item) => item.id === "items7") &&
+      check.items7 === false
+    ) {
+      console.log("7");
+      isRightAnswer("items7");
+    }
+    if (
+      state.items8.some((item) => item.id === "items8") &&
+      check.items8 === false
+    ) {
+      console.log("8");
+      isRightAnswer("items8");
+    }
+    if (
+      state.items9.some((item) => item.id === "items9") &&
+      check.items9 === false
+    ) {
+      console.log("9");
+      isRightAnswer("items9");
+    }
+  }, [
+    state.items4,
+    state.items5,
+    state.items6,
+    state.items7,
+    state.items8,
+    state.items9,
+  ]);
 
   const [check, setCheck] = useState({
     items4: false,
@@ -120,25 +181,29 @@ export default function Puzzle() {
     items7: false,
     items8: false,
     items9: false,
-    items10: false,
-    items11: false,
-    items12: false,
+    // items10: false,
+    // items11: false,
+    // items12: false,
   });
 
   // check 값 변경하는 함수
-  const updateCheck = (id) => {
-    setCheck({ ...check, id: true });
+  const updateCheck = (item) => {
+    setCheck({ ...check, [item]: true });
   };
+
   const [droppableIDs, setDroppableIDs] = useState([
+    "items1",
+    "items2",
+    "items3",
     "items4",
     "items5",
     "items6",
     "items7",
     "items8",
     "items9",
-    "items10",
-    "items11",
-    "items12",
+    // "items10",
+    // "items11",
+    // "items12",
   ]);
 
   const onDragEnd = (result) => {
@@ -171,7 +236,7 @@ export default function Puzzle() {
       console.log(
         "move 다음 일이다....",
         result[source.droppableId],
-        result[destination.droppableId].id
+        result[destination.droppableId]
       );
       if (true) {
         setState({
@@ -179,7 +244,11 @@ export default function Puzzle() {
           [source.droppableId]: result[source.droppableId],
           [destination.droppableId]: result[destination.droppableId],
         });
+        console.log("트루일뗴??");
       }
+
+      // setShowSuccess(true);
+      // setCount(count + 1);
     }
   };
 
@@ -204,18 +273,16 @@ export default function Puzzle() {
     return result;
   };
 
-  const isRightAnswer = (droppableId, id) => {
-    console.log("나 id야", id);
-    console.log("나 droppableId야", droppableId);
-    console.log("난 true게 false게", droppableId == id);
-    if (droppableId == id) {
-      // 정답
-      updateCheck(droppableId);
-      console.log("체크가 바뀔지아닐지===", check);
-      console.log("얜 트룬지 폴슨지 ", check[droppableIDs[0]]);
-      return true;
-    }
-    return false;
+  const isRightAnswer = (id) => {
+    console.log("함수에 들어오긴하니????");
+    console.log("정답이다!!!!!!!!!!!!!");
+    // 정답 표시해줌
+    setShowSuccess(true);
+    // 카운트 up (종료조건)
+    setCount(count + 1);
+    // 상태값 true로 변경
+    updateCheck(id);
+    return true;
   };
 
   return (
@@ -223,521 +290,217 @@ export default function Puzzle() {
       <div
         style={{
           display: "flex",
-          // justifyContent: "space-around",
-          width: "1200px",
-          height: "600px",
+          // justifyContent: "center",
+          width: "100%",
+          height: "100%",
           backgroundColor: "white",
           // backgroundColor: "",
         }}
       >
         <QuizSide>
-          {/* <img src={images[1]} /> */}
-          <Droppable droppableId="items1">
-            {(provided, snapshot) => (
-              <div
-                {...provided.droppableProps}
-                ref={provided.innerRef}
-                style={{
-                  backgroundColor: snapshot.isDraggingOver ? "blue" : "grey",
-                  padding: 4,
-                  width: "100%",
-                  height: "100%",
-                  display: "flex",
-                  flexDirection: "row",
-                  justifyContent: "center",
-                }}
-              >
-                {state.items1.map((item, index) => (
-                  <Draggable key={item.id} draggableId={item.id} index={index}>
-                    {(provided, snapshot) => (
-                      <img
-                        {...provided.draggableProps}
-                        {...provided.dragHandleProps}
-                        ref={provided.innerRef}
-                        src={item.imgUrl}
-                        alt={item.name}
-                        crossorigin={"anonymous"}
-                      ></img>
-                    )}
-                  </Draggable>
-                ))}
-                {provided.placeholder}
-              </div>
-            )}
-          </Droppable>
-
-          <Droppable droppableId="items2">
-            {(provided, snapshot) => (
-              <div
-                {...provided.droppableProps}
-                ref={provided.innerRef}
-                style={{
-                  backgroundColor: snapshot.isDraggingOver ? "blue" : "grey",
-                  padding: 4,
-                  width: "100%",
-                  height: "100%",
-                  display: "flex",
-                  flexDirection: "row",
-                  justifyContent: "center",
-                }}
-              >
-                {state.items2.map((item, index) => (
-                  <Draggable key={item.id} draggableId={item.id} index={index}>
-                    {(provided, snapshot) => (
-                      <img
-                        {...provided.draggableProps}
-                        {...provided.dragHandleProps}
-                        ref={provided.innerRef}
-                        src={item.imgUrl}
-                        alt={item.name}
-                      ></img>
-                    )}
-                  </Draggable>
-                ))}
-                {provided.placeholder}
-              </div>
-            )}
-          </Droppable>
-
-          <Droppable droppableId="items3">
-            {(provided, snapshot) => (
-              <div
-                {...provided.droppableProps}
-                ref={provided.innerRef}
-                style={{
-                  backgroundColor: snapshot.isDraggingOver ? "blue" : "grey",
-                  padding: 4,
-                  width: "100%",
-                  height: "100%",
-                  display: "flex",
-                  flexDirection: "row",
-                  justifyContent: "center",
-                }}
-              >
-                {state.items3.map((item, index) => (
-                  <Draggable key={item.id} draggableId={item.id} index={index}>
-                    {(provided, snapshot) => (
-                      <img
-                        {...provided.draggableProps}
-                        {...provided.dragHandleProps}
-                        ref={provided.innerRef}
-                        src={item.imgUrl}
-                        alt={item.name}
-                      ></img>
-                    )}
-                  </Draggable>
-                ))}
-                {provided.placeholder}
-              </div>
-            )}
-          </Droppable>
+          {droppableIDs.slice(0, 3).map((droppableID, index) => (
+            <Droppable key={droppableID} droppableId={droppableID}>
+              {(provided, snapshot) => (
+                <div
+                  {...provided.droppableProps}
+                  ref={provided.innerRef}
+                  style={{
+                    backgroundColor: snapshot.isDraggingOver ? "blue" : "grey",
+                    padding: 4,
+                    width: "100%",
+                    height: "100%",
+                    display: "flex",
+                    flexDirection: "row",
+                    justifyContent: "center",
+                  }}
+                >
+                  {state[droppableID].map((item, index) => (
+                    <Draggable
+                      key={item.id}
+                      draggableId={item.id}
+                      index={index}
+                    >
+                      {(provided, snapshot) => (
+                        <img
+                          {...provided.draggableProps}
+                          {...provided.dragHandleProps}
+                          ref={provided.innerRef}
+                          src={item.imgUrl}
+                          alt={item.name}
+                          crossorigin={"anonymous"}
+                        ></img>
+                      )}
+                    </Draggable>
+                  ))}
+                  {provided.placeholder}
+                </div>
+              )}
+            </Droppable>
+          ))}
         </QuizSide>
-
+        <div>{showSuccess && <Success>성공!!! {count}/6 </Success>}</div>
         <AnswerSide>
           <AnswerRow>
-            <EachAnswer>
-              <Droppable
-                droppableId={droppableIDs[0]}
-                // isDropDisabled={check.items4 > 0}
-                isDropDisabled={state.items4.length > 0}
-                // 주석 윗줄 안먹고 무한루프 돎 5/9
-              >
-                {(provided, snapshot) => (
-                  <div
-                    {...provided.droppableProps}
-                    ref={provided.innerRef}
-                    style={{
-                      backgroundColor: snapshot.isDraggingOver
-                        ? "blue"
-                        : "grey",
-                      padding: 4,
-                      width: "80px",
-                      // height: 60,
-                    }}
-                  >
-                    {state.items4.map((item, index) => (
-                      <Draggable
-                        key={item.id}
-                        draggableId={item.id}
-                        index={index}
-                        // isDragDisabled={isRightAnswer(droppableIDs[0], item.id)}
-                        isDragDisabled={
-                          check[droppableIDs[0]] || droppableIDs[0] === item.id
-                        }
-                      >
-                        {(provided, snapshot) => (
-                          <img
-                            {...provided.draggableProps}
-                            {...provided.dragHandleProps}
-                            ref={provided.innerRef}
-                            src={item.imgUrl}
-                            alt={item.name}
-                          ></img>
-                        )}
-                      </Draggable>
-                    ))}
-                    {provided.placeholder}
-                  </div>
-                )}
-              </Droppable>
-            </EachAnswer>
-
-            <EachAnswer>
-              <Droppable
-                droppableId={droppableIDs[1]}
-                isDropDisabled={state.items5.length > 0}
-              >
-                {(provided, snapshot) => (
-                  <div
-                    {...provided.droppableProps}
-                    ref={provided.innerRef}
-                    style={{
-                      backgroundColor: snapshot.isDraggingOver
-                        ? "blue"
-                        : "grey",
-                      padding: 4,
-                      width: "80px",
-                      // height: 60,
-                    }}
-                  >
-                    {state.items5.map((item, index) => (
-                      <Draggable
-                        key={item.id}
-                        draggableId={item.id}
-                        index={index}
-                        isDragDisabled={
-                          check[droppableIDs[1]] || droppableIDs[1] === item.id
-                        }
-                      >
-                        {(provided, snapshot) => (
-                          <img
-                            {...provided.draggableProps}
-                            {...provided.dragHandleProps}
-                            ref={provided.innerRef}
-                            src={item.imgUrl}
-                            alt={item.name}
-                          ></img>
-                        )}
-                      </Draggable>
-                    ))}
-                    {provided.placeholder}
-                  </div>
-                )}
-              </Droppable>
-            </EachAnswer>
-
-            <EachAnswer>
-              <Droppable
-                droppableId={droppableIDs[2]}
-                isDropDisabled={state.items6.length > 0}
-              >
-                {(provided, snapshot) => (
-                  <div
-                    {...provided.droppableProps}
-                    ref={provided.innerRef}
-                    style={{
-                      backgroundColor: snapshot.isDraggingOver
-                        ? "blue"
-                        : "grey",
-                      padding: 4,
-                      width: "80px",
-                      // height: 60,
-                    }}
-                  >
-                    {state.items6.map((item, index) => (
-                      <Draggable
-                        key={item.id}
-                        draggableId={item.id}
-                        index={index}
-                        isDragDisabled={
-                          check[droppableIDs[2]] || droppableIDs[2] === item.id
-                        }
-                      >
-                        {(provided, snapshot) => (
-                          <img
-                            {...provided.draggableProps}
-                            {...provided.dragHandleProps}
-                            ref={provided.innerRef}
-                            src={item.imgUrl}
-                            alt={item.name}
-                          ></img>
-                        )}
-                      </Draggable>
-                    ))}
-                    {provided.placeholder}
-                  </div>
-                )}
-              </Droppable>
-            </EachAnswer>
+            {[3, 4].map((idx) => (
+              <EachAnswer key={idx}>
+                <Droppable
+                  droppableId={droppableIDs[idx]}
+                  isDropDisabled={state[`items${idx + 1}`].length > 0}
+                >
+                  {(provided, snapshot) => (
+                    <div
+                      {...provided.droppableProps}
+                      ref={provided.innerRef}
+                      style={{
+                        backgroundColor: snapshot.isDraggingOver
+                          ? "blue"
+                          : "grey",
+                        padding: 4,
+                        width: "80px",
+                        // height: 60,
+                      }}
+                    >
+                      {state[`items${idx + 1}`].map((item, index) => (
+                        <Draggable
+                          key={item.id}
+                          draggableId={item.id}
+                          index={index}
+                          isDragDisabled={
+                            check[droppableIDs[idx]] ||
+                            droppableIDs[idx] === item.id
+                            // ? () => {
+                            //     console.log("트류이임");
+                            //   }
+                            // : false
+                            // ? () => {
+                            //     setShowSuccess(true);
+                            //     setCount(count + 1);
+                            //     console.log("실행됨~~~~~");
+                            //     return true;
+                            //   }
+                            // : false
+                          }
+                        >
+                          {(provided, snapshot) => (
+                            <img
+                              {...provided.draggableProps}
+                              {...provided.dragHandleProps}
+                              ref={provided.innerRef}
+                              src={item.imgUrl}
+                              alt={item.name}
+                            ></img>
+                          )}
+                        </Draggable>
+                      ))}
+                      {provided.placeholder}
+                    </div>
+                  )}
+                </Droppable>
+              </EachAnswer>
+            ))}
           </AnswerRow>
 
           <AnswerRow>
-            <EachAnswer>
-              <Droppable
-                droppableId={droppableIDs[3]}
-                isDropDisabled={state.items7.length > 0}
-              >
-                {(provided, snapshot) => (
-                  <div
-                    {...provided.droppableProps}
-                    ref={provided.innerRef}
-                    style={{
-                      backgroundColor: snapshot.isDraggingOver
-                        ? "blue"
-                        : "grey",
-                      padding: 4,
-                      width: "80px",
-                      // height: 60,
-                    }}
-                  >
-                    {state.items7.map((item, index) => (
-                      <Draggable
-                        key={item.id}
-                        draggableId={item.id}
-                        index={index}
-                        isDragDisabled={
-                          check[droppableIDs[3]] || droppableIDs[3] === item.id
-                        }
-                      >
-                        {(provided, snapshot) => (
-                          <img
-                            {...provided.draggableProps}
-                            {...provided.dragHandleProps}
-                            ref={provided.innerRef}
-                            src={item.imgUrl}
-                            alt={item.name}
-                          ></img>
-                        )}
-                      </Draggable>
-                    ))}
-                    {provided.placeholder}
-                  </div>
-                )}
-              </Droppable>
-            </EachAnswer>
-
-            <EachAnswer>
-              <Droppable
-                droppableId={droppableIDs[4]}
-                isDropDisabled={state.items8.length > 0}
-              >
-                {(provided, snapshot) => (
-                  <div
-                    {...provided.droppableProps}
-                    ref={provided.innerRef}
-                    style={{
-                      backgroundColor: snapshot.isDraggingOver
-                        ? "blue"
-                        : "grey",
-                      padding: 4,
-                      width: "80px",
-                      // height: 60,
-                    }}
-                  >
-                    {state.items8.map((item, index) => (
-                      <Draggable
-                        key={item.id}
-                        draggableId={item.id}
-                        index={index}
-                        isDragDisabled={
-                          check[droppableIDs[4]] || droppableIDs[4] === item.id
-                        }
-                      >
-                        {(provided, snapshot) => (
-                          <img
-                            {...provided.draggableProps}
-                            {...provided.dragHandleProps}
-                            ref={provided.innerRef}
-                            src={item.imgUrl}
-                            alt={item.name}
-                          ></img>
-                        )}
-                      </Draggable>
-                    ))}
-                    {provided.placeholder}
-                  </div>
-                )}
-              </Droppable>
-            </EachAnswer>
-
-            <EachAnswer>
-              <Droppable
-                droppableId={droppableIDs[5]}
-                isDropDisabled={state.items9.length > 0}
-              >
-                {(provided, snapshot) => (
-                  <div
-                    {...provided.droppableProps}
-                    ref={provided.innerRef}
-                    style={{
-                      backgroundColor: snapshot.isDraggingOver
-                        ? "blue"
-                        : "grey",
-                      padding: 4,
-                      width: "80px",
-                      // height: 60,
-                    }}
-                  >
-                    {state.items9.map((item, index) => (
-                      <Draggable
-                        key={item.id}
-                        draggableId={item.id}
-                        index={index}
-                        isDragDisabled={
-                          check[droppableIDs[5]] || droppableIDs[5] === item.id
-                        }
-                      >
-                        {(provided, snapshot) => (
-                          <img
-                            {...provided.draggableProps}
-                            {...provided.dragHandleProps}
-                            ref={provided.innerRef}
-                            src={item.imgUrl}
-                            alt={item.name}
-                          ></img>
-                        )}
-                      </Draggable>
-                    ))}
-                    {provided.placeholder}
-                  </div>
-                )}
-              </Droppable>
-            </EachAnswer>
+            {[5, 6].map((idx) => (
+              <EachAnswer key={idx}>
+                <Droppable
+                  droppableId={droppableIDs[idx]}
+                  isDropDisabled={state[`items${idx + 1}`].length > 0}
+                >
+                  {(provided, snapshot) => (
+                    <div
+                      {...provided.droppableProps}
+                      ref={provided.innerRef}
+                      style={{
+                        backgroundColor: snapshot.isDraggingOver
+                          ? "blue"
+                          : "grey",
+                        padding: 4,
+                        width: "80px",
+                        // height: 60,
+                      }}
+                    >
+                      {state[`items${idx + 1}`].map((item, index) => {
+                        return (
+                          <Draggable
+                            key={item.id}
+                            draggableId={item.id}
+                            index={index}
+                            isDragDisabled={
+                              check[droppableIDs[idx]] ||
+                              droppableIDs[idx] === item.id
+                            }
+                          >
+                            {(provided, snapshot) => (
+                              <img
+                                {...provided.draggableProps}
+                                {...provided.dragHandleProps}
+                                ref={provided.innerRef}
+                                src={item.imgUrl}
+                                alt={item.name}
+                              ></img>
+                            )}
+                          </Draggable>
+                        );
+                      })}
+                      {provided.placeholder}
+                    </div>
+                  )}
+                </Droppable>
+              </EachAnswer>
+            ))}
           </AnswerRow>
 
           <AnswerRow>
-            <EachAnswer>
-              <Droppable
-                droppableId={droppableIDs[6]}
-                isDropDisabled={state.items10.length > 0}
-              >
-                {(provided, snapshot) => (
-                  <div
-                    {...provided.droppableProps}
-                    ref={provided.innerRef}
-                    style={{
-                      backgroundColor: snapshot.isDraggingOver
-                        ? "blue"
-                        : "grey",
-                      padding: 4,
-                      width: "80px",
-                      // height: 60,
-                    }}
-                  >
-                    {state.items10.map((item, index) => (
-                      <Draggable
-                        key={item.id}
-                        draggableId={item.id}
-                        index={index}
-                        isDragDisabled={
-                          check[droppableIDs[6]] || droppableIDs[6] === item.id
-                        }
-                      >
-                        {(provided, snapshot) => (
-                          <img
-                            {...provided.draggableProps}
-                            {...provided.dragHandleProps}
-                            ref={provided.innerRef}
-                            src={item.imgUrl}
-                            alt={item.name}
-                          ></img>
-                        )}
-                      </Draggable>
-                    ))}
-                    {provided.placeholder}
-                  </div>
-                )}
-              </Droppable>
-            </EachAnswer>
-
-            <EachAnswer>
-              <Droppable
-                droppableId={droppableIDs[7]}
-                isDropDisabled={state.items11.length > 0}
-              >
-                {(provided, snapshot) => (
-                  <div
-                    {...provided.droppableProps}
-                    ref={provided.innerRef}
-                    style={{
-                      backgroundColor: snapshot.isDraggingOver
-                        ? "blue"
-                        : "grey",
-                      padding: 4,
-                      width: "80px",
-                      // height: 60,
-                    }}
-                  >
-                    {state.items11.map((item, index) => (
-                      <Draggable
-                        key={item.id}
-                        draggableId={item.id}
-                        index={index}
-                        isDragDisabled={
-                          check[droppableIDs[7]] || droppableIDs[7] === item.id
-                        }
-                      >
-                        {(provided, snapshot) => (
-                          <img
-                            {...provided.draggableProps}
-                            {...provided.dragHandleProps}
-                            ref={provided.innerRef}
-                            src={item.imgUrl}
-                            alt={item.name}
-                          ></img>
-                        )}
-                      </Draggable>
-                    ))}
-                    {provided.placeholder}
-                  </div>
-                )}
-              </Droppable>
-            </EachAnswer>
-
-            <EachAnswer>
-              <Droppable
-                droppableId={droppableIDs[8]}
-                isDropDisabled={state.items12.length > 0}
-              >
-                {(provided, snapshot) => (
-                  <div
-                    {...provided.droppableProps}
-                    ref={provided.innerRef}
-                    style={{
-                      backgroundColor: snapshot.isDraggingOver
-                        ? "blue"
-                        : "grey",
-                      padding: 4,
-                      width: "80px",
-                      // height: 60,
-                    }}
-                  >
-                    {state.items12.map((item, index) => (
-                      <Draggable
-                        key={item.id}
-                        draggableId={item.id}
-                        index={index}
-                        isDragDisabled={
-                          check[droppableIDs[8]] || droppableIDs[8] === item.id
-                        }
-                      >
-                        {(provided, snapshot) => (
-                          <img
-                            {...provided.draggableProps}
-                            {...provided.dragHandleProps}
-                            ref={provided.innerRef}
-                            src={item.imgUrl}
-                            alt={item.name}
-                            // style={{ width: "1px", margin: "0" }}
-                          ></img>
-                        )}
-                      </Draggable>
-                    ))}
-                    {provided.placeholder}
-                  </div>
-                )}
-              </Droppable>
-            </EachAnswer>
+            {[7, 8].map((idx) => (
+              <EachAnswer key={idx}>
+                <Droppable
+                  droppableId={droppableIDs[idx]}
+                  // isDropDisabled={check.items4 > 0}
+                  isDropDisabled={state[`items${idx + 1}`].length > 0}
+                  // 주석 윗줄 안먹고 무한루프 돎 5/9
+                >
+                  {(provided, snapshot) => (
+                    <div
+                      {...provided.droppableProps}
+                      ref={provided.innerRef}
+                      style={{
+                        backgroundColor: snapshot.isDraggingOver
+                          ? "blue"
+                          : "grey",
+                        padding: 4,
+                        width: "80px",
+                        // height: 60,
+                      }}
+                    >
+                      {state[`items${idx + 1}`].map((item, index) => (
+                        <Draggable
+                          key={item.id}
+                          draggableId={item.id}
+                          index={index}
+                          // isDragDisabled={isRightAnswer(droppableIDs[0], item.id)}
+                          isDragDisabled={
+                            check[droppableIDs[idx]] ||
+                            droppableIDs[idx] === item.id
+                          }
+                        >
+                          {(provided, snapshot) => (
+                            <img
+                              {...provided.draggableProps}
+                              {...provided.dragHandleProps}
+                              ref={provided.innerRef}
+                              src={item.imgUrl}
+                              alt={item.name}
+                            ></img>
+                          )}
+                        </Draggable>
+                      ))}
+                      {provided.placeholder}
+                    </div>
+                  )}
+                </Droppable>
+              </EachAnswer>
+            ))}
           </AnswerRow>
         </AnswerSide>
       </div>
@@ -788,4 +551,11 @@ const EachAnswer = styled(`div`)({
   justifyContent: "center",
   marginBottom: "5px",
   // flex: "2",
+});
+
+const Success = styled(`div`)({
+  width: "600px",
+  position: "absolute",
+  fontSize: "100pt",
+  color: "red",
 });
