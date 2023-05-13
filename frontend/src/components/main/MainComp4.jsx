@@ -4,25 +4,28 @@ import Box from "@mui/material/Box";
 import CircularProgress from "@mui/material/CircularProgress";
 import Typography from "@mui/material/Typography";
 
-const Comp4 = styled.div`
-  font-family: "neodgm";
-`;
+const Comp4 = styled.div``;
 
 const Title = styled.div`
   padding-top: 30px;
   padding-bottom: 10px;
   font-family: "neodgm";
-  font-size: 1.3rem;
+  font-size: 1rem;
   text-align: center;
 `;
 const Row = styled.div`
   display: flex;
-  justify-content: center;
+
   align-items: center;
-  margin: 10px;
+  padding-top: 10px;
+  padding-left: 10%;
 `;
 const Line = styled.div`
-  font-size: 1.1rem;
+  font-size: 0.9rem;
+  div {
+    font-size: 0.8rem;
+    margin-top: 4%;
+  }
 `;
 export default function MainComp4(props) {
   return (
@@ -45,21 +48,21 @@ export default function MainComp4(props) {
             sx={{
               borderRadius: "50%",
               marginRight: "10px",
-              width: "70px",
-              height: "70px",
+              width: "50px",
+              height: "50px",
+              fontSize: "0.8rem",
               backgroundColor: "#3396F4",
               color: "white",
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
-              fontSize: "1rem",
             }}
           >
             승리
           </Box>
           <Line>
             2023.04.02
-            <br /> pepe vs 은정공쥬짱
+            <div> pepe vs 은정공쥬짱 </div>
           </Line>
         </Row>
         <Row>
@@ -67,22 +70,21 @@ export default function MainComp4(props) {
             sx={{
               borderRadius: "50%",
               marginRight: "10px",
-              width: "70px",
-              height: "70px",
+              width: "50px",
+              height: "50px",
+              fontSize: "0.8rem",
               backgroundColor: "#EC2C54",
               color: "white",
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
-
-              fontSize: "1rem",
             }}
           >
             패배
           </Box>
           <Line>
             2023.04.02
-            <br /> pepe vs 은정공쥬짱
+            <div> pepe vs 은정공쥬짱 </div>
           </Line>
         </Row>
         <Row>
@@ -90,21 +92,21 @@ export default function MainComp4(props) {
             sx={{
               borderRadius: "50%",
               marginRight: "10px",
-              width: "70px",
-              height: "70px",
+              width: "50px",
+              height: "50px",
+              fontSize: "0.8rem",
               backgroundColor: "#8898A9",
               color: "white",
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
-              fontSize: "1rem",
             }}
           >
             무승부
           </Box>
           <Line>
             2023.04.02
-            <br /> pepe vs 은정공쥬짱
+            <div> pepe vs 은정공쥬짱 </div>
           </Line>
         </Row>
         <Row>
@@ -112,21 +114,21 @@ export default function MainComp4(props) {
             sx={{
               borderRadius: "50%",
               marginRight: "10px",
-              width: "70px",
-              height: "70px",
+              width: "50px",
+              height: "50px",
+              fontSize: "0.8rem",
               backgroundColor: "#3396F4",
               color: "white",
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
-              fontSize: "1rem",
             }}
           >
-            패배
+            승리
           </Box>
           <Line>
             2023.04.02
-            <br /> pepe vs 은정공쥬짱
+            <div> pepe vs 은정공쥬짱 </div>
           </Line>
         </Row>
       </Box>

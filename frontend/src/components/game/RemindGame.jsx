@@ -118,11 +118,9 @@ export default function RemindGame() {
   const [currentWords, setCurrentWords] = useState([]);
 
   useEffect(() => {
-    console.log(wordList);
     let currentIndex = 0;
     setCurrentWords([]); // Clear the currentWords state initially
     const intervalId = setInterval(() => {
-      console.log(currentIndex);
       if (currentIndex < wordList.length) {
         setCurrentWords((currentWords) => [
           ...currentWords,
@@ -134,24 +132,8 @@ export default function RemindGame() {
       }
     }, 1500);
 
-    if (wordList.length > 0) {
-      setCurrentWords((currentWords) => [...currentWords, wordList[0]]); // Add the first word immediately
-
-      const intervalId = setInterval(() => {
-        currentIndex += 1;
-        if (currentIndex < wordList.length) {
-          setCurrentWords((currentWords) => [
-            ...currentWords,
-            wordList[currentIndex],
-          ]);
-        } else {
-          clearInterval(intervalId);
-        }
-      }, 1500);
-
-      return () => clearInterval(intervalId);
-    }
-  }, [wordList]);
+    return () => clearInterval(intervalId);
+  }, [wordList, setCurrentWords]);
 
   const onCheckButtonClick = (event) => {
     const updatedInputs = Array.from(
@@ -175,13 +157,12 @@ export default function RemindGame() {
 
   const renderWordList = () => {
     return currentWords.map((word, index) => (
-      <PaperItem key={index}>
+      <PaperItem key={`${index}_${word}`}>
         <PushPinIcon className="tack-icon" />
         {word}
       </PaperItem>
     ));
   };
-
   return (
     <div>
       <Blackboard>

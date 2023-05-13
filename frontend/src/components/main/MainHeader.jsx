@@ -37,6 +37,7 @@ function MainHeader() {
           >
             <img
               src={pepe}
+              alt=""
               style={{
                 borderRadius: "50%",
                 marginRight: "10px",

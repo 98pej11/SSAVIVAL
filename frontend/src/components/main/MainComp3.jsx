@@ -11,11 +11,20 @@ const Comp3 = styled.div`
 
 const ChartWrapper = styled.div`
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   width: 100%;
-  height: 100%;
-  gap: 40px;
+  height: 80%;
+  gap: 10px;
+`;
+
+const Title = styled.div`
+  font-size: 1rem;
+  display: flex;
+  justify-content: center;
+  padding-top: 30px;
+  padding-bottom: 10px;
+  font-family: "neodgm";
 `;
 
 export default function MainComp3() {
@@ -28,15 +37,14 @@ export default function MainComp3() {
           backgroundColor: "rgba(255,255,255,0.4)",
           border: "1px solid #BEBEBE",
           borderRadius: 12,
-          display: "flex",
-          justifyContent: "space-between",
         }}
       >
+        <Title>금주의 캠퍼스 랭킹</Title>
         <ChartWrapper>
-          <div style={{ width: "50%", height: "80%" }}>
+          <div style={{ width: "45%", height: "80%" }}>
             <CampusChart />
           </div>
-          <div style={{ width: "50%", height: "80%" }}>
+          <div style={{ width: "40%", height: "80%" }}>
             <Ranking />
           </div>
         </ChartWrapper>

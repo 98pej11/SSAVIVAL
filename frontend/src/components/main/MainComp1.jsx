@@ -10,17 +10,21 @@ import { GameAction } from "../../redux/actions/GameAction";
 
 const Comp1 = styled.div`
   font-family: "neodgm";
+  // display: flex;
+  // flex-direction: column;
+  // align-items: center;
+  // justify-content: center;
 `;
 
 const Title = styled.div`
-  padding-top: 70px;
+  padding-top: 50px;
   padding-bottom: 30px;
   text-align: center;
   display: flex;
   justify-content: center;
   align-items: center;
   span {
-    font-size: 20px;
+    font-size: 1rem;
   }
 `;
 
@@ -83,13 +87,13 @@ export default function MainComp1() {
           <img
             src={happy_pepe2}
             alt=""
-            style={{ width: 30, height: 30, marginRight: 5 }}
+            style={{ width: "10%", height: "5%", marginRight: 5 }}
           />
           <span>싸피를 즐기러 가보자!</span>
           <img
             src={happy_pepe2}
             alt=""
-            style={{ width: 30, height: 30, marginLeft: 3 }}
+            style={{ width: "10%", height: "5%", marginRight: 5 }}
           />
         </Title>
         <HoverBox>
@@ -102,7 +106,7 @@ export default function MainComp1() {
               flexDirection: "column",
               justifyContent: "center",
               alignItems: "center",
-              fontSize: "1.2rem",
+              fontSize: "1rem",
               cursor: "pointer", // 추가
             }}
             onClick={handleSinglePlayerClick}
@@ -120,7 +124,7 @@ export default function MainComp1() {
               flexDirection: "column",
               justifyContent: "center",
               alignItems: "center",
-              fontSize: "1.2rem",
+              fontSize: "1rem",
               cursor: "pointer", // 추가
             }}
             onClick={handleMultiPlayerClick}
