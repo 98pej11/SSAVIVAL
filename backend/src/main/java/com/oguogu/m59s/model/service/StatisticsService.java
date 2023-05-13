@@ -6,5 +6,5 @@ import java.util.List;
 public interface StatisticsService {
     StatisticsDto detailStatistics(long userId);
 //    List<StatisticsDto> listStatistics();
-
+    void saveStatistics(StatisticsDto statisticsDto);
 }

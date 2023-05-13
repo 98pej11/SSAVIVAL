@@ -29,6 +29,11 @@ public class StatisticsServiceImpl implements StatisticsService{
         return statisticsDto;
     }
 
+    @Override
+    public void saveStatistics(StatisticsDto statisticsDto) {
+        statisticsRepository.save(statisticsDto.toEntity());
+    }
+
 //    @Override
 //    public List<StatisticsDto> listStatistics() {
 //        return null;

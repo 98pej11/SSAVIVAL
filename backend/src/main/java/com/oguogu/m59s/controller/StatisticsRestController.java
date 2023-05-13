@@ -30,4 +30,18 @@ public class StatisticsRestController {
         return new ResponseEntity<>(resultMap, HttpStatus.ACCEPTED);
     }
 
+    @PostMapping("/done")
+    public ResponseEntity<Map<String, Object>> statisticsUpdate(@RequestBody Map<String,Integer> resultInfo) {
+        long userId = (long) resultInfo.get("userId");
+        int result = resultInfo.get("status");//0승 ,1패 ,2무
+        StatisticsDto statisticsDto = statisticsService.detailStatistics(userId);
+        statisticsDto.setTotalCnt(statisticsDto.getTotalCnt()+1);
+        if(result==0) statisticsDto.setWinCnt(statisticsDto.getWinCnt()+1);
+        else if(result==1) statisticsDto.setLoseCnt(statisticsDto.getLoseCnt()+1);
+        else statisticsDto.setDrawCnt(statisticsDto.getDrawCnt()+1);
+        statisticsService.saveStatistics(statisticsDto);
+        Map<String, Object> resultMap = new HashMap<>();
+        resultMap.put("result",SUCCESS);
+        return new ResponseEntity<>(resultMap, HttpStatus.ACCEPTED);
+    }
 }
