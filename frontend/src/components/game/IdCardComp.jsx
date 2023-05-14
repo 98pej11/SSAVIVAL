@@ -1,5 +1,5 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useSpring, animated } from "react-spring";
 import { styled } from "@mui/material/styles";
 import Badge from "@mui/material/Badge";
@@ -15,7 +15,7 @@ import back from "../../assets/card_back.png";
 import Draggable from "react-draggable";
 // import { useDrag } from "react-use-gesture";
 
-export default function Emoji() {
+export default function IdCard() {
   // 카드 위치 좌표
   // const [position, setPosition] = useState({ x: 0, y: -300 }); // box의 포지션 값
 
@@ -72,11 +72,15 @@ export default function Emoji() {
     setOpacity(false);
   };
 
-  // const fadeCard=()=>{
-  //   this.setState((state)=>({
-  //     select:!state.select,
-  //   }));
-  // }
+  // 이미지 이동 실험
+  const [pos, setPos] = useState(0);
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setPos((pos) => pos + 10);
+    }, 1000);
+
+    return () => clearInterval(intervalId);
+  }, []);
   return (
     <div style={{ userSelect: "none", width: "1200px", height: "600px" }}>
       <img
@@ -103,9 +107,25 @@ export default function Emoji() {
           position: "relative",
         }}
       />
-      {/* <TestDiv>
-        <div className="text">How are you?</div>
-      </TestDiv> */}
+      {/* TestDiv*/}
+      <div>
+        {/* <img
+          src="idCard"
+          alt="moving"
+          className="move"
+          style={{ transform: `translateX(${position}px)` }}
+        /> */}
+        <div
+          style={{
+            color: "red",
+            fontSize: "50pt",
+            transform: `translateX(${pos}px)`,
+          }}
+        >
+          짱짱
+        </div>
+      </div>
+
       <div
         ref={setDivColor}
         onDrag={(e, data) => bindCardPos(data)}
@@ -121,7 +141,7 @@ export default function Emoji() {
         }}
       ></div>
 
-      <animated.div
+      {/* <animated.div
         {...bindCardPos()}
         style={{
           x: cardPos.x,
@@ -138,7 +158,7 @@ export default function Emoji() {
           }}
           animated
         />
-      </animated.div>
+      </animated.div> */}
 
       {/* <Draggable
         onDrag={(e, data) => trackPos(data)}

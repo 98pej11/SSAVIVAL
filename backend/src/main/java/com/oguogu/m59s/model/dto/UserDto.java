@@ -21,7 +21,8 @@ public class UserDto {
     private int campus;
     private int mileage;
     private String email;
-
+    //DB에 저장하지 않을꺼고 출력할 때 즉석해서 계산해서 보여줄 것(손쉽게 배열에 담아서 출력하기 위함)
+    private String tier;
 
     public User toEntity() {
         User user = User.builder()

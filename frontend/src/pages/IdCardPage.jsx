@@ -2,9 +2,11 @@ import React from "react";
 import styled from "styled-components";
 import IdCardComp from "../components/game/IdCardComp";
 import GameComp from "../components/game/GameComp";
+import GameComp2 from "../components/game/GameComp";
 import Header from "../components/game/Header";
 import "../index.css";
 import game from "../assets/game.png";
+import { useSelector } from "react-redux";
 
 const Pages = styled.div`
   position: relative;
@@ -22,6 +24,7 @@ const myProps = {
 };
 
 export default function IdCardPage() {
+  const gameMode = useSelector((state) => state.gameMode);
   return (
     <Pages>
       <Header props={myProps} />
@@ -34,9 +37,15 @@ export default function IdCardPage() {
           height: "100vh",
         }}
       >
-        <GameComp props={myProps}>
-          <IdCardComp {...myProps} />
-        </GameComp>
+        {gameMode === "single" ? (
+          <GameComp props={myProps}>
+            <IdCardComp {...myProps} />
+          </GameComp>
+        ) : (
+          <GameComp2 props={myProps}>
+            <IdCardComp {...myProps} />
+          </GameComp2>
+        )}
       </div>
     </Pages>
   );

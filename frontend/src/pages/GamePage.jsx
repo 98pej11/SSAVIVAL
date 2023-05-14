@@ -16,6 +16,7 @@ import AttendanceGame from "../components/game/AttendanceGame";
 import Puzzle from "../components/game/PuzzleComp";
 import Seating from "../components/game/SeatComp";
 import IdCard from "../components/game/IdCardComp";
+import DifferenceGame from "../components/game/DifferenceGame";
 
 import html2canvas from "html2canvas";
 import { GameAction } from "../redux/actions/GameAction";
@@ -138,12 +139,11 @@ export default function GamePage() {
     <TypoGame key="TypoGame" />,
     <RemindGame key="RemindGame" />,
     <TissueGame key="TissueGame" />,
-    // <RemindGame key="RemindGame" />,
-    <ElevatorGame key="ElevatorGame" />,
     <EmojiComp key="EmojiComp" />,
     <Puzzle key="Puzzle" />,
     <Seating key="Seating" />,
     <IdCard key="Idcard" />,
+    <DifferenceGame key="DifferenceGame" />,
   ];
 
   // redux : timeLimit(게임 제한시간)이랑 bgPath(게임 배경) 구독

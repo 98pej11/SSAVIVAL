@@ -18,4 +18,5 @@ public interface GameService {
     void saveMiniGame(MiniGameDto miniGameDto);
     void saveGame(GameDto gameDto);
     void updateGame(GameDto gameDto);
+    List<GameImageDto> listGameImage(long miniGameId);
 }

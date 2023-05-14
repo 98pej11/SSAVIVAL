@@ -16,12 +16,8 @@ const Rank = styled.div`
   div {
     text-align: center;
   }
-  margin-bottom: 5%;
 `;
 
-const Title = styled.div`
-  font-size: 1.2rem;
-`;
 const columns = [
   { field: "id", headerName: "", width: 30 },
   { field: "user", headerName: "", width: 200 },
@@ -38,75 +34,47 @@ const rows = [
 ];
 
 const Pag = styled.div`
-  display: flex; /* 가로 정렬을 위해 flexbox 설정 */
-  justify-content: center; /* 가운데 정렬 */
-  // height:
+  display: flex;
+  justify-content: center;
 `;
 
 export default function Ranking() {
   return (
     <Rank>
-      <Title>금주의 랭킹</Title>
-      <Box sx={{ width: "350px", height: "100px" }}>
+      <Box sx={{ width: "100%", height: "100px" }}>
         <Table sx={{ textAlign: "center", margin: "5%" }}>
           <TableBody>
             {rows.map((item) => (
               <TableRow key={item.id}>
                 <TableCell
                   sx={{
+                    width: "0%",
                     padding: 0.7,
                     textAlign: "center",
-                    fontSize: "1.2rem",
-                    fontFamily: "neodgm",
+                    fontSize: "1rem",
                   }}
                 >
                   {item.id}
                 </TableCell>
                 <TableCell
                   sx={{
+                    width: "30%",
                     padding: 0.7,
                     textAlign: "center",
-                    fontSize: "1.2rem",
-                    fontFamily: "neodgm",
+                    fontSize: "1rem",
                   }}
                 >
                   {item.user}
                 </TableCell>
                 <TableCell
                   sx={{
+                    width: "30%",
                     padding: 0.7,
                     textAlign: "center",
-                    fontSize: "1.2rem",
-                    fontFamily: "neodgm",
+                    fontSize: "1rem",
                   }}
                 >
                   {item.score} M
-                </TableCell>
-                <TableCell
-                  sx={{
-                    padding: 0.7,
-                    textAlign: "center",
-                    fontSize: "1.2rem",
-                    fontFamily: "neodgm",
-                  }}
-                >
-                  <Button
-                    sx={{
-                      fontFamily: "neodgm",
-                      bgcolor: "#FFD211",
-                      color: "black",
-                      borderRadius: 10,
-                      boxShadow: "none", // 그림자 없애기
-                      "&:hover": {
-                        bgcolor: "#3396F4",
-                        color: "white",
-                      },
-                    }}
-                    variant="contained"
-                    endIcon={<ArrowCircleRightIcon />}
-                  >
-                    가상대전
-                  </Button>
                 </TableCell>
               </TableRow>
             ))}
@@ -114,7 +82,7 @@ export default function Ranking() {
         </Table>
         <Pag>
           <Stack spacing={1}>
-            <Pagination />
+            <Pagination size="small" />
           </Stack>
         </Pag>
       </Box>

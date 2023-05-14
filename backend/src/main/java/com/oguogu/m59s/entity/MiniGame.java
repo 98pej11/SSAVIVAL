@@ -19,7 +19,7 @@ public class MiniGame {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long miniGameId;
 
-    @Column(nullable = false , length = 20)
+    @Column(length = 20)
     private String clearTime;
     @Column(nullable = false)
     private int score;

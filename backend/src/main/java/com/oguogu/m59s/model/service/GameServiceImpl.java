@@ -60,7 +60,17 @@ public class GameServiceImpl implements GameService{
         }
         return gameDtoList;
     }
+    @Override
+    public List<GameImageDto> listGameImage(long miniGameId) {
+        List<GameImage> gameImageList = gameImageRepository.findAllByMiniGameId(miniGameId);
+        List<GameImageDto> gameImageDtoList = new ArrayList<>();
+        for(GameImage gameImage : gameImageList){
+            GameImageDto gameImageDto = gameImage.toDto();
+            gameImageDtoList.add(gameImageDto);
+        }
 
+        return gameImageDtoList;
+    }
     @Override
     public long findGameLastIndex() {
         List<Game> list = gameRepository.findAll();
