@@ -6,6 +6,7 @@ import com.oguogu.m59s.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.cache.annotation.Cacheable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +29,9 @@ public class UserServiceImpl implements UserService{
         }
         return userDto;
     }
-    
+
+    @Override
+    @Cacheable(value = "List<UserDto>", cacheManager = "cacheManager")
     //랭크 순서대로 리스트 출력
     public List<UserDto> listUser(){
         Sort sort = Sort.by(Sort.Direction.DESC, "mileage");
