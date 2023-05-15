@@ -79,6 +79,32 @@ export default function Ranking() {
                 >
                   {item.score} M
                 </TableCell>
+                <TableCell
+                  sx={{
+                    padding: 0.5,
+                    textAlign: "center",
+                    fontSize: "1rem",
+                    fontFamily: "neodgm",
+                  }}
+                >
+                  <Button
+                    sx={{
+                      fontFamily: "neodgm",
+                      bgcolor: "#FFD211",
+                      color: "black",
+                      borderRadius: 10,
+                      boxShadow: "none", // 그림자 없애기
+                      "&:hover": {
+                        bgcolor: "#FFD211",
+                        color: "white",
+                      },
+                    }}
+                    variant="contained"
+                    endIcon={<ArrowCircleRightIcon />}
+                  >
+                    가상대전
+                  </Button>
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>

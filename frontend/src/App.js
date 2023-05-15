@@ -16,7 +16,6 @@ import DifferencePage from "./pages/DifferencePage";
 import VideoHandler from "./components/video/VideoHandler";
 import RemindPage from "./pages/RemindPage";
 import GamePage from "./pages/GamePage";
-
 import IdCardPage from "./pages/IdCardPage";
 import SeatPage from "./pages/SeatPage";
 import PuzzlePage from "./pages/PuzzlePage";
