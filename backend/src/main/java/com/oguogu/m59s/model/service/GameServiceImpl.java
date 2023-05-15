@@ -16,6 +16,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -74,13 +75,17 @@ public class GameServiceImpl implements GameService{
     @Override
     public long findGameLastIndex() {
         List<Game> list = gameRepository.findAll();
-        return list.size() + 1;
+        Collections.sort(list);
+        Game game = list.get(0);
+        return game.getGameId() + 1;
     }
 
     @Override
     public long findMiniGameLastIndex() {
         List<MiniGame> list = miniGameRepository.findAll();
-        return list.size() + 1;
+        Collections.sort(list);
+        MiniGame miniGame = list.get(0);
+        return miniGame.getGameId() + 1;
     }
 
     @Override
