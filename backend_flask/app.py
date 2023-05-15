@@ -5,10 +5,11 @@ from flask_restful import Api, Resource
 from flask_cors import CORS
 from io import BytesIO
 import boto3
+from PIL import Image
 
 #   코드 출처 : https://github.com/GalaxyOverMe/SpotTheDifference_Generator
 #   원본 코드에서 사용한 라이브러리
-from wx import *
+# from wx import *
 import cv2
 import numpy as np
 import random
@@ -190,36 +191,29 @@ def get_pts_center(pts):
 
     return pts_c
 
-# type: (np.ndarray) -> Bitmap
-def create_wx_bitmap(cv2_image):
-
-    height, width = cv2_image.shape[:2]
-
-    info = np.iinfo(cv2_image.dtype)  # Get the information of the incoming image type
-    data = cv2_image.astype(np.float64) / info.max  # normalize the data to 0 - 1
-    data = 255 * data  # Now scale by 255
-    cv2_image = data.astype(np.uint8)
-
+# type: (np.ndarray) -> Image
+# (영준) 원래 wxPython 라이브러리를 사용했으나 Docker 호환성 문제로 Pillow 라이브러리 구문으로 대체
+def create_pil_image(cv2_image):
     cv2_image_rgb = cv2.cvtColor(cv2_image, cv2.COLOR_BGR2RGB)
-    
-    wxBitmap = Bitmap.FromBuffer(width, height, cv2_image_rgb)
+    pil_image = Image.fromarray(cv2_image_rgb)
 
-    return wxBitmap, width, height
+    return pil_image
 
 # (영준) 이미지 로컬에 저장 + AWS S3에 업로드
+# (영준) 주소 관련 에러 발생시 BackendFlaskPath 선언문만 수정하면 됨
 def save_and_upload(quizImg, quizImgName, quizImgFolder):
-    BackendFlaskPath = os.path.join(".", "backend_flask")
+    # BackendFlaskPath = os.path.join(".", "backend_flask")
+    BackendFlaskPath = os.path.join(".")
     quizImgPath = os.path.join(BackendFlaskPath, quizImgFolder, quizImgName)
 
-    wxBitmap, width, height = create_wx_bitmap(quizImg)
-    quizImg = wxBitmap.ConvertToImage()
-    quizImg.SaveFile(quizImgPath, BITMAP_TYPE_PNG)
+    pil_image = create_pil_image(quizImg)
+    pil_image.save(quizImgPath, 'PNG')
 
     s3_file_path = f"{quizImgFolder}/{quizImgName}"
     s3.upload_file(quizImgPath, AWS_S3_BUCKET, s3_file_path)
 
     quizImgUrl = f"https://{AWS_S3_BUCKET}.s3.{AWS_REGION}.amazonaws.com/{s3_file_path}"
-    return quizImgUrl, width, height
+    return quizImgUrl, pil_image.width, pil_image.height
 
 #   이미지를 로드하는 함수
 #   in: None
@@ -242,7 +236,8 @@ class GetNextQuiz(Resource):
     #   in: 다음 이미지 주소
     #   out: (원본, 틀린그림, 정답그림)순서의 병합된 이미지, 정답 좌표, 이동한 좌표
     def get(self):
-        BackendFlaskPath = os.path.join(".", "backend_flask")
+        # BackendFlaskPath = os.path.join(".", "backend_flask")
+        BackendFlaskPath = os.path.join(".")
         ImgFolder = "images"
         ImgName = load_shuffled_images(BackendFlaskPath, ImgFolder)[0]
 
