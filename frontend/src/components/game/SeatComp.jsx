@@ -168,7 +168,7 @@ export default function Seating() {
         style={{
           userSelect: "none",
           width: "100%",
-          height: "100%",
+          height: "auto",
           backgroundColor: "white",
           display: "flex",
           backgroundImage: `url(${"floor.png"})`,
@@ -183,8 +183,8 @@ export default function Seating() {
               style={{
                 // backgroundColor: snapshot.isDraggingOver ? "gray" : "yellpw",
                 padding: 4,
-                width: 250,
-                minHeight: 50,
+                // width: "30%",
+                // height: "10%",
               }}
             >
               {state.items1.map((item, index) => (
@@ -202,14 +202,34 @@ export default function Seating() {
                       ...provided.draggableProps.style,
                     };
                     return (
-                      <Waiting
-                        {...provided.draggableProps}
-                        {...provided.dragHandleProps}
-                        ref={provided.innerRef}
-                        style={imageStyle}
-                      >
-                        {item.content}
-                      </Waiting>
+                      <div style={{ width: "100px", height: "auto" }}>
+                        <Bubble>
+                          <img
+                            src={"bubble.svg"}
+                            style={{ position: "absolute", width: "60px" }}
+                          />
+                          <div
+                            style={{
+                              position: "relative",
+                              width: "60px",
+                              marginTop: "30%",
+                              fontSize: "10pt",
+                              fontFamily: "neodgm",
+                              // backgroundColor: "red",
+                            }}
+                          >
+                            배고파~~
+                          </div>
+                        </Bubble>
+                        <Waiting
+                          {...provided.draggableProps}
+                          {...provided.dragHandleProps}
+                          ref={provided.innerRef}
+                          style={imageStyle}
+                        >
+                          {item.content}
+                        </Waiting>
+                      </div>
                     );
                   }}
                 </Draggable>
@@ -228,7 +248,7 @@ export default function Seating() {
                   {seats.slice(0, 2).map((seat, index) =>
                     seat ? (
                       <Droppable
-                        key={`droppable-${index}`}
+                        key={`droppable-${index + 2}`}
                         droppableId={`items${index + 2}`}
                         isDropDisabled={state[`items${index + 2}`].length > 0}
                       >
@@ -284,7 +304,7 @@ export default function Seating() {
                   {seats.slice(2, 4).map((seat, index) =>
                     seat ? (
                       <Droppable
-                        key={`droppable-${index}`}
+                        key={`droppable-${index + 4}`}
                         droppableId={`items${index + 4}`}
                         isDropDisabled={state[`items${index + 4}`].length > 0}
                       >
@@ -341,7 +361,7 @@ export default function Seating() {
                   {seats.slice(4, 6).map((seat, index) =>
                     seat ? (
                       <Droppable
-                        key={`droppable-${index}`}
+                        key={`droppable-${index + 6}`}
                         droppableId={`items${index + 6}`}
                         isDropDisabled={state[`items${index + 6}`].length > 0}
                       >
@@ -396,7 +416,7 @@ export default function Seating() {
                   {seats.slice(6, 8).map((seat, index) =>
                     seat ? (
                       <Droppable
-                        key={`droppable-${index}`}
+                        key={`droppable-${index + 8}`}
                         droppableId={`items${index + 8}`}
                         isDropDisabled={state[`items${index + 8}`].length > 0}
                       >
@@ -448,7 +468,7 @@ export default function Seating() {
                 </FirstSetset>
               </FirstSet>
             </First>
-
+            <div>{showSuccess && <Success>성공!!! {count}/6 </Success>}</div>
             {/* 2분단 */}
             <Second>
               <SecondSet>
@@ -476,6 +496,7 @@ export default function Seating() {
                                   backgroundRepeat: "no-repeat",
                                   width: "50px",
                                   height: "50px",
+
                                   backgroundImage: `url(${"drooling-face.svg"})`,
                                 }}
                               >
@@ -640,7 +661,6 @@ export default function Seating() {
               </SecondSet>
             </Second>
           </LeftSide>
-          <div>{showSuccess && <Success>성공!!! {count}/6 </Success>}</div>
 
           <RightSide>
             {/* 4분단 */}
@@ -649,7 +669,7 @@ export default function Seating() {
                 {seats.slice(12, 16).map((seat, index) =>
                   seat ? (
                     <Droppable
-                      key={`droppable-${index}`}
+                      key={`droppable-${index + 14}`}
                       droppableId={`items${index + 14}`}
                       isDropDisabled={state[`items${index + 14}`].length > 0}
                     >
@@ -727,7 +747,8 @@ const WaitingLine = styled(`div`)({
   //   animation: "none",
   display: "flex",
   flexDirection: "row",
-  // width: "100px",
+  width: "600px",
+  height: "10%",
   justifyContent: "space-around",
   //   paddingRight: "40%",
   // backgroundColor: "blue",
@@ -742,7 +763,8 @@ const Waiting = styled(`div`)({
   userSelect: "none",
   width: "60px",
   height: "60px",
-  marginRight: "15px",
+  // marginRight: "300px",
+  // backgroundColor: "red",
   // pointerEvents: "none",
   animation: "motion 0.3s linear 0s infinite alternate",
   "@keyframes motion": {
@@ -790,6 +812,9 @@ const Second = styled(`div`)({
   flexDirection: "row",
   justifyContent: "space-between",
   flex: "1",
+  // marginTop: "2%",
+  // backgroundColor: "red",
+  marginBottom: "7%",
 });
 const Third = styled(`div`)({
   // backgroundColor: "pink",
@@ -803,6 +828,7 @@ const Fourth = styled(`div`)({
   // MarginRight: "0px",
   //   width: "50%",
   flex: "1",
+  marginBottom: "7%",
 });
 
 const FirstSet = styled(`div`)({
@@ -822,12 +848,12 @@ const FirstSetset = styled(`div`)({
 
 const SecondSet = styled(`div`)({
   // backgroundColor: "yellow",
-  marginTop: "100px",
+  marginTop: "10%",
   display: "flex",
   flexDirection: "column",
 
-  // justifyContent: "center",
-  // alignContent: "center",
+  justifyContent: "center",
+  alignContent: "center",
 });
 
 const ThirdSet = styled(`div`)({
@@ -922,6 +948,7 @@ const Empty = styled(`div`)({
   backgroundColor: "gray",
   border: "2px solid black",
   borderRadius: "20%",
+
   animation: "light 1s ease-in-out infinite",
   "@keyframes light": {
     "0%": { boxShadow: "0 0 10px 0px rgba(255, 0, 0, 0.5)" },
@@ -943,6 +970,24 @@ const EmptyPerson = styled(`div`)({
 const Success = styled(`div`)({
   width: "600px",
   position: "absolute",
-  fontSize: "100pt",
+  fontSize: "60pt",
   color: "red",
+  zIndex: "20",
+  fontFamily: "neodgm",
+  // fontSize: 1.7rem;
+  // color: black;
+});
+
+const Bubble = styled(`div`)({
+  display: "flex",
+  flexDirection: "row",
+  justifyContent: "center",
+  width: "5%",
+  height: "auto",
+  marginLeft: "-35%",
+  animation: "motion 0.3s linear 0s infinite alternate",
+  "@keyframes motion": {
+    "0%": { marginTop: "0px" },
+    "100%": { marginTop: "10px" },
+  },
 });

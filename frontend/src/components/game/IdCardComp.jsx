@@ -3,230 +3,319 @@ import { useState, useEffect } from "react";
 import { useSpring, animated } from "react-spring";
 import { styled } from "@mui/material/styles";
 import Badge from "@mui/material/Badge";
-import { useDrag } from "react-use-gesture";
+import scoring from "../../assets/game_typo/scoring.gif";
 // import Box from "@mui/material/Box";
 
 // import Button from "@mui/material/Button";
 import reader from "../../assets/reader.png";
 import idCard from "../../assets/IDcard.svg";
+// import idCard2 from
 import back from "../../assets/card_back.png";
-// import online from "../../assets/online.png";
 
-import Draggable from "react-draggable";
+import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 // import { useDrag } from "react-use-gesture";
 
 export default function IdCard() {
-  // 카드 위치 좌표
-  // const [position, setPosition] = useState({ x: 0, y: -300 }); // box의 포지션 값
+  // 정답 개수 카운트
+  const [count, setCount] = useState(0);
+  // 성공 메세지 플래그
+  const [showSuccess, setShowSuccess] = useState(false);
 
-  const cardPos = useSpring({ x: Math.floor(Math.random() * 600), y: -250 });
-
-  // 드래그
-  const bindCardPos = useDrag((params) => {
-    console.log("나", params.offset[0], params.offset[1]);
-    cardPos.x.set(params.offset[0]);
-    cardPos.y.set(params.offset[1]);
-
-    const currentPosition = { x: params.offset[0], y: params.offset[1] };
-    const distance = Math.sqrt(
-      Math.pow(currentPosition.x - targetPosition.x, 2) +
-        Math.pow(currentPosition.y - targetPosition.y, 2)
-    );
-    if (distance <= targetRange) {
-      // 카드 찍기 성공, 점수 갱신!!!
-      setScore(score + 1);
-      console.log("Arrived at target location! score is", score);
-      // 카드 찍기에 성공하면 카드 리더기 빛난 후
-      divColor.style.backgroundColor = "red";
-      console.log("여기");
-      var tempXpos = Math.floor(Math.random() * 600);
-      cardPos.x.set(tempXpos);
-      cardPos.y.set(-250);
-      params.offset[0] = tempXpos;
-      params.offset[1] = -250;
-    } else {
-      // 카드 리더기 밖이면 색 변화 x
-
-      divColor.style.backgroundColor = "white";
-    }
+  const [state, setState] = useState({
+    items1: [
+      { id: "item1", imageUrl: idCard },
+      { id: "item2", imageUrl: "idCard2.svg" },
+      { id: "item3", imageUrl: idCard },
+      { id: "item4", imageUrl: "idCard2.svg" },
+      // { id: "item5", imageUrl: idCard },
+      // { id: "item6", imageUrl: "idCard2.svg" },
+    ],
+    items2: [],
   });
 
-  // 카드 드래그할 때 투명도
-  const [Opacity, setOpacity] = useState(false);
-  // 카드 태그할 때 바뀌는 카드 리더기
-  const [divColor, setDivColor] = useState("white");
-  // 태그 성공 횟수
-  const [score, setScore] = useState(0);
-  // 카드 리더기 위치 좌표
-  const targetPosition = { x: 800, y: -420 }; // Example target position
-  // 카드 리더기에 찍히는 것 감지하는 범위
-  const targetRange = 80; // Example target range
+  const onDragEnd = (result) => {
+    const { source, destination } = result;
 
-  // 카드 찍고 일시적으로 사라지게 하기 => 몰루?!?!
-  const [state, setState] = useState(false);
+    if (!destination) {
+      return;
+    }
 
-  const handleStart = () => {
-    setOpacity(true);
+    if (source.droppableId === destination.droppableId) {
+      const items = reorder(
+        state[source.droppableId],
+        source.index,
+        destination.index
+      );
+
+      setState({ ...state, [source.droppableId]: items });
+    } else {
+      const result = move(
+        state[source.droppableId],
+        state[destination.droppableId],
+        source,
+        destination
+      );
+
+      // Remove the dropped item from items1
+      // const items1 = state.items1.filter(
+      //   (item) => item.id !== result.draggableId
+      // );
+      setState({
+        // items1: items1,
+        // items2: result[destination.droppableId],
+        ...state,
+        [source.droppableId]: result[source.droppableId],
+        [destination.droppableId]: result[destination.droppableId],
+        items2: [],
+      });
+      setShowSuccess(true);
+      setCount(count + 1);
+      setIsScoring(true);
+    }
   };
-  const handleEnd = () => {
-    setOpacity(false);
+  // 성공 표시 함수
+  useEffect(() => {
+    if (showSuccess) {
+      setTimeout(() => {
+        setShowSuccess(false);
+      }, 500);
+    }
+  });
+  const reorder = (list, startIndex, endIndex) => {
+    const result = Array.from(list);
+    const [removed] = result.splice(startIndex, 1);
+    result.splice(endIndex, 0, removed);
+
+    return result;
   };
+
+  const move = (source, destination, droppableSource, droppableDestination) => {
+    const sourceClone = Array.from(source);
+    const destClone = Array.from(destination);
+    const [removed] = sourceClone.splice(droppableSource.index, 1);
+
+    destClone.splice(droppableDestination.index, 0, removed);
+
+    const result = {};
+    result[droppableSource.droppableId] = sourceClone;
+    result[droppableDestination.droppableId] = destClone;
+
+    return result;
+  };
+
+  // 태그 성공했을 시 gif
+  // 채점 효과(with scoring.gif)
+  const [isScoring, setIsScoring] = useState(false);
+  if (isScoring) {
+    setTimeout(() => {
+      setIsScoring(false);
+    }, 800);
+  }
 
   // 이미지 이동 실험
   const [pos, setPos] = useState(0);
   useEffect(() => {
     const intervalId = setInterval(() => {
       setPos((pos) => pos + 10);
-    }, 1000);
+    }, 50);
 
     return () => clearInterval(intervalId);
   }, []);
+
   return (
-    <div style={{ userSelect: "none", width: "1200px", height: "600px" }}>
-      <img
-        src={back}
-        alt="background"
-        style={{
-          width: "1200px",
-          height: "600px",
-          display: "flex",
-          position: "absolute",
-          userSelect: "none",
-          pointerEvents: "none",
-        }}
-      />
-
-      <img
-        src={reader}
-        alt="cardReader"
-        style={{
-          width: "300px",
-          height: "500px",
-          marginTop: "50px",
-          marginLeft: "800px",
-          position: "relative",
-        }}
-      />
-      {/* TestDiv*/}
-      <div>
-        {/* <img
-          src="idCard"
-          alt="moving"
-          className="move"
-          style={{ transform: `translateX(${position}px)` }}
-        /> */}
-        <div
-          style={{
-            color: "red",
-            fontSize: "50pt",
-            transform: `translateX(${pos}px)`,
-          }}
-        >
-          짱짱
-        </div>
-      </div>
-
+    <DragDropContext onDragEnd={onDragEnd}>
       <div
-        ref={setDivColor}
-        onDrag={(e, data) => bindCardPos(data)}
         style={{
-          width: "160px",
-          height: "100px",
-          backgroundColor: divColor,
-          marginTop: "-440px",
-          marginLeft: "867px",
-          position: "absolute",
-          border: "solid",
-          borderColor: "black",
-        }}
-      ></div>
-
-      {/* <animated.div
-        {...bindCardPos()}
-        style={{
-          x: cardPos.x,
-          y: cardPos.y,
+          userSelect: "none",
+          width: "100%",
+          height: "100%",
+          backgroundColor: "white",
+          display: "flex",
+          position: "relative",
+          backgroundImage: `url(${back})`,
         }}
       >
-        <img
-          src={idCard}
-          alt="idCard"
-          style={{
-            width: "300px",
-            height: "250px",
-            pointerEvents: "none",
-          }}
-          animated
-        />
-      </animated.div> */}
-
-      {/* <Draggable
-        onDrag={(e, data) => trackPos(data)}
-        onStart={handleStart}
-        onStop={handleEnd}
-        position={{ x: position.x, y: position.y }}
-      >
-        <div
-          // ref={nodeRef}
-          className="box"
-          style={{ opacity: Opacity ? "0.6" : "1" }}
-        >
+        <Bubble>
           <img
-            src={idCard}
-            alt="idCard"
-            style={{
-              width: "300px",
-              height: "250px",
-            }}
+            src={"bubble.svg"}
+            style={{ position: "absolute", width: "20%" }}
           />
-          <div>
-            x: {position.x.toFixed(0)}, y: {position.y.toFixed(0)}
+          <div
+            style={{
+              position: "relative",
+              width: "200px",
+              marginTop: "30%",
+              fontFamily: "neodgm",
+              // backgroundColor: "red",
+            }}
+          >
+            카드 태그해주세요~~
           </div>
-        </div>
-      </Draggable> */}
-    </div>
+        </Bubble>
+
+        <Droppable droppableId="items1">
+          {(provided) => (
+            <Cards
+              {...provided.droppableProps}
+              ref={provided.innerRef}
+              style={{
+                width: "90%",
+                height: "100%",
+                transform: `translateX(${pos}px)`,
+              }}
+            >
+              {state.items1.map((item, index) => (
+                <Draggable
+                  key={item.id}
+                  draggableId={item.id}
+                  index={index}
+                  // shouldAnimateDraggable={true}
+                >
+                  {(provided, snapshot) => {
+                    const { style, ...rest } = provided.draggableProps;
+                    const imageStyle = {
+                      backgroundImage: `url(${item.imageUrl})`,
+                      backgroundSize: "cover",
+                      backgroundPosition: "center",
+                      userSelect: "none",
+
+                      margin: "0 0 8px 0",
+
+                      ...provided.draggableProps.style,
+
+                      // transform: `${provided.draggableProps.style.transform} translateX(${pos}px)`,
+                    };
+                    return (
+                      <Card
+                        ref={provided.innerRef}
+                        {...provided.draggableProps}
+                        {...provided.dragHandleProps}
+                        style={imageStyle}
+                      >
+                        {/* <img src={item.imageUrl} alt="item" /> */}
+                      </Card>
+                    );
+                  }}
+                </Draggable>
+              ))}
+              {provided.placeholder}
+            </Cards>
+          )}
+        </Droppable>
+        <div>{showSuccess && <Success>성공!!! {count}/4 </Success>}</div>
+        {isScoring && (
+          <img
+            src={scoring}
+            alt="scoring.gif"
+            style={{ position: "absolute", width: "50%", height: "50%" }}
+          />
+        )}
+        <Droppable droppableId="items2">
+          {(provided, snapshot) => (
+            <Reader
+              {...provided.droppableProps}
+              ref={provided.innerRef}
+              style={{
+                backgroundSize: "contain",
+                backgroundRepeat: "no-repeat",
+                // backgroundColor: snapshot.isDraggingOver
+                //   ? "lightblue"
+                //   : "lightgrey",
+
+                // padding: 4,
+                backgroundImage: `url(${reader})`,
+              }}
+            >
+              {state.items2.map((item, index) => (
+                <Draggable key={item.id} draggableId={item.id} index={index}>
+                  {(provided, snapshot) => (
+                    <div
+                      ref={provided.innerRef}
+                      {...provided.draggableProps}
+                      {...provided.dragHandleProps}
+                      style={{
+                        ...provided.draggableProps.style,
+                        backgroundSize: "contain",
+                        backgroundRepeat: "no-repeat",
+                        width: "330px",
+                        height: "100px",
+                        backgroundImage: `url(${idCard})`,
+                      }}
+                    >
+                      {/* <img src={item.imageUrl} alt="item" /> */}
+                    </div>
+                  )}
+                </Draggable>
+              ))}
+            </Reader>
+          )}
+        </Droppable>
+      </div>
+    </DragDropContext>
+
+    // <div><img
+    // src={idCard}
+    // alt="moving"
+    // // className="move"
+    // style={{ transform: `translateX(${pos}px)`, width: "200px" }}
+    // /></div>>
   );
 }
 
-// const TestDiv = styled(`div`)({
-//   position: "relative",
-//   fontSize: "5rem",
-//   animation: "slide 3s ease-in-out",
-//   "@keyframes slide": {
-//     from: {
-//       left: "-650px",
-//     },
-//     to: {
-//       left: "500px",
-//     },
-//   },
-// });
+const Cards = styled(`div`)({
+  position: "absolute",
+  display: "flex",
+  flexDirection: "row",
+  width: "100%",
+  // top: 0,
+  marginTop: "20%",
+  // justifyContent: "space-around",
+  zIndex: "10",
+  marginRight: "500px",
+  right: 350,
+});
 
-// const StyledBadge = styled(Badge)(({ theme }) => ({
-//   "& .MuiBadge-badge": {
-//     backgroundColor: "#44b700",
-//     color: "#44b700",
-//     boxShadow: `0 0 0 2px ${theme.palette.background.paper}`,
-//     "&::after": {
-//       position: "absolute",
-//       top: 0,
-//       left: 0,
-//       width: "100%",
-//       height: "100%",
-//       borderRadius: "50%",
-//       animation: "ripple 1.2s infinite ease-in-out",
-//       border: "1px solid currentColor",
-//       content: '""',
-//     },
-//   },
-//   "@keyframes ripple": {
-//     "0%": {
-//       transform: "scale(.8)",
-//       opacity: 1,
-//     },
-//     "100%": {
-//       transform: "scale(2.4)",
-//       opacity: 0,
-//     },
-//   },
-// }));
+const Card = styled(`div`)({
+  marginBottom: "10%",
+  position: "relative",
+  userSelect: "none",
+  width: "250px",
+  height: "210px",
+  marginRight: "30px",
+});
+
+const Reader = styled(`div`)({
+  position: "relative",
+  // display: "flex",
+  // flexDirection: "row",
+  width: "300px",
+  marginTop: "5%",
+  marginLeft: "20%",
+  // top: 0,
+  // marginTop: "30%",
+  // justifyContent: "space-around",
+});
+
+const Success = styled(`div`)({
+  width: "600px",
+  position: "absolute",
+  fontSize: "60pt",
+  color: "red",
+  zIndex: "20",
+  fontFamily: "neodgm",
+  // fontSize: 1.7rem;
+  // color: black;
+});
+const Bubble = styled(`div`)({
+  display: "flex",
+  flexDirection: "row",
+  justifyContent: "center",
+  width: "200px",
+  height: "200px",
+  marginLeft: "35%",
+  animation: "motion 0.3s linear 0s infinite alternate",
+  "@keyframes motion": {
+    "0%": { marginTop: "0px" },
+    "100%": { marginTop: "10px" },
+  },
+});

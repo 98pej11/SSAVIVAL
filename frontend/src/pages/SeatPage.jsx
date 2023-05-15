@@ -9,11 +9,9 @@ import game from "../assets/game.png";
 import { useSelector } from "react-redux";
 
 const Pages = styled.div`
-  position: relative;
   background-image: url(${game});
-  // background-size: auto;
-  background-size: contain;
-  // background-repeat: no-repeat;
+  background-size: cover;
+  position: relative;
   width: 100%;
   height: 100%;
 `;
@@ -33,7 +31,7 @@ export default function SeatPage() {
         style={{
           display: "flex",
           justifyContent: "center",
-          width: "100%",
+          // width: "100%",
           height: "100vh",
         }}
       >
