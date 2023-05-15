@@ -20,6 +20,14 @@ const MattermostEmoji = () => {
   const [selectedEmojiIndex, setSelectedEmojiIndex] = useState(null);
   const dispatch = useDispatch();
 
+  // 미니게임 클리어 여부
+  const minigameClear = useSelector((state) => state.gameReducer.minigameClear);
+
+  // 미니게임 작동 여부
+  const minigameActive = useSelector(
+    (state) => state.gameReducer.minigameActive
+  );
+
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -32,8 +40,13 @@ const MattermostEmoji = () => {
     console.log(emojiIndex);
     setSelectedEmojiIndex(emojiIndex);
     dispatch({ type: "SET_EMOJI_INDEX", payload: emojiIndex });
+
     if (emojiIndex === 3) {
       dispatch({ type: "SET_EMOJI_RESULT", payload: true });
+      if (minigameActive) {
+        dispatch({ type: "SET_MINIGAME_CLEAR" });
+        console.log("게임결과: " + minigameClear);
+      }
       alert("정답!");
     } else {
       dispatch({ type: "SET_EMOJI_RESULT", payload: false });

@@ -29,7 +29,7 @@ export default function GameComp(props) {
           backgroundColor: "rgba(255, 255, 255, 0.7)", // 배경색 투명하게 만들기
           padding: 3,
           // maxWidth: "40%", // 최대 너비 값 설정
-          width: "800px",
+          width: "700px",
           height: "72vh",
           overflow: "hidden",
           marginRight: 10, //
@@ -57,7 +57,7 @@ export default function GameComp(props) {
           backgroundColor: "rgba(255, 255, 255, 0.7)", // 배경색 투명하게 만들기
           padding: 3,
           // maxWidth: "40%", // 최대 너비 값 설정
-          width: "800px",
+          width: "700px",
           height: "72vh",
           overflow: "hidden",
           // 게임 컴포넌트의 개별 배경이 있는 경우(ex_모니터)

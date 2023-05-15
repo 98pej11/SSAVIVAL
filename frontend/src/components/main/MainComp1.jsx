@@ -87,6 +87,7 @@ export default function MainComp1() {
 
   const handleMultiPlayerClick = () => {
     setOpen(true);
+
     // dispatch({ type: "SET_GAME_MODE", payload: { gameMode: "multi" } });
     // navigate("/game"); // /game 경로로 이동
   };
