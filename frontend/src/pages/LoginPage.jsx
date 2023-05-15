@@ -20,6 +20,8 @@ import {
   LOGOUT_REDIRECT_URI,
   APP_ADMIN_KEY,
 } from "../components/KakaoLoginData";
+import { shareKakao } from "../utils/shareKakaoLink";
+import { title } from "process";
 
 const Pages = styled.div`
   background-image: url(${background});
@@ -29,11 +31,22 @@ const Pages = styled.div`
   height: 100vh; /* 화면의 세로 길이를 100%로 설정 */
 `;
 
+const sendMessage = () => {
+  console.log("Kakao Message");
+}
 export default function LoginPage() {
   const characterRef = useRef(null);
   const character2Ref = useRef(null);
   let activeIndex = 0;
   let spritesheetElements = "";
+
+  useEffect(() => {
+    const script = document.createElement("script");
+    script.src = "https://developers.kakao.com/sdk/js/kakao.js";
+    script.async = true;
+    document.body.appendChild(script);
+    return () => document.body.removeChild(script);
+  }, []);
 
   useEffect(() => {
     const spritesheets = [
@@ -76,6 +89,7 @@ export default function LoginPage() {
       node.classList.add("active");
     });
   }
+
 
   //  카카오 로그인
   const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
@@ -129,6 +143,7 @@ export default function LoginPage() {
       newStar.set();
     }
   }, []);
+  
   return (
     <Pages>
       <div
@@ -345,6 +360,7 @@ export default function LoginPage() {
                   />
                 </svg>
               </button>
+              <button onClick={() => shareKakao()}>메세지 전송 테스트</button>
             </div>
           </div>
         </div>
