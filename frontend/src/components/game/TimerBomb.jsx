@@ -45,7 +45,7 @@ const TimerBomb = () => {
       setProgress(newProgress.toFixed(2));
 
       if (newTimeLeft === 0) {
-        dispatch({ type: "SET_MINIGAME_FAIL" });
+        dispatch({ type: "SET_MINIGAME_FAIL", payload: 0 });
         return;
       }
 

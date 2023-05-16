@@ -16,29 +16,12 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGitAlt } from "@fortawesome/free-brands-svg-icons";
 import styled, { keyframes } from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
-import desk_monitor from "../../assets/backgrounds/desk_monitor.png";
-import monitor from "../../assets/backgrounds/monitor.png";
 
 export default function GitbashGame() {
   const errorSound = new Audio("/soundEffect/error.mp3");
 
   //게임이 마운트될 때 redux값 변경
   const dispatch = useDispatch();
-  // const gameData = {
-  //   title: "제한 시간 내 주어진 명령어를 모두 입력하라",
-  //   timeLimit: 10,
-  //   bgPath: game,
-  // };
-  // useEffect(() => {
-  //   dispatch({ type: "SET_GAME", payload: gameData });
-  // }, []);
-
-  //게임이 끝난 후 점수 반영
-  // const score = 100;
-  // const timeLimit = useSelector((state) => state.gameReducer.timeLimit);
-  // setTimeout(() => {
-  //   dispatch({ type: "UPDATE_SCORE", payload: score });
-  // }, timeLimit * 1000);
 
   // 순서대로 제시할 명령어 리스트
   const commandList = [
@@ -72,7 +55,7 @@ export default function GitbashGame() {
     if (e.key === "Enter") {
       if (e.target.value === commandList[index][order]) {
         if (passNum + 1 === commandList[index].length) {
-          window.alert("게임 성공");
+          dispatch({ type: "SET_MINIGAME_CLEAR" });
         } else {
           console.log("정답^_^");
           setIsBouncing(true);
@@ -117,7 +100,7 @@ export default function GitbashGame() {
       className="git"
       sx={{
         display: "flex",
-        transform: "translate(0%, -17%)",
+        transform: "translate(0, 30%)",
       }}
     >
       {/* gitbash 창 구현 */}
@@ -259,7 +242,7 @@ export default function GitbashGame() {
               icon={faGitAlt}
               style={{ color: "#ffd91c", fontSize: "2vw" }}
             />
-            <Typography color="white" fontSize="2vw" textAlign="center">
+            <Typography color="white" fontSize="1.5vw" textAlign="center">
               {passNum} / {commandList[index].length}
             </Typography>
           </Stack>

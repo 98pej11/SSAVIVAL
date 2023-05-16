@@ -16,9 +16,13 @@ import DifferencePage from "./pages/DifferencePage";
 import VideoHandler from "./components/video/VideoHandler";
 import RemindPage from "./pages/RemindPage";
 import GamePage from "./pages/GamePage";
+// import ImagePlayer from "./components/game/ImagePlayer";
+import Interval from "./components/game/Interval";
+
 import IdCardPage from "./pages/IdCardPage";
 import SeatPage from "./pages/SeatPage";
 import PuzzlePage from "./pages/PuzzlePage";
+import IntervalPage from "./pages/InterverPage";
 const Pages = styled.div`
   position: relative;
 `;
@@ -39,6 +43,15 @@ function App() {
           <Route path="/tissue" element={<TissuePage />} />
           <Route path="/typo" element={<TypoPage />} />
           <Route path="/git" element={<GitbashPage />} />
+          <Route path="/interval" element={<IntervalPage />} />
+
+          <Route path="/seat" element={<SeatPage />} />
+          <Route path="/id-card" element={<IdCardPage />} />
+          <Route path="/puzzle" element={<PuzzlePage />} />
+          <Route path="/video" element={<VideoHandler />} />
+
+          {/* 
+          <Route path="/image" element={<ImagePlayer />} />
           <Route path="/video" element={<VideoHandler />} />
           {/* <Route path="/image" element={<ImagePlayer />} /> */}
           <Route path="/difference" element={<DifferencePage />} />
