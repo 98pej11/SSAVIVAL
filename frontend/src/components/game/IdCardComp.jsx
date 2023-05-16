@@ -1,9 +1,8 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { useSpring, animated } from "react-spring";
+import { useSelector, useDispatch } from "react-redux";
 import { styled } from "@mui/material/styles";
-import Badge from "@mui/material/Badge";
-import scoring from "../../assets/game_typo/scoring.gif";
+
 // import Box from "@mui/material/Box";
 
 // import Button from "@mui/material/Button";
@@ -16,17 +15,37 @@ import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 // import { useDrag } from "react-use-gesture";
 
 export default function IdCard() {
+  const dispatch = useDispatch();
   // 정답 개수 카운트
   const [count, setCount] = useState(0);
   // 성공 메세지 플래그
   const [showSuccess, setShowSuccess] = useState(false);
 
+  // 미니게임 클리어 여부
+  const minigameClear = useSelector((state) => state.gameReducer.minigameClear);
+
+  // 미니게임 작동 여부
+  const minigameActive = useSelector(
+    (state) => state.gameReducer.minigameActive
+  );
+  useEffect(() => {
+    if (count === 4) {
+      handleSuccess();
+    }
+  }, [count]);
+
+  const handleSuccess = () => {
+    if (minigameActive) {
+      dispatch({ type: "SET_MINIGAME_CLEAR" });
+      console.log("게임결과: " + minigameClear);
+    }
+  };
   const [state, setState] = useState({
     items1: [
-      { id: "item1", imageUrl: idCard },
-      { id: "item2", imageUrl: "idCard2.svg" },
-      { id: "item3", imageUrl: idCard },
-      { id: "item4", imageUrl: "idCard2.svg" },
+      { id: "item1", imageUrl: "card1.png" },
+      { id: "item2", imageUrl: "card2.png" },
+      { id: "item3", imageUrl: "card3.png" },
+      { id: "item4", imageUrl: "card4.png" },
       // { id: "item5", imageUrl: idCard },
       // { id: "item6", imageUrl: "idCard2.svg" },
     ],
@@ -117,7 +136,7 @@ export default function IdCard() {
   useEffect(() => {
     const intervalId = setInterval(() => {
       setPos((pos) => pos + 10);
-    }, 50);
+    }, 150);
 
     return () => clearInterval(intervalId);
   }, []);
@@ -127,12 +146,15 @@ export default function IdCard() {
       <div
         style={{
           userSelect: "none",
-          width: "100%",
-          height: "100%",
+          width: "500px",
+          height: "400px",
+          // width: "100%",
+          // hegiht: "auto",
           backgroundColor: "white",
           display: "flex",
           position: "relative",
           backgroundImage: `url(${back})`,
+          margin: "0 auto",
         }}
       >
         <Bubble>
@@ -143,24 +165,27 @@ export default function IdCard() {
           <div
             style={{
               position: "relative",
-              width: "200px",
-              marginTop: "30%",
+              // width: "200px",
+              marginTop: "15%",
+              // marginLeft: "5%",
               fontFamily: "neodgm",
-              // backgroundColor: "red",
+              fontSize: "9pt",
+              // backgroundColor: "pink",
             }}
           >
-            카드 태그해주세요~~
+            드래그 해서<br></br>
+            모든 카드를<br></br>
+            태그해주세요~~
           </div>
         </Bubble>
-
         <Droppable droppableId="items1">
           {(provided) => (
             <Cards
               {...provided.droppableProps}
               ref={provided.innerRef}
               style={{
-                width: "90%",
-                height: "100%",
+                // width: "90%",
+                // height: "100%",
                 transform: `translateX(${pos}px)`,
               }}
             >
@@ -178,8 +203,7 @@ export default function IdCard() {
                       backgroundSize: "cover",
                       backgroundPosition: "center",
                       userSelect: "none",
-
-                      margin: "0 0 8px 0",
+                      margin: "0 0 8px 20px",
 
                       ...provided.draggableProps.style,
 
@@ -203,13 +227,13 @@ export default function IdCard() {
           )}
         </Droppable>
         <div>{showSuccess && <Success>성공!!! {count}/4 </Success>}</div>
-        {isScoring && (
+        {/* {isScoring && (
           <img
             src={scoring}
             alt="scoring.gif"
             style={{ position: "absolute", width: "50%", height: "50%" }}
           />
-        )}
+        )} */}
         <Droppable droppableId="items2">
           {(provided, snapshot) => (
             <Reader
@@ -252,13 +276,6 @@ export default function IdCard() {
         </Droppable>
       </div>
     </DragDropContext>
-
-    // <div><img
-    // src={idCard}
-    // alt="moving"
-    // // className="move"
-    // style={{ transform: `translateX(${pos}px)`, width: "200px" }}
-    // /></div>>
   );
 }
 
@@ -266,22 +283,23 @@ const Cards = styled(`div`)({
   position: "absolute",
   display: "flex",
   flexDirection: "row",
-  width: "100%",
+  width: "500px",
+  height: "100px",
   // top: 0,
-  marginTop: "20%",
+  marginTop: "55%",
   // justifyContent: "space-around",
   zIndex: "10",
-  marginRight: "500px",
-  right: 350,
+  // marginRight: "500px",
+  right: 250,
+  // backgroundColor: "red",
 });
 
 const Card = styled(`div`)({
-  marginBottom: "10%",
   position: "relative",
   userSelect: "none",
-  width: "250px",
-  height: "210px",
-  marginRight: "30px",
+  width: "90px",
+  height: "80px",
+  marginRight: "30%",
 });
 
 const Reader = styled(`div`)({
@@ -289,33 +307,37 @@ const Reader = styled(`div`)({
   // display: "flex",
   // flexDirection: "row",
   width: "300px",
-  marginTop: "5%",
+  marginTop: "15%",
   marginLeft: "20%",
   // top: 0,
   // marginTop: "30%",
   // justifyContent: "space-around",
 });
-
+// 성공 팝업
 const Success = styled(`div`)({
-  width: "600px",
+  width: "500px",
   position: "absolute",
-  fontSize: "60pt",
+  fontSize: "40pt",
   color: "red",
   zIndex: "20",
   fontFamily: "neodgm",
-  // fontSize: 1.7rem;
-  // color: black;
+  marginTop: "30%",
+  right: 0,
+  paddingLeft: "8%",
 });
 const Bubble = styled(`div`)({
   display: "flex",
   flexDirection: "row",
   justifyContent: "center",
+  alignContent: "center",
+  // backgroundColor: "red",
   width: "200px",
-  height: "200px",
+  height: "100px",
+  marginTop: "30px",
   marginLeft: "35%",
   animation: "motion 0.3s linear 0s infinite alternate",
   "@keyframes motion": {
-    "0%": { marginTop: "0px" },
-    "100%": { marginTop: "10px" },
+    "0%": { marginTop: "10px" },
+    "100%": { marginTop: "30px" },
   },
 });

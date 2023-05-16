@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import SeatComp from "../components/game/SeatComp";
 import GameComp from "../components/game/GameComp";
-import GameComp2 from "../components/game/GameComp";
+import GameComp2 from "../components/game/GameComp2";
 import Header from "../components/game/Header";
 import "../index.css";
 import game from "../assets/game.png";
@@ -16,32 +16,27 @@ const Pages = styled.div`
   height: 100%;
 `;
 
-const myProps = {
-  title: "시간 안에 우리 팀원들을 다 앉을 수 있게 하자!",
-  number: 5,
-};
-
 export default function SeatPage() {
   const gameMode = useSelector((state) => state.gameMode);
   return (
     <Pages>
-      <Header props={myProps} />
+      <Header />
 
       <div
         style={{
           display: "flex",
           justifyContent: "center",
-          // width: "100%",
+          width: "100%",
           height: "100vh",
         }}
       >
         {gameMode === "single" ? (
-          <GameComp props={myProps}>
-            <SeatComp {...myProps} />
+          <GameComp>
+            <SeatComp />
           </GameComp>
         ) : (
-          <GameComp2 props={myProps}>
-            <SeatComp {...myProps} />
+          <GameComp2>
+            <SeatComp />
           </GameComp2>
         )}
       </div>
