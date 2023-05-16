@@ -6,12 +6,6 @@ import LockerGame from "../components/game/LockerGame";
 import game from "../assets/game.png";
 import "./Login.css";
 import kakao from "../assets/kakao.png";
-// import {
-//   REST_API_KEY,
-//   REDIRECT_URI,
-//   LOGOUT_REDIRECT_URI,
-//   APP_ADMIN_KEY,
-// } from "../components/KakaoLoginData";
 import ssavival from "../assets/ssavival.png";
 import background from "../assets/background.png";
 import {
@@ -22,6 +16,8 @@ import {
 } from "../components/KakaoLoginData";
 import { shareKakao } from "../utils/shareKakaoLink";
 import { title } from "process";
+import LogoutBtn from "../components/main/LogoutBtn";
+import { AccessAction } from "../redux/actions/AccessAction"
 
 const Pages = styled.div`
   background-image: url(${background});
@@ -31,9 +27,7 @@ const Pages = styled.div`
   height: 100vh; /* 화면의 세로 길이를 100%로 설정 */
 `;
 
-const sendMessage = () => {
-  console.log("Kakao Message");
-}
+
 export default function LoginPage() {
   const characterRef = useRef(null);
   const character2Ref = useRef(null);
@@ -46,6 +40,19 @@ export default function LoginPage() {
     script.async = true;
     document.body.appendChild(script);
     return () => document.body.removeChild(script);
+  }, []);
+
+  useEffect(() => {
+    // Kakao JavaScript SDK 로드
+    const script = document.createElement("script");
+    script.src = "https://developers.kakao.com/sdk/js/kakao.js";
+    script.async = true;
+    document.body.appendChild(script);
+
+    // Kakao SDK 초기화
+    script.onload = () => {
+      window.Kakao.init("0fe168522b983b72237c2dfd782649a2");
+    };
   }, []);
 
   useEffect(() => {
@@ -90,12 +97,17 @@ export default function LoginPage() {
     });
   }
 
+  
 
   //  카카오 로그인
-  const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
+  const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&prompt=login`;
 
   const kakaoLogin = () => {
-    window.location.href = KAKAO_AUTH_URL;
+    const access_token = localStorage.getItem("access_token");
+    const refresh_token = localStorage.getItem("refresh_token");
+    if(access_token || refresh_token){
+      window.location.href = "http://localhost:3000/main";
+    } else window.location.href = KAKAO_AUTH_URL;
   };
   class star {
     constructor(x, y, size, time) {
@@ -180,7 +192,7 @@ export default function LoginPage() {
               </div>
             </div>
             <div style={{ margin: 30 }}>
-              <a href={KAKAO_AUTH_URL}>
+              <a href="#" onClick={kakaoLogin}>
                 <img
                   src={kakao}
                   className="p4"
@@ -361,6 +373,8 @@ export default function LoginPage() {
                 </svg>
               </button>
               <button onClick={() => shareKakao()}>메세지 전송 테스트</button>
+              {/* <button onClick={() => kakaoLogout()}>로그아웃</button> */}
+              <LogoutBtn />
             </div>
           </div>
         </div>
