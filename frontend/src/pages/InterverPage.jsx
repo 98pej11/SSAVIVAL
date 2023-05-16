@@ -21,6 +21,7 @@ import html2canvas from "html2canvas";
 import { GameAction } from "../redux/actions/GameAction";
 import Interval from "../components/game/Interval";
 import money from "../../src/assets/interval/money.gif";
+import GameOver from "../components/game/GameOver";
 // import ImagePlayer from "../components/game/ImagePlayer";
 
 const container = {
@@ -73,7 +74,7 @@ export default function IntervalPage() {
             padding: 0,
           }}
         >
-          <Interval />
+          <GameOver />
         </Box>
       </Box>
     </Box>

@@ -23,6 +23,7 @@ import "../index.css";
 
 import html2canvas from "html2canvas";
 import { GameAction } from "../redux/actions/GameAction";
+import GameOver from "../components/game/GameOver";
 // import ImagePlayer from "../components/game/ImagePlayer";
 
 const container = {
@@ -70,21 +71,22 @@ const Comp = {
 
 export default function GamePage() {
   const dispatch = useDispatch();
+  const [gameOver, setGameOver] = useState(false);
   const [inputs, setInputs] = useState({});
 
   // 갈아끼울 게임 컴포넌트 리스트
   const gameComps = [
     <GitbashGame key="GitbashGame" />,
     <LockerGame key="LockerGame" />,
-    <TypoGame key="TypoGame" />,
-    <RemindGame key="RemindGame" />,
-    <TissueGame key="TissueGame" />,
-    <EmojiComp key="EmojiComp" />,
-    <IdCard key="Idcard" />,
-    <Seating key="Seating" />,
-    <Puzzle key="Puzzle" />,
-    <AttendanceGame key="AttendanceGame" />,
-    <DifferenceGame key="DifferenceGame" />,
+    // <TypoGame key="TypoGame" />,
+    // <RemindGame key="RemindGame" />,
+    // <TissueGame key="TissueGame" />,
+    // <EmojiComp key="EmojiComp" />,
+    // <IdCard key="Idcard" />,
+    // <Seating key="Seating" />,
+    // <Puzzle key="Puzzle" />,
+    // <AttendanceGame key="AttendanceGame" />,
+    // <DifferenceGame key="DifferenceGame" />,
   ];
 
   // redux에서 게임 정보 가져오기
@@ -115,8 +117,11 @@ export default function GamePage() {
       timeoutId = setTimeout(() => {
         dispatch({ type: "SET_MINIGAME_START" });
       }, 3000);
+    } else if (!minigameActive && round == gameComps.length) {
+      setTimeout(() => {
+        setGameOver(true); // 마지막 라운드가 끝나면 gameOver 컴포 띄우기
+      }, 3000);
     }
-
     return () => {
       clearTimeout(timeoutId);
     };
@@ -358,6 +363,7 @@ export default function GamePage() {
             </Box>
           </Box>
         )}
+        {gameOver ? <GameOver /> : ""}
       </Box>
       {/* {gameMode === "single" ? (
         <Box

@@ -8,8 +8,14 @@ import tv from "../../assets/interval/tv.png";
 import money from "../../assets/interval/money.gif";
 import crying from "../../assets/interval/crying.gif";
 import curtain from "../../assets/interval/curtain.png";
+import { useEffect } from "react";
 
 export default function Interval() {
+  //소리 효과
+  const applauseSound = new Audio("/soundEffect/applause.mp3");
+  const fireworkSound = new Audio("/soundEffect/firework.mp3");
+  const loseSound = new Audio("/soundEffect/lose.mp3");
+
   // 승패 확인 및 gif 사용
   const score = useSelector((state) => state.gameReducer.score);
 
@@ -26,6 +32,22 @@ export default function Interval() {
     simpsonGif = lose;
     gif = crying;
   }
+
+  useEffect(() => {
+    if (score) {
+      const sounds = [applauseSound, fireworkSound];
+      const i = Math.floor(Math.random() * sounds.length);
+      sounds[i].play();
+      setTimeout(() => {
+        sounds[i].pause();
+      }, 3000);
+    } else {
+      loseSound.play();
+      setTimeout(() => {
+        loseSound.pause();
+      }, 3000);
+    }
+  }, []);
 
   return (
     <Box

@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, redirect, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Typography from "@mui/material/Typography";
 import Dialog from "@mui/material/Dialog";
@@ -31,12 +31,12 @@ function GameOver(props) {
 
   const offGame = () => {
     // 게임 점수 저장 코드 필요
-    navigate("/main"); // /emoji 경로로 이동
+    navigate("/main");
   };
 
   const moreGame = () => {
     // 게임 점수 저장 및 첫번째 게임으로 다시 돌아가자
-    navigate("/game");
+    window.location.replace("/game");
   };
 
   useEffect(() => {
