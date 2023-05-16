@@ -80,15 +80,15 @@ export default function GamePage() {
   const gameComps = [
     <GitbashGame key="GitbashGame" />,
     <LockerGame key="LockerGame" />,
-    // <TypoGame key="TypoGame" />,
-    // <RemindGame key="RemindGame" />,
-    // <TissueGame key="TissueGame" />,
-    // <EmojiComp key="EmojiComp" />,
-    // <IdCard key="Idcard" />,
-    // <Seating key="Seating" />,
-    // <Puzzle key="Puzzle" />,
-    // <AttendanceGame key="AttendanceGame" />,
-    // <DifferenceGame key="DifferenceGame" />,
+    <TypoGame key="TypoGame" />,
+    <RemindGame key="RemindGame" />,
+    <TissueGame key="TissueGame" />,
+    <EmojiComp key="EmojiComp" />,
+    <IdCard key="Idcard" />,
+    <Seating key="Seating" />,
+    <Puzzle key="Puzzle" />,
+    <AttendanceGame key="AttendanceGame" />,
+    <DifferenceGame key="DifferenceGame" />,
   ];
 
   // redux에서 게임 정보 가져오기
