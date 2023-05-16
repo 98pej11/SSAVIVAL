@@ -1,197 +1,365 @@
-import React from "react";
-import styled, { createGlobalStyle } from "styled-components";
+import React, { useState } from "react";
+import styled from "styled-components";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  RadioGroup,
+  FormControlLabel,
+  Radio,
+  Typography,
+  Box,
+} from "@mui/material";
 
-const boxWidth = 50;
-const primaryColor = "#219eb0";
-const secondaryColor = "#3f679d";
-const tertiaryColor = "#0c3d69";
-const quaternaryColor = "#116c97";
-const iconColor = "#f8f8f8";
-const textColor = "#FFF";
+const Comp = styled.div`
+  display: flex;
+  gap: 10;
+`;
 
-const GlobalStyle = createGlobalStyle`
-  html, body {
-    width: 100%;
-    height: 100%;
-    background: radial-gradient(50% 16%, circle, ${primaryColor} 32%, ${secondaryColor} 88%);
-  }
-  
-`;
-const Wrapper = styled.div`
-  position: relative;
-  width: 100%;
-  height: 100%;
-`;
-const Container = styled.div`
-  width: 320px;
-  height: 320px;
-  margin: auto;
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background: linear-gradient(
-    to bottom,
-    ${tertiaryColor} 16%,
-    ${quaternaryColor} 95%
+function IPgame() {
+  const [answer, setAnswer] = useState({
+    ipAddress: "123.123.123.123",
+    subnetMask: "123.123.123.123",
+    gateway: "123.123.123.123",
+  });
+  const [inputs, setInputs] = useState({
+    ipAddress: "",
+    subnetMask: "",
+    gateway: "",
+  });
+
+  // 미니게임 클리어 여부
+  const minigameClear = useSelector((state) => state.gameReducer.minigameClear);
+
+  // 미니게임 작동 여부
+  const minigameActive = useSelector(
+    (state) => state.gameReducer.minigameActive
   );
-  box-shadow: 0 4px 36px 0 rgba(0, 0, 0, 0.5);
-  border-radius: 8px;
-  overflow: hidden;
-`;
-const Icons = styled.div`
-  position: absolute;
-  width: 48px;
-  height: 48px;
-  text-align: center;
-  cursor: pointer;
-  top: 4px;
-  left: 8px;
-`;
 
-const ButtonLabel = styled.span`
-  width: 100%;
-  color: #fff;
-  text-align: center;
-  position: absolute;
-  bottom: -1rem;
-  font-size: 0.75rem;
-  font-family: "Share Tech Mono", sans-serif;
-`;
+  const dispatch = useDispatch();
 
-function IPGame() {
+  const onChangeHandler = (event, index) => {
+    event.preventDefault();
+    const { name, value } = event.target;
+    let newValue = value.replace(/[^0-9]/g, "");
+    newValue = value.replace(/(\d{3})(\d)/, "$1.$2");
+    const nextInputs = { ...inputs, [name]: newValue };
+    setInputs(nextInputs);
+    if (event.target.value.length === event.target.maxLength) {
+      const nextIndex = index + 1;
+      const nextInput = document.querySelector(`[tabindex="${nextIndex}"]`);
+      if (nextInput) {
+        nextInput.focus();
+      }
+    }
+  };
+
+  const submit = () => {
+    if (JSON.stringify(inputs) === JSON.stringify(answer)) {
+      alert("PASS");
+      if (minigameActive) {
+        dispatch({ type: "SET_MINIGAME_CLEAR" });
+        console.log("게임결과: " + minigameClear);
+      }
+    } else {
+      alert("FAIL");
+    }
+  };
+
+  const handleKeyPress = (event, index) => {
+    if (event.keyCode === 13) {
+      const nextIndex = index + 1;
+      const nextInput = document.querySelector(`[tabindex="${nextIndex}"]`);
+      if (nextInput) {
+        nextInput.focus();
+        if (nextInput === 6) {
+          submit();
+        }
+      }
+    }
+  };
+
+  const cancel = () => {
+    setInputs({
+      ipAddress: "",
+      subnetMask: "",
+      gateway: "",
+      defaultDns: "",
+      subDns: "",
+    });
+  };
+
   return (
-    <GlobalStyle>
+    <Comp>
+      {/* 정답 예시 */}
       <Wrapper>
-        <Container>
-          <Icons>
-            <span class="stop-watch">
-              <span class="sw-parts">
-                <span class="sw-parts2" id="icn-clock-line"></span>
-              </span>
-            </span>
-            <span class="label" id="label-start-stop">
-              START
-            </span>
-          </Icons>
-          <div class="clock">
-            <p>
-              <span id="hr">00</span>:<span id="min">00</span>:
-              <span id="sec">00</span>
-            </p>
-          </div>
-          <ul class="clockline" id="clockline">
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-          </ul>
-          <div class="btn btn-reset" id="btn-reset">
-            <span class="bl-parts"></span>
-            <span class="bl-parts"></span>
-            <ButtonLabel>RESET</ButtonLabel>
-          </div>
-        </Container>
+        <Header>
+          <HeaderTitle>인터넷 프로토콜 버전 4(TCP/IPv4) 속성</HeaderTitle>
+          <HeaderRight>X</HeaderRight>
+        </Header>
+        <Body>
+          <Tab>일반</Tab>
+          <Content>
+            <ContentTop>
+              네트워크가 IP 자동 설정기능을 지원하면 IP 설정이 자동으로
+              할당되도록 할 수 있습니다.
+            </ContentTop>
+            <ContentMain>
+              <StyledRadioGroup
+                aria-labelledby="demo-radio-buttons-group-label"
+                defaultValue="non-auto"
+                name="radio-buttons-group"
+              >
+                <StyledFormControlLabel
+                  value="auto"
+                  control={<Radio />}
+                  label="자동으로 IP 주소 받기(O)"
+                  disabled
+                />
+
+                <fieldset>
+                  <legend>
+                    <StyledFormControlLabel
+                      value="non-auto"
+                      control={<Radio />}
+                      label="다음 IP 주소 사용(S)"
+                    />
+                  </legend>
+                  <InputForm>
+                    <div>IP 주소(I):</div>
+                    <Input
+                      type="text"
+                      minLength="7"
+                      maxLength="15"
+                      pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$"
+                      value={answer.ipAddress}
+                      name="ipAddress"
+                      tabIndex="1"
+                      onChange={(e) => onChangeHandler(e, 1)}
+                      onKeyDown={(e) => handleKeyPress(e, 1)}
+                      readOnly
+                    />
+                  </InputForm>
+                  <InputForm>
+                    <div>서브넷 마스크(U):</div>
+                    <Input
+                      type="text"
+                      minLength="7"
+                      maxLength="15"
+                      pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$"
+                      value={answer.subnetMask}
+                      name="subnetMask"
+                      tabIndex="2"
+                      onChange={(e) => onChangeHandler(e, 2)}
+                      onKeyDown={(e) => handleKeyPress(e, 2)}
+                      readOnly
+                    />
+                  </InputForm>
+                  <InputForm>
+                    <div>기본 게이트웨이(D):</div>
+                    <Input
+                      type="text"
+                      minLength="7"
+                      maxLength="15"
+                      pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$"
+                      value={answer.gateway}
+                      name="gateway"
+                      tabIndex="3"
+                      onChange={(e) => onChangeHandler(e, 3)}
+                      onKeyDown={(e) => handleKeyPress(e, 3)}
+                      readOnly
+                    />
+                  </InputForm>
+                </fieldset>
+              </StyledRadioGroup>
+            </ContentMain>
+            <Footer>
+              <Button
+                tabIndex="6"
+                onClick={submit}
+                onKeyPress={(e) => handleKeyPress(e, 6)}
+              >
+                확인
+              </Button>
+              <Button onClick={cancel}>취소</Button>
+            </Footer>
+          </Content>
+        </Body>
       </Wrapper>
-    </GlobalStyle>
+
+      {/* 실제 게임 진행 입력란*/}
+      <Wrapper style={{ backgroundColor: "#FFDE69" }}>
+        <Header>
+          <HeaderTitle>인터넷 프로토콜 버전 4(TCP/IPv4) 속성</HeaderTitle>
+          <HeaderRight>X</HeaderRight>
+        </Header>
+        <Body>
+          <Tab>일반</Tab>
+          <Content>
+            <ContentTop>
+              네트워크가 IP 자동 설정기능을 지원하면 IP 설정이 자동으로
+              할당되도록 할 수 있습니다.
+            </ContentTop>
+            <ContentMain>
+              <StyledRadioGroup
+                aria-labelledby="demo-radio-buttons-group-label"
+                defaultValue="non-auto"
+                name="radio-buttons-group"
+              >
+                <StyledFormControlLabel
+                  value="auto"
+                  control={<Radio />}
+                  label="자동으로 IP 주소 받기(O)"
+                  disabled
+                />
+
+                <fieldset>
+                  <legend>
+                    <StyledFormControlLabel
+                      value="non-auto"
+                      control={<Radio />}
+                      label="다음 IP 주소 사용(S)"
+                    />
+                  </legend>
+                  <InputForm>
+                    <div>IP 주소(I):</div>
+                    <input
+                      type="text"
+                      minLength="7"
+                      maxLength="15"
+                      pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$"
+                      value={inputs.ipAddress}
+                      name="ipAddress"
+                      tabIndex="1"
+                      onChange={(e) => onChangeHandler(e, 1)}
+                      onKeyDown={(e) => handleKeyPress(e, 1)}
+                    />
+                  </InputForm>
+                  <InputForm>
+                    <div>서브넷 마스크(U):</div>
+                    <input
+                      type="text"
+                      minLength="7"
+                      maxLength="15"
+                      pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$"
+                      value={inputs.subnetMask}
+                      name="subnetMask"
+                      tabIndex="2"
+                      onChange={(e) => onChangeHandler(e, 2)}
+                      onKeyDown={(e) => handleKeyPress(e, 2)}
+                    ></input>
+                  </InputForm>
+                  <InputForm>
+                    <div>기본 게이트웨이(D):</div>
+                    <input
+                      type="text"
+                      minLength="7"
+                      maxLength="15"
+                      pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$"
+                      value={inputs.gateway}
+                      name="gateway"
+                      tabIndex="3"
+                      onChange={(e) => onChangeHandler(e, 3)}
+                      onKeyDown={(e) => handleKeyPress(e, 3)}
+                    ></input>
+                  </InputForm>
+                </fieldset>
+              </StyledRadioGroup>
+            </ContentMain>
+            <Footer>
+              <Button
+                tabIndex="6"
+                onClick={submit}
+                onKeyPress={(e) => handleKeyPress(e, 6)}
+              >
+                확인
+              </Button>
+              <Button onClick={cancel}>취소</Button>
+            </Footer>
+          </Content>
+        </Body>
+      </Wrapper>
+    </Comp>
   );
 }
 
-export default IPGame;
+const Input = styled.input`
+  border: 1px solid;
+  background-color: #f5f5f5;
+`;
+
+const Wrapper = styled.div`
+  font-family: gmarket;
+  width: 45%;
+  height: 55vh;
+  background-color: #b7b7b7;
+  font-size: 14px;
+  margin: 0 auto;
+`;
+const Header = styled.div`
+  display: flex;
+  justify-content: flex-start;
+  width: 100%;
+  height: auto;
+  background-color: white;
+  border: 1px solid lightgray;
+`;
+const HeaderTitle = styled.div`
+  margin: 5px auto 5px 8px;
+`;
+const HeaderRight = styled.div`
+  margin: 5px 8px;
+`;
+const Body = styled.div`
+  height: 100%;
+  width: 95%;
+  margin: 15px auto;
+`;
+const Tab = styled.div`
+  background-color: white;
+  border-top: 0.5px solid lightgrey;
+  border-left: 0.5px solid lightgrey;
+  border-right: 0.5px solid lightgrey;
+  padding: 2px 5px 2px 4px;
+  width: 15%;
+`;
+const Content = styled.div`
+  background-color: white;
+  height: auto;
+`;
+const ContentTop = styled.div`
+  padding: 10px;
+`;
+const ContentMain = styled.div`
+  padding: 10px;
+`;
+const StyledRadioGroup = styled(RadioGroup)`
+  .MuiFormControlLabel-label {
+    font-size: 14px;
+  }
+`;
+
+const StyledFormControlLabel = styled(FormControlLabel)`
+  .MuiTypography-root {
+    font-size: 12px;
+    line-height: 7px;
+  }
+`;
+
+const InputForm = styled.div`
+  display: flex;
+  justify-content: flex-start;
+  margin-top: -5px;
+  padding: 8px;
+  div {
+    margin-right: auto;
+  }
+`;
+const Footer = styled.div`
+  float: right;
+  margin-top: 2px;
+  margin-right: 5px;
+`;
+const Button = styled.button`
+  margin: 10% 8px;
+  padding: 3px 30px;
+`;
+export default IPgame;

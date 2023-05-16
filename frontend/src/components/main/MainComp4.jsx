@@ -19,9 +19,10 @@ const Row = styled.div`
   align-items: center;
   padding-top: 10px;
   padding-left: 10%;
+  font-family: "gmarket";
 `;
 const Line = styled.div`
-  font-size: 0.9rem;
+  font-size: 0.8rem;
   div {
     font-size: 0.8rem;
     margin-top: 4%;
@@ -62,7 +63,7 @@ export default function MainComp4(props) {
           </Box>
           <Line>
             2023.04.02
-            <div> pepe vs 은정공쥬짱 </div>
+            <div> pepe vs 공쥬짱 </div>
           </Line>
         </Row>
         <Row>
@@ -84,7 +85,7 @@ export default function MainComp4(props) {
           </Box>
           <Line>
             2023.04.02
-            <div> pepe vs 은정공쥬짱 </div>
+            <div> pepe vs 공쥬짱 </div>
           </Line>
         </Row>
         <Row>
@@ -106,7 +107,7 @@ export default function MainComp4(props) {
           </Box>
           <Line>
             2023.04.02
-            <div> pepe vs 은정공쥬짱 </div>
+            <div> pepe vs 공쥬짱 </div>
           </Line>
         </Row>
         <Row>
@@ -128,7 +129,7 @@ export default function MainComp4(props) {
           </Box>
           <Line>
             2023.04.02
-            <div> pepe vs 은정공쥬짱 </div>
+            <div> pepe vs 공쥬짱 </div>
           </Line>
         </Row>
       </Box>

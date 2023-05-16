@@ -369,8 +369,6 @@ export default function LoginPage() {
                   />
                 </svg>
               </button>
-
-              <LogoutBtn />
             </div>
           </div>
         </div>

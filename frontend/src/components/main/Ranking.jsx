@@ -51,8 +51,8 @@ export default function Ranking() {
                     width: "0%",
                     padding: 0.7,
                     textAlign: "center",
-                    fontSize: "1rem",
-                    fontFamily: "neodgm",
+                    fontSize: "0.9rem",
+                    fontFamily: "gmarket",
                   }}
                 >
                   {item.id}
@@ -62,8 +62,8 @@ export default function Ranking() {
                     width: "30%",
                     padding: 0.7,
                     textAlign: "center",
-                    fontSize: "1rem",
-                    fontFamily: "neodgm",
+                    fontSize: "0.9rem",
+                    fontFamily: "gmarket",
                   }}
                 >
                   {item.user}
@@ -73,8 +73,8 @@ export default function Ranking() {
                     width: "30%",
                     padding: 0.7,
                     textAlign: "center",
-                    fontSize: "1rem",
-                    fontFamily: "neodgm",
+                    fontSize: "0.9rem",
+                    fontFamily: "gmarket",
                   }}
                 >
                   {item.score} M

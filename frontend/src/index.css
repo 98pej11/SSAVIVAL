@@ -5,10 +5,8 @@
 
 /* font for typo game */
 @font-face {
-  font-family: "ChosunSm";
-  src: url("/public/fonts/ChosunSm.TTF") format("woff");
-  font-weight: normal;
-  font-style: normal;
+  font-family: "gmarket";
+  src: url("/public/fonts/GmarketSansTTFMedium.ttf") format("truetype");
 }
 
 /* font for Interval component(score) */
