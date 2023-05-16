@@ -121,14 +121,6 @@ export default function TissueGame() {
   };
 
   const dispatch = useDispatch();
-  const gameData = {
-    title: "휴지 10장을 최대한 빨리 뽑아보자",
-    timeLimit: 10,
-    bgPath: "",
-  };
-  useEffect(() => {
-    dispatch({ type: "SET_GAME", payload: gameData });
-  }, []);
 
   // 미니게임 클리어 여부
   const minigameClear = useSelector((state) => state.gameReducer.minigameClear);

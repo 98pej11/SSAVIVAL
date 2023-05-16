@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
@@ -8,6 +8,14 @@ import Dialog from "@mui/material/Dialog";
 import menu from "../../assets/menu.png";
 import yes from "../../assets/yes.png";
 import onemore from "../../assets/onemore.png";
+import share from "../../assets/share.png";
+import { shareKakao } from "../../utils/shareKakaoLink";
+import {
+  REST_API_KEY,
+  REDIRECT_URI,
+  LOGOUT_REDIRECT_URI,
+  APP_ADMIN_KEY,
+} from "../KakaoLoginData";
 
 const Comp = styled.div`
   font-family: "neodgm";
@@ -28,8 +36,24 @@ function GameOver(props) {
 
   const moreGame = () => {
     // 게임 점수 저장 및 첫번째 게임으로 다시 돌아가자
-    navigate("/emoji");
+    navigate("/game");
   };
+
+  useEffect(() => {
+    const script = document.createElement("script");
+    script.src = "https://developers.kakao.com/sdk/js/kakao.js";
+    script.async = true;
+    document.body.appendChild(script);
+    return () => document.body.removeChild(script);
+  }, []);
+
+  //  카카오 로그인
+  const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
+
+  const kakaoLogin = () => {
+    window.location.href = KAKAO_AUTH_URL;
+  };
+
   return (
     <Comp>
       <Dialog open={open} onClose={handleClose}>
@@ -61,30 +85,47 @@ function GameOver(props) {
         >
           게임을 종료하시겠습니까?
         </Typography>
-        <img
-          src={yes}
-          alt=""
-          style={{
-            position: "absolute",
-            top: "80%",
-            left: "35%",
-            transform: "translate(-50%, -50%)",
-            cursor: "pointer",
-          }}
-          onClick={offGame}
-        />
-        <img
-          src={onemore}
-          alt=""
-          style={{
-            position: "absolute",
-            top: "80%",
-            left: "65%",
-            transform: "translate(-50%, -50%)",
-            cursor: "pointer",
-          }}
-          onClick={moreGame}
-        />
+        <div>
+          <img
+            src={yes}
+            alt=""
+            style={{
+              position: "absolute",
+              top: "80%",
+              left: "35%",
+              transform: "translate(-50%, -50%)",
+              cursor: "pointer",
+            }}
+            onClick={offGame}
+          />
+          <img
+            src={onemore}
+            alt=""
+            style={{
+              position: "absolute",
+              top: "80%",
+              left: "65%",
+              transform: "translate(-50%, -50%)",
+              cursor: "pointer",
+            }}
+            onClick={moreGame}
+          />
+        </div>
+        <div>
+          <img
+            src={share}
+            alt=""
+            style={{
+              position: "absolute",
+              top: "92%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+              cursor: "pointer",
+              width: "40%",
+            }}
+            onClick={() => shareKakao()}
+          />
+        </div>
       </Dialog>
     </Comp>
   );

@@ -14,10 +14,10 @@ import {
   LOGOUT_REDIRECT_URI,
   APP_ADMIN_KEY,
 } from "../components/KakaoLoginData";
-import { shareKakao } from "../utils/shareKakaoLink";
+
 import { title } from "process";
 import LogoutBtn from "../components/main/LogoutBtn";
-import { AccessAction } from "../redux/actions/AccessAction"
+import { AccessAction } from "../redux/actions/AccessAction";
 
 const Pages = styled.div`
   background-image: url(${background});
@@ -26,7 +26,6 @@ const Pages = styled.div`
   width: 100%;
   height: 100vh; /* 화면의 세로 길이를 100%로 설정 */
 `;
-
 
 export default function LoginPage() {
   const characterRef = useRef(null);
@@ -97,15 +96,13 @@ export default function LoginPage() {
     });
   }
 
-  
-
   //  카카오 로그인
   const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&prompt=login`;
 
   const kakaoLogin = () => {
     const access_token = localStorage.getItem("access_token");
     const refresh_token = localStorage.getItem("refresh_token");
-    if(access_token || refresh_token){
+    if (access_token || refresh_token) {
       window.location.href = "http://localhost:3000/main";
     } else window.location.href = KAKAO_AUTH_URL;
   };
@@ -155,7 +152,7 @@ export default function LoginPage() {
       newStar.set();
     }
   }, []);
-  
+
   return (
     <Pages>
       <div
@@ -372,8 +369,7 @@ export default function LoginPage() {
                   />
                 </svg>
               </button>
-              <button onClick={() => shareKakao()}>메세지 전송 테스트</button>
-              {/* <button onClick={() => kakaoLogout()}>로그아웃</button> */}
+
               <LogoutBtn />
             </div>
           </div>

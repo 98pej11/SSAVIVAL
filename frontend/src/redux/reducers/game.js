@@ -12,6 +12,7 @@ const initialState = {
     "제한 시간 내 주어진 명령어를 모두 입력하라",
     "사물함을 열어서 책을 꺼내자",
     "틀린 맞춤법을 찾아라!",
+    "IP게임",
     "연상되는 단어를 입력해봐!",
     "휴지를 최대한 많이! 뽑아보쟈",
     "상황에 맞는 MM 이모지를 선택해보쟈",
@@ -44,6 +45,8 @@ const initialState = {
   pointsCenter: [[0, 0, 0]],
   quizImgSize: { width: 600, height: 400 },
   quizImgUrl: { left: "", right: "" },
+  firstTypo: [],
+  secondTypo: [],
 };
 
 function gameReducer(state = initialState, action = {}) {
@@ -125,6 +128,16 @@ function gameReducer(state = initialState, action = {}) {
       return {
         ...state,
         pointsCenter: payload,
+      };
+    case "SET_FIRST_TYPO":
+      return {
+        ...state,
+        firstTypo: payload,
+      };
+    case "SET_SECOND_TYPO":
+      return {
+        ...state,
+        secondTypo: payload,
       };
     default:
       return { ...state };
