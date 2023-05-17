@@ -101,8 +101,8 @@ const BlinkingImage = styled.img`
 
 export default function RemindGame() {
   const [inputs, setInputs] = useState("");
-  // const answer = useSelector((state) => state.gameReducer.remindAnswer);
-  const answer = "햄버거";
+  const answer = useSelector((state) => state.gameReducer.remindAnswer);
+  // const answer = "햄버거";
   const wordList = useSelector((state) => state.gameReducer.remindWordList);
   // console.log(wordList);
   const [currentWords, setCurrentWords] = useState([]);
@@ -176,6 +176,34 @@ export default function RemindGame() {
       </PaperItem>
     ));
   };
+
+  const getInitialConsonant = (char) => {
+    const initialValue = char.charCodeAt(0) - 44032; // '가'의 Unicode 값인 44032를 뺍니다.
+    const initialIndex = Math.floor(initialValue / 588); // 초성 인덱스를 계산합니다.
+    const initials = [
+      "ㄱ",
+      "ㄲ",
+      "ㄴ",
+      "ㄷ",
+      "ㄸ",
+      "ㄹ",
+      "ㅁ",
+      "ㅂ",
+      "ㅃ",
+      "ㅅ",
+      "ㅆ",
+      "ㅇ",
+      "ㅈ",
+      "ㅉ",
+      "ㅊ",
+      "ㅋ",
+      "ㅌ",
+      "ㅍ",
+      "ㅎ",
+    ];
+
+    return initials[initialIndex]; // 초성 반환
+  };
   return (
     <div>
       <Blackboard>
@@ -183,27 +211,20 @@ export default function RemindGame() {
       </Blackboard>
       <Game>
         <Input>
-          <input
-            type="text"
-            maxLength="1"
-            value={inputs.input1}
-            onChange={handleInputChange}
-            onKeyDown={handleInputKeyDown}
-          />
-          <input
-            type="text"
-            maxLength="1"
-            value={inputs.input2}
-            onChange={handleInputChange}
-            onKeyDown={handleInputKeyDown}
-          />
-          <input
-            type="text"
-            maxLength="1"
-            value={inputs.input3}
-            onChange={handleInputChange}
-            onKeyDown={handleInputKeyDown}
-          />
+          {answer.split("").map((char, index) => {
+            const transformedChar = getInitialConsonant(char);
+            return (
+              <input
+                key={index}
+                type="text"
+                maxLength="1"
+                value={inputs[`input${index + 1}`]}
+                placeholder={transformedChar}
+                onChange={(event) => handleInputChange(event, index)}
+                onKeyDown={handleInputKeyDown}
+              />
+            );
+          })}
         </Input>
         <BlinkingImage src={enter} alt="" style={{ width: "80px" }} />
       </Game>
