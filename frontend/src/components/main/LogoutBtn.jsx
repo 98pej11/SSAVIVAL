@@ -1,6 +1,8 @@
 import React from "react";
 import { useEffect, useState } from "react";
 import LogoutIcon from "@mui/icons-material/Logout";
+import { kakaoUrl } from "../../redux/actions/url";
+import { kakaoUrl } from "./../../redux/actions/url";
 
 export default function Logoutbtn() {
   useEffect(() => {
@@ -43,7 +45,7 @@ export default function Logoutbtn() {
             // window.Kakao.Auth.setAccessToken(undefined);
             window.Kakao.Auth.logout();
             localStorage.clear();
-            window.location.href = "http://localhost:3000";
+            window.location.href = `${kakaoUrl}`;
             // .then(function(res) => {
             //     console.log(window.Kakao.Auth.getAccessToken());
             // });
@@ -56,7 +58,7 @@ export default function Logoutbtn() {
           // window.location.reload();
         } else {
           console.log("로그아웃 실패:", response.status);
-          window.location.href = "http://localhost:3000";
+          window.location.href = `${kakaoUrl}`;
         }
       })
       .catch((error) => {

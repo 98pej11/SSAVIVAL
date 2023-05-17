@@ -36,24 +36,24 @@ export default function KakaoLogin() {
     console.log(1);
   }, []);
 
-    useEffect(() => {
-        registCheck();
-        console.log(2);
-        localStorage.setItem('email', email);
-        getUserId(email);
-    }, [email]);
+  useEffect(() => {
+    registCheck();
+    console.log(2);
+    localStorage.setItem("email", email);
+    getUserId(email);
+  }, [email]);
 
-    const getUserId = async () => {
-        await axios.get
-            (`http://localhost:8084/api/main/find/${email}`) 
-            .then((res) => {
-                console.log(res);
-                localStorage.setItem("userId", res.data.user.userId)
-            })
-            .catch(error => console.log(error));
-    }
-    // kakao에서 access-token 받기
-    const getKakaoToken = () => {
+  const getUserId = async () => {
+    await axios
+      .get(`${baseUrl}/main/find/${email}`)
+      .then((res) => {
+        console.log(res);
+        localStorage.setItem("userId", res.data.user.userId);
+      })
+      .catch((error) => console.log(error));
+  };
+  // kakao에서 access-token 받기
+  const getKakaoToken = () => {
     fetch(`https://kauth.kakao.com/oauth/token`, {
       method: "POST",
       headers: {
