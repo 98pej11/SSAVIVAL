@@ -341,15 +341,22 @@ export default function GamePage() {
                   ? "none"
                   : "rgba(255, 255, 255, 0.7)", // 배경색 투명하게 만들기
 
+              backgroundImage: inter ? "" : `url(${containerBg})`,
               backgroundSize: "cover",
               backgroundRepeat: "no-repeat",
               backgroundPosition: "center",
             }}
           >
-            <TimerBomb />
-            <Box ref={canvasRef} id="gameContainer">
-              {gameComps[round - 1]}
-            </Box>
+            {inter ? (
+              <Interval />
+            ) : (
+              <Box>
+                <TimerBomb />
+                <Box ref={canvasRef} id="gameContainer">
+                  {gameComps[round - 1]}
+                </Box>
+              </Box>
+            )}
           </Box>
         ) : (
           <Box sx={Comp}>
@@ -361,14 +368,22 @@ export default function GamePage() {
             <Box
               sx={{
                 ...gameContainer2,
-                backgroundImage: `url(${gameContainerBg})`,
+                backgroundImage: inter ? "" : `url(${containerBg})`,
                 backgroundSize: "cover",
                 backgroundRepeat: "no-repeat",
                 backgroundPosition: "center",
               }}
             >
-              <TimerBomb />
-              {gameComps[round - 1]}
+              {inter ? (
+                <Interval />
+              ) : (
+                <Box>
+                  <TimerBomb />
+                  <Box ref={canvasRef} id="gameContainer">
+                    {gameComps[round - 1]}
+                  </Box>
+                </Box>
+              )}
             </Box>
           </Box>
         )}

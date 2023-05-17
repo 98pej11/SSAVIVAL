@@ -2,7 +2,6 @@ import React from "react";
 import { useEffect, useState } from "react";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { kakaoUrl } from "../../redux/actions/url";
-// import { kakaoUrl } from "./../../redux/actions/url";
 
 export default function Logoutbtn() {
   useEffect(() => {
