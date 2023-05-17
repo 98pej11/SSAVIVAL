@@ -8,6 +8,7 @@ import MainComp4 from "../components/main/MainComp4";
 import { useDispatch } from "react-redux";
 import { AccessAction } from "../redux/actions/AccessAction";
 import { kakaoUrl } from "../redux/actions/url";
+import { GameAction } from "../redux/actions/GameAction";
 const Header = styled.div`
   margin-left: 20%;
   margin-right: 20%;
@@ -47,12 +48,14 @@ function MainPage() {
         console.log(error);
       });
     // dispatch(AccessAction.accessTokenTest());
+    dispatch(GameAction.getRanking());
   }, []);
 
   useEffect(() => {
     //access_token이 유효하지 않으면 우선 refresh 토큰이 유효한지 확인(확인하고 유효하면 access_token 재발급해주기)
     console.log("access_token 변화 확인 => true여도 변화로 인지");
     // if(!accessTokenState){
+      if(!localStorage.getItem("userId")) window.location.href = `${kakaoUrl}`;
     if (!accessTokenState) {
       dispatch(AccessAction.refreshTokenTest()).then((res) => {
         //refresh 토큰이 유효할 때

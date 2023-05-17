@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
@@ -9,6 +9,7 @@ import TableCell from "@mui/material/TableCell";
 import TableRow from "@mui/material/TableRow";
 import Button from "@mui/material/Button";
 import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
+import { useSelector } from "react-redux";
 
 const Rank = styled.div`
   font-family: "neodgm";
@@ -39,45 +40,51 @@ const Pag = styled.div`
 `;
 
 export default function Ranking() {
+  const campusRanking = useSelector((state) => state.gameReducer.gameRanking);
+
   return (
     <Rank>
       <Box sx={{ width: "100%", height: "100px" }}>
         <Table sx={{ textAlign: "center", margin: "5%" }}>
           <TableBody>
-            {rows.map((item) => (
-              <TableRow key={item.id}>
-                <TableCell
-                  sx={{
-                    width: "0%",
-                    padding: 0.7,
-                    textAlign: "center",
-                    fontSize: "1rem",
-                  }}
-                >
-                  {item.id}
-                </TableCell>
-                <TableCell
-                  sx={{
-                    width: "30%",
-                    padding: 0.7,
-                    textAlign: "center",
-                    fontSize: "1rem",
-                  }}
-                >
-                  {item.user}
-                </TableCell>
-                <TableCell
-                  sx={{
-                    width: "30%",
-                    padding: 0.7,
-                    textAlign: "center",
-                    fontSize: "1rem",
-                  }}
-                >
-                  {item.score} M
-                </TableCell>
-              </TableRow>
-            ))}
+            {campusRanking &&
+              campusRanking.map((item, index) => (
+                <TableRow key={item.userId}>
+                  <TableCell
+                    sx={{
+                      width: "0%",
+                      padding: 0.7,
+                      textAlign: "center",
+                      fontSize: "1rem",
+                      fontFamily: "neodgm",
+                    }}
+                  >
+                    {index + 1}
+                  </TableCell>
+                  <TableCell
+                    sx={{
+                      width: "30%",
+                      padding: 0.7,
+                      textAlign: "center",
+                      fontSize: "1rem",
+                      fontFamily: "neodgm",
+                    }}
+                  >
+                    {item.nickname}
+                  </TableCell>
+                  <TableCell
+                    sx={{
+                      width: "30%",
+                      padding: 0.7,
+                      textAlign: "center",
+                      fontSize: "1rem",
+                      fontFamily: "neodgm",
+                    }}
+                  >
+                    {item.mileage} M
+                  </TableCell>
+                </TableRow>
+              ))}
           </TableBody>
         </Table>
         <Pag>

@@ -21,7 +21,7 @@ public class MiniGameDto {
     private String clearTime;
     private int score;
     private long gameId;
-    private long miniGameDetailId;
+    private MiniGameDetail miniGameDetail;
 
 
     public MiniGame toEntity() {
@@ -30,7 +30,7 @@ public class MiniGameDto {
                 .clearTime(clearTime)
                 .score(score)
                 .gameId(gameId)
-                .miniGameDetailId(miniGameDetailId)
+                .miniGameDetail(miniGameDetail)
                 .build();
         return miniGame;
     }

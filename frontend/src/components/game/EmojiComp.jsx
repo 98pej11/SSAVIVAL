@@ -13,17 +13,24 @@ import mmtop from "../../assets/mmtop.png";
 import MattermostEmoji from "./MattermostEmoji";
 import { useSelector, useDispatch } from "react-redux";
 
-export default function Emoji() {
-  const dispatch = useDispatch();
-  // const gameData = {
-  //   title: "상황에 맞는 MM 이모지를 선택해보쟈",
-  //   timeLimit: 10,
-  //   bgPath: "",
-  // };
-  // useEffect(() => {
-  //   dispatch({ type: "SET_GAME", payload: gameData });
-  // }, []);
+const EmojiData = [
+  {
+    Title: "[설문조사 미실시 안내]",
+    Text: "설문 미실시 학생들에게 안내드립니다. 1시에 설문기간이 마감되었으나 미실시 교육생들이 많은 관계로 3시까지 연장합니다. 빠르게 설문 부탁드립니다.",
+  },
+  {
+    Title: "[라이브 접속 안내]",
+    Text: "9시 라이브 방송 [프로젝트 발표 Tip & 6주차 News] 이 곧 시작됩니다. 라이브 방송 댓글참여를 위해 에듀싸피를 통해 접속해주세요!!",
+  },
+  { Title: "[]", Text: "f" },
+  { Title: "[설문조사 미실시 안내]", Text: "e" },
+  { Title: "[설문조사 미실시 안내]", Text: "g" },
+  { Title: "[설문조사 미실시 안내]", Text: "d" },
+];
 
+const RandomEmoji = EmojiData[Math.floor(Math.random() * EmojiData.length)];
+
+export default function Emoji() {
   return (
     <div>
       <Box
@@ -89,16 +96,12 @@ export default function Emoji() {
                   @here
                 </p>
               </Typography>
+              {/* 첫번째 Typo */}
               <Typography sx={{ mb: 1.5, mt: 1.5 }}>
-                <strong>14시 자율프로젝트 특강1 접속 안내</strong>
+                <strong>{RandomEmoji.Title}</strong>
               </Typography>
-              <Typography sx={{ fontSize: 15 }}>
-                14시 자율프로젝트 특강1 접속 안내 [자율프로젝트특강1 : 오픈소스
-                특강/Open Source, It’s new? -삼성전자 박수홍 그룹장- ]이 곧
-                시작됩니다!! (※지난주 강사님 일정상 연기된 특강입니다.) 에듀싸피
-                다시보기는 제공되지않으나 부득이 미팅일정이 있는 팀들은 금일
-                18시까지 유튜브 시청가능하므로 모두들 꼭 시청바랍니다. :youtube:
-              </Typography>
+              {/* 두번째 Typo */}
+              <Typography sx={{ fontSize: 15 }}>{RandomEmoji.Text}</Typography>
             </CardContent>
 
             <CardActions>

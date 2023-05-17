@@ -9,41 +9,34 @@ import game from "../assets/game.png";
 import { useSelector } from "react-redux";
 
 const Pages = styled.div`
-  position: relative;
   background-image: url(${game});
-  // background-size: auto;
-  background-size: contain;
-  // background-repeat: no-repeat;
+  background-size: cover;
+  position: relative;
   width: 100%;
   height: 100%;
 `;
-
-const myProps = {
-  title: "커피내기 퍼즐게임",
-  number: 9,
-};
 
 export default function PuzzlePage() {
   const gameMode = useSelector((state) => state.gameMode);
   return (
     <Pages>
-      <Header props={myProps} />
+      <Header />
 
       <div
         style={{
           display: "flex",
           justifyContent: "center",
-          width: "100%",
+          marginTop: "1%",
           height: "100vh",
         }}
       >
         {gameMode === "single" ? (
-          <GameComp props={myProps}>
-            <PuzzleComp {...myProps} />
+          <GameComp>
+            <PuzzleComp />
           </GameComp>
         ) : (
-          <GameComp2 props={myProps}>
-            <PuzzleComp {...myProps} />
+          <GameComp2>
+            <PuzzleComp />
           </GameComp2>
         )}
       </div>

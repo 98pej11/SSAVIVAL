@@ -25,9 +25,14 @@ export default function CampusChart() {
     <Box
       sx={{
         height: "100%",
+        fontFamily: "gmarket",
       }}
     >
-      <Bar data={data.bar} options={options} />
+      <Bar
+        data={data.bar}
+        options={options}
+        style={{ fontFamily: "gmarket" }}
+      />
     </Box>
   );
 }

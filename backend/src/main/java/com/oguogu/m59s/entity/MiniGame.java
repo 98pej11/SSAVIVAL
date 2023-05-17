@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.jetbrains.annotations.NotNull;
 
 import javax.persistence.*;
 
@@ -14,7 +15,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class MiniGame {
+public class MiniGame implements Comparable<MiniGame>{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long miniGameId;
@@ -25,8 +26,9 @@ public class MiniGame {
     private int score;
     @Column(nullable = false)
     private long gameId;
-    @Column(nullable = false)
-    private long miniGameDetailId;
+    @OneToOne
+    @JoinColumn(name = "miniGameDetailId")
+    private MiniGameDetail miniGameDetail;
 
     public MiniGameDto toDto() {
         MiniGameDto miniGameDto = MiniGameDto.builder()
@@ -34,8 +36,24 @@ public class MiniGame {
                 .clearTime(clearTime)
                 .score(score)
                 .gameId(gameId)
-                .miniGameDetailId(miniGameDetailId)
+                .miniGameDetail(miniGameDetail)
                 .build();
         return miniGameDto;
     }
+
+    @Override
+    public String toString() {
+        return "MiniGame{" +
+                "miniGameId=" + miniGameId +
+                ", clearTime='" + clearTime + '\'' +
+                ", score=" + score +
+                ", gameId=" + gameId +
+                ", miniGameDetailId=" + miniGameDetail +
+                '}';
+    }
+
+        public int compareTo(@NotNull MiniGame o) {
+        return (int) (o.miniGameId-this.miniGameId);
+    }
+
 }

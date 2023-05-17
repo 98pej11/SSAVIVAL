@@ -16,6 +16,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -33,10 +34,11 @@ public class GameServiceImpl implements GameService{
     @Override
     public List<MiniGameInfoDto> listMiniGame(long gameId) {
         List<MiniGame> miniGames = miniGameRepository.findAllByGameId(gameId);
+        System.out.println("MINIGAME(0) : "+miniGames.get(0));
         List<MiniGameInfoDto> miniGameInfoDtos = new ArrayList<>();
         for (MiniGame miniGame : miniGames) {
             MiniGameDto dto = miniGame.toDto();
-            MiniGameDetailDto miniGameDetailDto = miniGameDetailRepository.findById(dto.getMiniGameDetailId()).get().toDto();
+            MiniGameDetailDto miniGameDetailDto = miniGameDetailRepository.findById(dto.getMiniGameDetail().getMiniGameDetailId()).get().toDto();
             MiniGameInfoDto miniGameInfoDto = new MiniGameInfoDto(dto.getMiniGameId(),dto.getClearTime(),dto.getScore(), miniGameDetailDto);
             miniGameInfoDtos.add(miniGameInfoDto);
         }
@@ -74,13 +76,19 @@ public class GameServiceImpl implements GameService{
     @Override
     public long findGameLastIndex() {
         List<Game> list = gameRepository.findAll();
-        return list.size() + 1;
+        Collections.sort(list);
+        Game game = list.get(0);
+        return game.getGameId() + 1;
     }
 
     @Override
     public long findMiniGameLastIndex() {
         List<MiniGame> list = miniGameRepository.findAll();
-        return list.size() + 1;
+        Collections.sort(list);
+        System.out.println("LIST "+list.size());
+        MiniGame miniGame = list.get(0);
+        System.out.println("MINGAMEeeeeeeeee " + miniGame);
+        return miniGame.getMiniGameId();
     }
 
     @Override

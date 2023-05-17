@@ -1,15 +1,27 @@
 import React, { useCallback, useEffect } from "react";
 import { useState, useMemo } from "react";
 import { useSpring, animated, Any } from "react-spring";
+import { useSelector, useDispatch } from "react-redux";
 import { StyledEngineProvider, styled } from "@mui/material/styles";
-
+import scoring from "../../assets/game_typo/scoring.gif";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
+import zIndex from "@mui/material/styles/zIndex";
 
 export default function Puzzle() {
+  const dispatch = useDispatch();
+
   // 이미지
   const [images, setImages] = useState([]);
   // 정답 개수 카운트
   const [count, setCount] = useState(0);
+  // 미니게임 클리어 여부
+  const minigameClear = useSelector((state) => state.gameReducer.minigameClear);
+
+  // 미니게임 작동 여부
+  const minigameActive = useSelector(
+    (state) => state.gameReducer.minigameActive
+  );
+
   // 성공 메세지 플래그
   const [showSuccess, setShowSuccess] = useState(false);
   // 성공 표시 함수
@@ -20,6 +32,20 @@ export default function Puzzle() {
       }, 500);
     }
   });
+
+  useEffect(() => {
+    if (count === 6) {
+      handleSuccess();
+    }
+  }, [count]);
+
+  const handleSuccess = () => {
+    if (minigameActive) {
+      dispatch({ type: "SET_MINIGAME_CLEAR" });
+      console.log("게임결과: " + minigameClear);
+    }
+  };
+
   // 퍼즐판
   useEffect(() => {
     const fetchImages = async () => {
@@ -76,11 +102,12 @@ export default function Puzzle() {
         // fill the image
         for (let i = 0; i < 3; i++) {
           for (let j = 0; j < 2; j++) {
-            const x = (j * img.width) / 2;
-            const y = (i * img.height) / 3;
-            const width = img.width / 2;
-            const height = img.height / 2;
+            const x = Math.floor((j * img.width) / 2);
+            const y = Math.floor((i * img.height) / 3);
+            const width = Math.floor(img.width / 2);
+            const height = Math.floor(img.height / 3);
             const data = ctx.getImageData(x, y, width, height);
+
             const canvas2 = document.createElement("canvas");
             canvas2.width = width;
             canvas2.height = height;
@@ -91,7 +118,7 @@ export default function Puzzle() {
           }
         }
         resolve(newImages);
-        console.log("cut이미지 끝나고", newImages);
+        console.log("After cut image", newImages);
       };
     });
   };
@@ -181,9 +208,6 @@ export default function Puzzle() {
     items7: false,
     items8: false,
     items9: false,
-    // items10: false,
-    // items11: false,
-    // items12: false,
   });
 
   // check 값 변경하는 함수
@@ -273,30 +297,44 @@ export default function Puzzle() {
     return result;
   };
 
+  // 채점 효과(with scoring.gif)
+  const [isScoring, setIsScoring] = useState(false);
+  if (isScoring) {
+    setTimeout(() => {
+      setIsScoring(false);
+    }, 800);
+  }
   const isRightAnswer = (id) => {
     console.log("함수에 들어오긴하니????");
     console.log("정답이다!!!!!!!!!!!!!");
     // 정답 표시해줌
-    setShowSuccess(true);
+    setIsScoring(true);
+    // setShowSuccess(true);
     // 카운트 up (종료조건)
     setCount(count + 1);
     // 상태값 true로 변경
     updateCheck(id);
+
     return true;
   };
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       <div
+        className="puzzle"
+        width="100%"
+        height="100%"
         style={{
           display: "flex",
-          // justifyContent: "center",
+          justifyContent: "center",
+          alignContent: "center",
           width: "100%",
-          height: "100%",
+          height: "auto",
           backgroundColor: "white",
-          // backgroundColor: "",
+          position: "relative",
         }}
       >
+        <img src="flip.svg" style={{ position: "absolute", width: "400px" }} />
         <QuizSide>
           {droppableIDs.slice(0, 3).map((droppableID, index) => (
             <Droppable key={droppableID} droppableId={droppableID}>
@@ -305,13 +343,14 @@ export default function Puzzle() {
                   {...provided.droppableProps}
                   ref={provided.innerRef}
                   style={{
-                    backgroundColor: snapshot.isDraggingOver ? "blue" : "grey",
-                    padding: 4,
-                    width: "100%",
-                    height: "100%",
+                    // backgroundColor: snapshot.isDraggingOver ? "blue" : "grey",
+                    // padding: 4,
+                    width: "90%",
+                    height: "auto",
                     display: "flex",
                     flexDirection: "row",
                     justifyContent: "center",
+                    // backgroundColor: "cornflowerblue",
                   }}
                 >
                   {state[droppableID].map((item, index) => (
@@ -321,14 +360,28 @@ export default function Puzzle() {
                       index={index}
                     >
                       {(provided, snapshot) => (
-                        <img
-                          {...provided.draggableProps}
-                          {...provided.dragHandleProps}
-                          ref={provided.innerRef}
-                          src={item.imgUrl}
-                          alt={item.name}
-                          crossorigin={"anonymous"}
-                        ></img>
+                        <div
+                          style={{
+                            width: "60px",
+                            height: "60px",
+                            // backgroundColor: "red",
+                            overflow: "",
+                          }}
+                        >
+                          <img
+                            {...provided.draggableProps}
+                            {...provided.dragHandleProps}
+                            ref={provided.innerRef}
+                            src={item.imgUrl}
+                            alt={item.name}
+                            crossorigin={"anonymous"}
+                            style={{
+                              ...provided.draggableProps.style,
+                              width: "60px",
+                              height: "60px",
+                            }}
+                          ></img>
+                        </div>
                       )}
                     </Draggable>
                   ))}
@@ -338,7 +391,23 @@ export default function Puzzle() {
             </Droppable>
           ))}
         </QuizSide>
-        <div>{showSuccess && <Success>성공!!! {count}/6 </Success>}</div>
+        {/* <div>{showSuccess && <Success>성공!!! </Success>}</div> */}
+        <img
+          src="sign.svg"
+          style={{ width: "5%", position: "absolute", top: 100 }}
+        />
+        {isScoring && (
+          <img
+            src={scoring}
+            alt="scoring.gif"
+            style={{
+              position: "absolute",
+              width: "50%",
+              height: "100%",
+              zIndex: "10",
+            }}
+          />
+        )}
         <AnswerSide>
           <AnswerRow>
             {[3, 4].map((idx) => (
@@ -353,11 +422,11 @@ export default function Puzzle() {
                       ref={provided.innerRef}
                       style={{
                         backgroundColor: snapshot.isDraggingOver
-                          ? "blue"
+                          ? "skyblue"
                           : "grey",
-                        padding: 4,
-                        width: "80px",
-                        // height: 60,
+                        // padding: 4,
+                        width: "60px",
+                        height: "60px",
                       }}
                     >
                       {state[`items${idx + 1}`].map((item, index) => (
@@ -368,17 +437,6 @@ export default function Puzzle() {
                           isDragDisabled={
                             check[droppableIDs[idx]] ||
                             droppableIDs[idx] === item.id
-                            // ? () => {
-                            //     console.log("트류이임");
-                            //   }
-                            // : false
-                            // ? () => {
-                            //     setShowSuccess(true);
-                            //     setCount(count + 1);
-                            //     console.log("실행됨~~~~~");
-                            //     return true;
-                            //   }
-                            // : false
                           }
                         >
                           {(provided, snapshot) => (
@@ -388,6 +446,11 @@ export default function Puzzle() {
                               ref={provided.innerRef}
                               src={item.imgUrl}
                               alt={item.name}
+                              style={{
+                                ...provided.draggableProps.style,
+                                width: "60px",
+                                height: "60px",
+                              }}
                             ></img>
                           )}
                         </Draggable>
@@ -416,8 +479,8 @@ export default function Puzzle() {
                           ? "blue"
                           : "grey",
                         padding: 4,
-                        width: "80px",
-                        // height: 60,
+                        width: "60px",
+                        height: "60px",
                       }}
                     >
                       {state[`items${idx + 1}`].map((item, index) => {
@@ -438,6 +501,11 @@ export default function Puzzle() {
                                 ref={provided.innerRef}
                                 src={item.imgUrl}
                                 alt={item.name}
+                                style={{
+                                  ...provided.draggableProps.style,
+                                  width: "60px",
+                                  height: "60px",
+                                }}
                               ></img>
                             )}
                           </Draggable>
@@ -456,9 +524,7 @@ export default function Puzzle() {
               <EachAnswer key={idx}>
                 <Droppable
                   droppableId={droppableIDs[idx]}
-                  // isDropDisabled={check.items4 > 0}
                   isDropDisabled={state[`items${idx + 1}`].length > 0}
-                  // 주석 윗줄 안먹고 무한루프 돎 5/9
                 >
                   {(provided, snapshot) => (
                     <div
@@ -469,8 +535,8 @@ export default function Puzzle() {
                           ? "blue"
                           : "grey",
                         padding: 4,
-                        width: "80px",
-                        // height: 60,
+                        width: "60px",
+                        height: "60px",
                       }}
                     >
                       {state[`items${idx + 1}`].map((item, index) => (
@@ -491,6 +557,11 @@ export default function Puzzle() {
                               ref={provided.innerRef}
                               src={item.imgUrl}
                               alt={item.name}
+                              style={{
+                                ...provided.draggableProps.style,
+                                width: "60px",
+                                height: "60px",
+                              }}
                             ></img>
                           )}
                         </Draggable>
@@ -510,52 +581,62 @@ export default function Puzzle() {
 
 const QuizSide = styled(`div`)({
   display: "flex",
-  width: "50%",
-  height: "80%",
+  width: "15%",
+  height: "auto",
   flexDirection: "column",
   justifyContent: "center",
-  padding: "10%",
+  // padding: "10%",
+  marginTop: "20px",
+  marginLeft: "10px",
+  position: "relative",
   // alignContent: "center",
   // backgroundColor: "skyblue",
-  flex: "1",
+  // flex: "1",
+  // left: 0,
 });
 const AnswerSide = styled(`div`)({
   display: "flex",
   flexDirection: "column",
-  width: "50%",
-  height: "80%",
-  padding: "10%",
+  width: "15%",
+  height: "auto",
+  // padding: "10%",
   alignContent: "center",
-  // backgroundColor: "pink",
-  // padding: "20px",
-  flex: "1",
+  position: "relative",
+  marginTop: "20px",
+  marginLeft: "60px",
+  // flex: "1",
+  // backgroundColor: "blue",
 });
 const AnswerRow = styled(`div`)({
-  width: "300px",
-  height: "80px",
+  width: "100%",
+  height: "33%",
   // backgroundColor: "lightCoral",
 
   display: "flex",
   flexDirection: "row",
-  justifyContent: "space-evenly",
-  marginBottom: "5px",
-  flex: "2",
+  // justifyContent: "space-evenly",
+  // marginBottom: "5px",
 });
 
 const EachAnswer = styled(`div`)({
-  width: "80px",
-  height: "80px",
+  width: "60px",
+  height: "60px",
   // backgroundColor: "lightCoral",
   display: "flex",
   flexDirection: "row",
   justifyContent: "center",
   marginBottom: "5px",
+  marginRight: "5px",
   // flex: "2",
 });
 
 const Success = styled(`div`)({
   width: "600px",
   position: "absolute",
-  fontSize: "100pt",
+  fontSize: "60pt",
   color: "red",
+  zIndex: "20",
+  fontFamily: "neodgm",
+  // fontSize: 1.7rem;
+  // color: black;
 });

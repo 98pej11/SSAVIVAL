@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import styled from "styled-components";
 import countbox from "../../assets/countbox.png";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 export default function TissueGame() {
   const containerStyle = {
@@ -20,21 +20,21 @@ export default function TissueGame() {
   };
 
   const image1Style = {
-    top: "360px",
+    top: "320px",
     position: "absolute",
     zIndex: 99,
   };
 
   const image2Style = {
     position: "relative",
-    // top: "40px",
-    left: "55px",
+    top: "-40px",
+    left: "5%",
     zIndex: 100,
   };
 
   const image3Style = {
     position: "absolute",
-    top: "530px",
+    top: "490px",
     zIndex: 99,
   };
 
@@ -109,8 +109,6 @@ export default function TissueGame() {
       setCount(count + 1);
       setImagePosition(0);
     }
-    console.log(count);
-    console.log(imagePosition);
   };
 
   const handleMouseOut = (e) => {
@@ -120,19 +118,26 @@ export default function TissueGame() {
       setCount(count + 1);
       setImagePosition(0);
     }
-    console.log(count);
-    console.log(imagePosition);
   };
 
   const dispatch = useDispatch();
-  const gameData = {
-    title: "휴지 10장을 최대한 빨리 뽑아보자",
-    timeLimit: 10,
-    bgPath: "",
-  };
+
+  // 미니게임 클리어 여부
+  const minigameClear = useSelector((state) => state.gameReducer.minigameClear);
+
+  // 미니게임 작동 여부
+  const minigameActive = useSelector(
+    (state) => state.gameReducer.minigameActive
+  );
+
   useEffect(() => {
-    dispatch({ type: "SET_GAME", payload: gameData });
-  }, []);
+    if (count === 10) {
+      alert("게임끝");
+      if (minigameActive) {
+        dispatch({ type: "SET_MINIGAME_CLEAR" });
+      }
+    }
+  }, [count]);
 
   return (
     <div>
@@ -148,37 +153,19 @@ export default function TissueGame() {
           style={{ ...imageStyle, ...image1Style }}
         ></img>
         <div style={{ ...imageStyle, ...image2Style }}>
-          {" "}
-          {count % 2 === 0 && (
-            <div>
-              <img
-                src={images[Math.floor(imagePosition)]}
-                // srt="1.png"
-                // src={require(images[Math.floor(imagePosition)]).default}
-                alt="example"
-                onMouseDown={handleMouseDown}
-                onMouseMove={handleMouseMove}
-                onMouseUp={handleMouseUp}
-                onMouseOut={handleMouseOut}
-                draggable="false"
-              />
-            </div>
-          )}
-          {count % 2 != 0 && (
-            <div>
-              <img
-                src={images[Math.floor(imagePosition)]}
-                // srt="1.png"
-                // src={require(images[Math.floor(imagePosition)]).default}
-                alt="example"
-                onMouseDown={handleMouseDown}
-                onMouseMove={handleMouseMove}
-                onMouseUp={handleMouseUp}
-                onMouseOut={handleMouseOut}
-                draggable="false"
-              />
-            </div>
-          )}
+          <div>
+            <img
+              src={images[Math.floor(imagePosition)]}
+              // srt="1.png"
+              // src={require(images[Math.floor(imagePosition)]).default}
+              alt="example"
+              onMouseDown={handleMouseDown}
+              onMouseMove={handleMouseMove}
+              onMouseUp={handleMouseUp}
+              onMouseOut={handleMouseOut}
+              draggable="false"
+            />
+          </div>
         </div>
         <img
           src="고양이_휴지곽_앞면.png"

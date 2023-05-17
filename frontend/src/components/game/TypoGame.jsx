@@ -51,19 +51,9 @@ const styles = {
 export default function TypoGame() {
   //소리 효과
   const pencilSound = new Audio("/soundEffect/pencil.mp3");
-  const errorSound = new Audio("/soundEffect/error.mp3");
   const blobSound = new Audio("/soundEffect/blob.mp3");
 
-  // 게임이 마운트될 때 redux값 변경
   const dispatch = useDispatch();
-  // const gameData = {
-  //   title: "제한 시간 내 주어진 명령어를 모두 입력하라",
-  //   timeLimit: 10,
-  //   bgPath: "",
-  // };
-  // useEffect(() => {
-  //   dispatch({ type: "SET_GAME", payload: gameData });
-  // }, []);
 
   // 자소서 랜덤 선택 및 소리효과 설정
   const typoImgList = [typo1, typo2, typo3];
@@ -128,13 +118,16 @@ export default function TypoGame() {
     }
   };
 
-  // 찾은 오타 표시
+  // 찾은 오타 표시(useState hook을 사용하는 경우 state값 변경이 asynchronous한 것 주의)
   function handleSpotClick(spot) {
     spot.found = true;
-    setFoundSpots([...foundSpots, spot]);
-    if (foundSpots.length === typoSpots[index].length) {
-      window.alert("게임 성공");
-    }
+    setFoundSpots(() => {
+      const updated = [...foundSpots, spot];
+      if (updated.length === typoSpots[index].length) {
+        dispatch({ type: "SET_MINIGAME_CLEAR" });
+      }
+      return updated;
+    });
   }
 
   // Typo spot 클릭하면(=오타 찾으면) handleSpotClick 실행

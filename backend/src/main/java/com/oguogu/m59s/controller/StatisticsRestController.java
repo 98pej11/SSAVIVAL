@@ -30,7 +30,7 @@ public class StatisticsRestController {
         return new ResponseEntity<>(resultMap, HttpStatus.ACCEPTED);
     }
 
-    @PostMapping("/done")
+    @PatchMapping("/done")
     public ResponseEntity<Map<String, Object>> statisticsUpdate(@RequestBody Map<String,Integer> resultInfo) {
         long userId = (long) resultInfo.get("userId");
         int result = resultInfo.get("status");//0승 ,1패 ,2무
