@@ -21,9 +21,9 @@ const DifferenceGame = () => {
   const pointsCenter = useSelector((state) => state.gameReducer.pointsCenter);
   const quizImgSize = useSelector((state) => state.gameReducer.quizImgSize);
   const quizImgUrl = useSelector((state) => state.gameReducer.quizImgUrl);
-  useEffect(() => {
-    dispatch(fetchQuizImage());
-  }, [dispatch]);
+  // useEffect(() => {
+  //   dispatch(fetchQuizImage());
+  // }, [dispatch]);
 
   const handleBoxClick = (e, side) => {
     // 더블클릭이 될 경우 클릭 이벤트의 target 요소가 div가 아닌 img로 바뀌는데, 이 경우에는 입력을 무시하도록 함

@@ -16,33 +16,33 @@ const Comp = styled.div`
 
 const IPData = [
   {
-    ipAddress: "123.456.789.123",
-    subnetMask: "427.598.152.654",
+    ipAddress: "427.598.152.654",
+    subnetMask: "123.456.789.123",
     gateway: "123.456.789.123",
   },
   {
-    ipAddress: "123.456.789.123",
-    subnetMask: "783.984.115.452",
+    ipAddress: "783.984.115.452",
+    subnetMask: "123.456.789.123",
     gateway: "123.456.789.123",
   },
   {
-    ipAddress: "123.456.789.123",
-    subnetMask: "201.583.754.493",
+    ipAddress: "201.583.754.493",
+    subnetMask: "123.456.789.123",
     gateway: "123.456.789.123",
   },
   {
-    ipAddress: "123.456.789.123",
-    subnetMask: "823.211.687.902",
+    ipAddress: "823.211.687.902",
+    subnetMask: "123.456.789.123",
     gateway: "123.456.789.123",
   },
   {
-    ipAddress: "123.456.789.123",
-    subnetMask: "857.601.248.462",
+    ipAddress: "857.601.248.462",
+    subnetMask: "123.456.789.123",
     gateway: "123.456.789.123",
   },
   {
-    ipAddress: "123.456.789.123",
-    subnetMask: "054.540.268.318",
+    ipAddress: "054.540.268.318",
+    subnetMask: "123.456.789.123",
     gateway: "123.456.789.123",
   },
 ];
@@ -265,7 +265,7 @@ function IPgame() {
                       minLength="7"
                       maxLength="15"
                       pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$"
-                      value={RandomIP.ipAddress}
+                      value={inputs.ipAddress}
                       name="ipAddress"
                       tabIndex="1"
                       onChange={(e) => onChangeHandler(e, 1)}
@@ -279,7 +279,7 @@ function IPgame() {
                       minLength="7"
                       maxLength="15"
                       pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$"
-                      value={inputs.subnetMask}
+                      value={RandomIP.subnetMask}
                       name="subnetMask"
                       tabIndex="2"
                       onChange={(e) => onChangeHandler(e, 2)}

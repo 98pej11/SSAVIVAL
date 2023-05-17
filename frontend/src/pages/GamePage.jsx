@@ -53,6 +53,8 @@ const gameContainer2 = {
   flexWrap: "wrap",
   border: "none", // 테두리 없애기
   borderRadius: 10,
+  boxShadow: "0px 0px 3px 2px rgba(0,0,0,0.2)", // 그림자 추가하기
+  backgroundColor: "rgba(255, 255, 255, 0.7)", // 배경색 투명하게 만들기
   padding: 3,
   maxWidth: "40%", // 최대 너비 값 설정
   width: "100%",
@@ -181,19 +183,10 @@ export default function GamePage() {
   // redux : timeLimit(게임 제한시간)이랑 bgPath(게임 배경) 구독
   // const timeLimit = useSelector((state) => state.gameReducer.timeLimit);
   const bgPath = useSelector((state) => state.gameReducer.bgPath);
-  const score = useSelector((state) => state.gameReducer.totalScore);
+  const score = useSelector((state) => state.gameReducer.score);
+  const totalScore = useSelector((state) => state.gameReducer.totalScore);
 
   const [blobArray, setBlobArray] = useState([]);
-  const [totalScore, setTotalScore] = useState(0);
-
-  useEffect(() => {
-    setTotalScore(totalScore + score);
-  }, [score]);
-
-  useEffect(() => {
-    console.log("TotalScore ", totalScore);
-  }, [totalScore]);
-
   const [blobs, setBlobs] = useState([]);
 
   const onCapture = (count) => {
@@ -252,6 +245,8 @@ export default function GamePage() {
     for (let i = 0; i < blobArray.length; i++) {
       formData.append("gameImages", blobArray[i], `image${i}.png`);
     }
+
+    console.log("INPUTS ", inputs);
 
     //inputs를 blob형태로 변경
     const json = JSON.stringify(inputs);
