@@ -17,15 +17,4 @@ export const data = {
       },
     ],
   },
-
-  //   line: {
-  //     labels: ["서울", "대전", "구미", "광주", "부울경"],
-  //     datasets: [
-  //       {
-  //         label: "most widely spoken languages",
-  //         data: [1132, 1117, 615, 534, 280],
-  //         backgroundColor: "rgba(255, 99, 132, 0.6)",
-  //       },
-  //     ],
-  //   },
 };

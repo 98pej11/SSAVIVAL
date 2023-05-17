@@ -122,7 +122,7 @@ function Header() {
                   whiteSpace: "nowrap",
                 }}
               >
-                {round} of 10 ROUND
+                {round} of 12 ROUND
               </div>
               <div
                 style={{

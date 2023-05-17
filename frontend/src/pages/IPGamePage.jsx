@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 
 import GameComp from "../components/game/GameComp";
-import GameComp2 from "../components/game/GameComp";
+import GameComp2 from "../components/game/GameComp2";
 import Header from "../components/game/Header";
 import "../index.css";
 import game from "../assets/game.png";

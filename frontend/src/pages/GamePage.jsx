@@ -331,16 +331,7 @@ export default function GamePage() {
         {gameMode === "single" ? (
           <Box
             sx={{
-              ...gameContainer2,
-              boxShadow:
-                pageBg === "class_desk" || "laptop"
-                  ? "none"
-                  : "0px 0px 3px 2px rgba(0,0,0,0.2)", // 그림자 추가하기
-              backgroundColor:
-                pageBg === "class_desk" || "laptop"
-                  ? "none"
-                  : "rgba(255, 255, 255, 0.7)", // 배경색 투명하게 만들기
-
+              ...gameContainer,
               backgroundSize: "cover",
               backgroundRepeat: "no-repeat",
               backgroundPosition: "center",

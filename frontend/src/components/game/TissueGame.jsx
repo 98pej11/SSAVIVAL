@@ -131,7 +131,7 @@ export default function TissueGame() {
   );
 
   useEffect(() => {
-    if (count === 10) {
+    if (count === 5) {
       alert("게임끝");
       if (minigameActive) {
         dispatch({ type: "SET_MINIGAME_CLEAR" });

@@ -78,7 +78,7 @@ export default function StartPage() {
                     whiteSpace: "nowrap",
                   }}
                 >
-                  0 of 10 ROUND
+                  0 of 12 ROUND
                 </div>
                 <div
                   style={{
