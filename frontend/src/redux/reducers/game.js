@@ -57,6 +57,8 @@ const initialState = {
   pointsCenter: [[0, 0, 0]],
   quizImgSize: { width: 600, height: 400 },
   quizImgUrl: { left: "", right: "" },
+  gameRecord: [],
+  gameRanking: [],
   firstTypo: [],
   secondTypo: [],
 };
@@ -140,6 +142,17 @@ function gameReducer(state = initialState, action = {}) {
       return {
         ...state,
         pointsCenter: payload,
+      };
+    case "GET_GAMERECORD":
+      console.log("GAMERRRRR", payload.data.gameImages);
+      return {
+        ...state,
+        gameRecord: payload.data.gameImages,
+      };
+    case "GET_RANKING":
+      return {
+        ...state,
+        gameRanking: payload.data.userList,
       };
     case "SET_FIRST_TYPO":
       return {

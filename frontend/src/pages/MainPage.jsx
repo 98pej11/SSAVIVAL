@@ -8,6 +8,7 @@ import MainComp4 from "../components/main/MainComp4";
 import { useDispatch } from "react-redux";
 import { AccessAction } from "../redux/actions/AccessAction";
 import { kakaoUrl } from "../redux/actions/url";
+import { GameAction } from "../redux/actions/GameAction";
 const Header = styled.div`
   margin-left: 20%;
   margin-right: 20%;
@@ -47,6 +48,7 @@ function MainPage() {
         console.log(error);
       });
     // dispatch(AccessAction.accessTokenTest());
+    dispatch(GameAction.getRanking());
   }, []);
 
   useEffect(() => {

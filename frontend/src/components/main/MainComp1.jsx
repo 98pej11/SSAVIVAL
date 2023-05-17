@@ -15,6 +15,7 @@ import happy_pepe2 from "../../assets/happy_pepe2.png";
 import find from "../../assets/find.png";
 import { GameAction } from "../../redux/actions/GameAction";
 import Ranking2 from "./Ranking2";
+import gameReducer from "../../redux/reducers/game";
 
 const Comp1 = styled.div`
   font-family: "neodgm";
@@ -87,9 +88,6 @@ export default function MainComp1() {
 
   const handleMultiPlayerClick = () => {
     setOpen(true);
-
-    // dispatch({ type: "SET_GAME_MODE", payload: { gameMode: "multi" } });
-    // navigate("/game"); // /game 경로로 이동
   };
 
   const [open, setOpen] = React.useState(false);

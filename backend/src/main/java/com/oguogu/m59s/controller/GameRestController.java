@@ -52,10 +52,10 @@ public class GameRestController {
 //        public ResponseEntity<Map<String, Object>> gameInfoSave(@RequestBody MiniGameDto miniGameDto, @RequestPart(value = "profile",required = false) MultipartFile[] multipartFiles) throws Exception{
 //        long miniGameId = miniGameDto.getMiniGameId();
         System.out.println("minidto가 잘 들어오는지 보자.");
-        System.out.println(miniGameDto.getMiniGameDetailId());
-        System.out.println(miniGameDto.getGameId());
+        System.out.println(miniGameDto.getMiniGameDetailId());  //1~12 고정
+        System.out.println(miniGameDto.getGameId()); // 싱글 플레이 눌렀을 때 생기는 12라운드 게임
         System.out.println(miniGameDto.getMiniGameId());
-
+        System.out.println("MINGAME "+miniGameDto);
 
 
         Map<String, Object> resultMap = new HashMap<>();
@@ -64,9 +64,11 @@ public class GameRestController {
             gameService.saveMiniGame(miniGameDto);
             resultMap.put("miniGameDto",miniGameDto);
             long miniGameLastIndex = gameService.findMiniGameLastIndex();
+            System.out.println("miniGameLastIndex " +miniGameLastIndex);
             for(int i=0;i<multipartFiles.size();i++){
                 GameImageDto gameImageDto = new GameImageDto();
                 gameImageDto.setMiniGameId(miniGameLastIndex);
+                System.out.println("CCCCCCCCCCCCCCCCCCCCCCC "+gameImageDto.getMiniGameId());
                 gameImageDto.setImageUrl(s3FileUploadService.upload(multipartFiles.get(i)));
                 gameService.saveGameImage(gameImageDto);
             }

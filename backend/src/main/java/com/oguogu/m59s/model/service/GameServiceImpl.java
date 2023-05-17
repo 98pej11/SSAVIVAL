@@ -84,8 +84,10 @@ public class GameServiceImpl implements GameService{
     public long findMiniGameLastIndex() {
         List<MiniGame> list = miniGameRepository.findAll();
         Collections.sort(list);
+        System.out.println("LIST "+list.size());
         MiniGame miniGame = list.get(0);
-        return miniGame.getGameId() + 1;
+        System.out.println("MINGAMEeeeeeeeee " + miniGame);
+        return miniGame.getMiniGameId();
     }
 
     @Override

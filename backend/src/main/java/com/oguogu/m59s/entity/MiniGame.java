@@ -40,7 +40,19 @@ public class MiniGame implements Comparable<MiniGame>{
         return miniGameDto;
     }
 
-    public int compareTo(@NotNull MiniGame o) {
+    @Override
+    public String toString() {
+        return "MiniGame{" +
+                "miniGameId=" + miniGameId +
+                ", clearTime='" + clearTime + '\'' +
+                ", score=" + score +
+                ", gameId=" + gameId +
+                ", miniGameDetailId=" + miniGameDetailId +
+                '}';
+    }
+
+        public int compareTo(@NotNull MiniGame o) {
         return (int) (o.miniGameId-this.miniGameId);
     }
+
 }

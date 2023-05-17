@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
@@ -9,6 +9,12 @@ import TableCell from "@mui/material/TableCell";
 import TableRow from "@mui/material/TableRow";
 import Button from "@mui/material/Button";
 import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
+import { useDispatch } from "react-redux";
+import gameReducer from "../../redux/reducers/game";
+import { GameAction } from "../../redux/actions/GameAction";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { store } from "../../redux/store";
 
 const Rank = styled.div`
   font-family: "neodgm";
@@ -39,13 +45,39 @@ const Pag = styled.div`
 `;
 
 export default function Ranking() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  // const round = useSelector((state) => state.gameReducer.round);
+  const round = store.getState().gameReducer.round;
+  const startMultiGame = (userId) => {
+    const data = {
+      userId: localStorage.getItem("userId"),
+      round: round + 1,
+    };
+    dispatch(GameAction.getGameRecord(data));
+    console.log(userId);
+    setFlag(true);
+  };
+  const campusRanking = useSelector((state) => state.gameReducer.gameRanking);
+  const gameRecord = useSelector((state) => state.gameReducer.gameRecord);
+  // const gameRecord = store.getState().gameReducer.gameRecord;
+
+  const [flag, setFlag] = useState(false);
+  useEffect(() => {
+    if (flag) {
+      console.log("GAMERECORD");
+      dispatch({ type: "SET_GAME_MODE", payload: { gameMode: "multi" } });
+      navigate("/game"); // /game 경로로 이동
+    }
+  }, [gameRecord]);
+
   return (
     <Rank>
       <Box sx={{ width: "100%", height: "100px" }}>
         <Table sx={{ textAlign: "center", margin: "5%" }}>
           <TableBody>
-            {rows.map((item) => (
-              <TableRow key={item.id}>
+            {campusRanking.map((item) => (
+              <TableRow key={item.userId}>
                 <TableCell
                   sx={{
                     width: "0%",
@@ -55,7 +87,7 @@ export default function Ranking() {
                     fontFamily: "neodgm",
                   }}
                 >
-                  {item.id}
+                  {item.userId}
                 </TableCell>
                 <TableCell
                   sx={{
@@ -66,7 +98,7 @@ export default function Ranking() {
                     fontFamily: "neodgm",
                   }}
                 >
-                  {item.user}
+                  {item.nickname}
                 </TableCell>
                 <TableCell
                   sx={{
@@ -77,7 +109,7 @@ export default function Ranking() {
                     fontFamily: "neodgm",
                   }}
                 >
-                  {item.score} M
+                  {item.mileage} M
                 </TableCell>
                 <TableCell
                   sx={{
@@ -101,6 +133,7 @@ export default function Ranking() {
                     }}
                     variant="contained"
                     endIcon={<ArrowCircleRightIcon />}
+                    onClick={() => startMultiGame(item.userId)}
                   >
                     가상대전
                   </Button>
