@@ -80,7 +80,7 @@ export default function KakaoLogin() {
   const [nickname, setNickname] = useState("");
   const [email, setEmail] = useState("");
   const [kakaoNickname, setKakaoNicknamemail] = useState("");
-  const [userId, setUserId] =  useState("");
+  const [userId, setUserId] = useState("");
   const handleOptionChange = (event) => {
     setSelectedOption(event.target.value);
     console.log(selectedOption);
@@ -97,7 +97,7 @@ export default function KakaoLogin() {
 
   useEffect(() => {
     registCheck();
-    
+
     console.log(2);
     localStorage.setItem("email", email);
   }, [email]);
@@ -107,17 +107,15 @@ export default function KakaoLogin() {
 
   useEffect(() => {
     localStorage.setItem("userId", userId);
-    if(userId) window.location.href = `${kakaoUrl}/main`;
-    
+    if (userId) window.location.href = `${kakaoUrl}/main`;
   }, [userId]);
   const getUserId = async () => {
     await axios
       .get(`${baseUrl}/main/find/${email}`)
       .then((res) => {
         console.log(res);
-        if(res.data.user) {
+        if (res.data.user) {
           setUserId(res.data.user.userId);
-          
         }
         // localStorage.setItem("userId", res.data.user.userId);
       })

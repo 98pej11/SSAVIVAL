@@ -1,10 +1,12 @@
+import { useSelector } from "react-redux";
+
 export const data = {
   bar: {
     labels: ["서울", "대전", "구미", "광주", "부울경"],
     datasets: [
       {
         label: "캠퍼스 순위",
-        data: [1132, 1117, 615, 534, 280],
+        data: [seoul, daejeon, gumi, gwangju, busan],
         backgroundColor: [
           "rgba(255, 99, 132, 0.6)",
           "rgba(54, 162, 235, 0.6)",

@@ -2,7 +2,12 @@ import React, { useCallback, useEffect } from "react";
 import { useState } from "react";
 import { StyledEngineProvider, styled } from "@mui/material/styles";
 import { useSelector, useDispatch } from "react-redux";
-import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
+import {
+  DragDropContext,
+  Draggable,
+  Droppable,
+  cancel,
+} from "react-beautiful-dnd";
 
 export default function Seating() {
   const dispatch = useDispatch();
@@ -33,6 +38,17 @@ export default function Seating() {
       console.log("게임결과: " + minigameClear);
     }
   };
+
+  // Cancel the drag when the component is unmounted
+  // useEffect(() => {
+  //   return () => {
+  //     const cleanup = () => {
+  //       cancel(); // Cancel the drag when the component is unmounted
+  //     };
+
+  //     return cleanup;
+  //   };
+  // }, []);
 
   const selectIndex = (selectingNumber) => {
     let temp = Array.from({ length: 12 }, (v, i) => i);

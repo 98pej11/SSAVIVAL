@@ -5,8 +5,12 @@ import Container from "@mui/material/Container";
 import pepe from "../../assets/pepe.jpg";
 import LogoutIcon from "@mui/icons-material/Logout";
 import LogoutBtn from "./LogoutBtn";
+import { useSelector } from "react-redux";
 
 function MainHeader() {
+  //redux state값 가져오기
+  const nickname = useSelector((state) => state.mainReducer.nickname);
+
   return (
     <AppBar
       elevation={0}
@@ -53,7 +57,7 @@ function MainHeader() {
                 marginRight: "2%",
               }}
             >
-              김페페님, 환영합니다!
+              {nickname}님, 환영합니다!
             </div>
             <LogoutBtn />
           </div>

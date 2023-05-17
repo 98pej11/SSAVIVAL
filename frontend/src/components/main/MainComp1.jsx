@@ -76,15 +76,16 @@ export default function MainComp1() {
     dispatch(GameAction.getRemindAnswer("음식"));
     dispatch(GameAction.gameStart(localStorage.getItem("userId")));
     dispatch(fetchQuizImage());
-    navigate("/game"); // /game 경로로 이동
+    navigate("/start"); // /start 경로로 이동
   };
 
   const handleMultiPlayerClick = () => {
     setOpen(true);
   };
 
+  const campus = useSelector((state) => state.mainReducer.campus);
   const [open, setOpen] = React.useState(false);
-  const [value, setValue] = React.useState(0);
+  const [value, setValue] = React.useState(campus); //default campus는 user의 campus
 
   const handleClose = () => {
     setOpen(false);
@@ -167,6 +168,7 @@ export default function MainComp1() {
 
             <img src={exit} alt="" style={{ width: "100%", height: "100%" }} />
           </Box>
+
           <Dialog open={open} onClose={handleClose}>
             <DialogContent
               style={{
@@ -188,44 +190,44 @@ export default function MainComp1() {
                 >
                   <Tab value={0} label="서울" />
                   <Tab value={1} label="대전" />
-                  <Tab value={2} label="부울경" />
-                  <Tab value={3} label="광주" />
-                  <Tab value={4} label="구미" />
+                  <Tab value={2} label="광주" />
+                  <Tab value={3} label="구미" />
+                  <Tab value={4} label="부울경" />
                 </Tabs>
               </Box>
               <SwipeableViews index={value} onChangeIndex={handleChange}>
                 <div role="tabpanel" hidden={value !== 0} id="tabpanel-0">
                   {value === 0 && (
                     <RankingContainer>
-                      <Ranking2 />
+                      <Ranking2 value={0} />
                     </RankingContainer>
                   )}
                 </div>
                 <div role="tabpanel" hidden={value !== 1} id="tabpanel-1">
                   {value === 1 && (
                     <RankingContainer>
-                      <Ranking2 />
+                      <Ranking2 value={1} />
                     </RankingContainer>
                   )}
                 </div>
                 <div role="tabpanel" hidden={value !== 2} id="tabpanel-2">
                   {value === 2 && (
                     <RankingContainer>
-                      <Ranking2 />
+                      <Ranking2 value={2} />
                     </RankingContainer>
                   )}
                 </div>
                 <div role="tabpanel" hidden={value !== 3} id="tabpanel-3">
                   {value === 3 && (
                     <RankingContainer>
-                      <Ranking2 />
+                      <Ranking2 value={3} />
                     </RankingContainer>
                   )}
                 </div>
                 <div role="tabpanel" hidden={value !== 4} id="tabpanel-4">
                   {value === 4 && (
                     <RankingContainer>
-                      <Ranking2 />
+                      <Ranking2 value={4} />
                     </RankingContainer>
                   )}
                 </div>

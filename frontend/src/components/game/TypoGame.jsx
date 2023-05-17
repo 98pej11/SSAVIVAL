@@ -161,9 +161,10 @@ export default function TypoGame() {
   return (
     <Box
       className="typo"
-      width="500px"
-      height="500px"
+      width="600px"
+      height="610px"
       style={{
+        position: "relative",
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
@@ -181,21 +182,29 @@ export default function TypoGame() {
         onMouseLeave={() => setPainting(false)}
         onClick={handleCanvasClick}
       ></canvas>
-      {/* <Box
+
+      {/* 진행 상황 표시 */}
+      <Box
         sx={{
           position: "absolute",
           width: "50px",
           height: "50px",
-          top: "74%",
-          left: "82%",
+          top: "48%",
+          left: "73%",
         }}
       >
-        <Box sx={{ ...styles, color: "red" }}>{foundSpots.length}</Box>
-        <Box sx={{ ...styles, right: "14px", top: "9px" }}>/</Box>
-        <Box sx={{ ...styles, right: "0px", top: "23px" }}>
+        <Box sx={{ ...styles, fontSize: "2.5vw", color: "red" }}>
+          {foundSpots.length}
+        </Box>
+        <Box sx={{ ...styles, fontSize: "2.5vw", right: "14px", top: "9px" }}>
+          /
+        </Box>
+        <Box sx={{ ...styles, fontSize: "2vw", right: "5px", top: "26px" }}>
           {typoSpots[index].length}
         </Box>
-      </Box> */}
+      </Box>
+
+      {/* 채점 효과 */}
       {isScoring && (
         <img
           src={scoring}

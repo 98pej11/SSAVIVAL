@@ -160,7 +160,7 @@ export default function StartPage() {
               <span>입니다.</span>
             </div>
             <br />
-            <div>? 게임 멘트 뭐라구 쓰지 ?</div>
+            <div>SSAFY의 하루를 함께 달려봐요!</div>
           </Box>
 
           <Box

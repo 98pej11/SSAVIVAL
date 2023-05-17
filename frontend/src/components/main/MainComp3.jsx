@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import Box from "@mui/material/Box";
 import CampusChart from "./CampusChart";
 import Ranking from "./Ranking";
+import { useDispatch } from "react-redux";
+import { MainAction } from "../../redux/actions/MainAction";
 
 const Comp3 = styled.div`
   // font-family: "neodgm";
@@ -28,6 +30,13 @@ const Title = styled.div`
 `;
 
 export default function MainComp3() {
+  const dispatch = useDispatch();
+
+  // 캠퍼스별 평균 점수 가져오기
+  useEffect(() => {
+    dispatch(MainAction.getCampusAvg());
+  }, []);
+
   return (
     <Comp3>
       <Box

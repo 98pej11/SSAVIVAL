@@ -9,6 +9,7 @@ import MyChart from "./MyChart";
 import smilepin from "../../assets/smilepin.png";
 import silver from "../../assets/silver.png";
 import gold from "../../assets/gold.png";
+import { useSelector } from "react-redux";
 
 const Comp2 = styled.div`
   font-family: "neodgm";
@@ -63,6 +64,14 @@ const theme = createTheme({
 //   return `${value}°C`;
 // }
 export default function MainComp2() {
+  // redux
+  const mileage = useSelector((state) => state.mainReducer.mileage);
+  const tier = useSelector((state) => state.mainReducer.tier);
+  const totalCnt = useSelector((state) => state.mainReducer.totalCnt);
+  const winCnt = useSelector((state) => state.mainReducer.winCnt);
+  const loseCnt = useSelector((state) => state.mainReducer.loseCnt);
+  const drawCnt = useSelector((state) => state.mainReducer.drawCnt);
+
   return (
     <Comp2>
       {" "}
@@ -88,11 +97,11 @@ export default function MainComp2() {
           <div>
             <Line>
               <Title>내 티어</Title>
-              <Content>Silver</Content>
+              <Content>{mileage}</Content>
             </Line>
             <Line>
               <Title>마일리지</Title>
-              <Content>3165 EXP</Content>
+              <Content>{tier}</Content>
             </Line>
           </div>
           <div>
@@ -102,7 +111,7 @@ export default function MainComp2() {
               style={{
                 // position: "absolute",
                 top: "-30px", // 이미지 위치 조정
-                marginLeft: 65, // 이미지 위치 동적으로 설정
+                marginLeft: 20 + mileage * 1.62, // 이미지 위치 동적으로 설정
                 width: "30px", // 이미지 크기 조정
                 height: "auto",
               }}
@@ -120,7 +129,7 @@ export default function MainComp2() {
                   aria-label="Temperature"
                   aria-labelledby="discrete-slider-small-steps"
                   step={1}
-                  defaultValue={30}
+                  defaultValue={mileage}
                   min={0}
                   max={100}
                   getAriaValueText={(value) => `${value}`}
@@ -145,7 +154,12 @@ export default function MainComp2() {
           </Line2>
           <Line2>
             <div style={{ width: "50%", height: "auto" }}>
-              <MyChart />
+              <MyChart
+                totalCnt={totalCnt}
+                winCnt={winCnt}
+                loseCnt={loseCnt}
+                drawCnt={drawCnt}
+              />
             </div>
             <div>
               <Chips>
@@ -161,7 +175,7 @@ export default function MainComp2() {
                     border: "1px solid #CEBC4D",
                   }}
                 />
-                <span>244전</span>
+                <span>{totalCnt}</span>
               </Chips>
               <Chips>
                 <Chip
@@ -175,7 +189,7 @@ export default function MainComp2() {
                     // borderColor: "",
                   }}
                 />
-                <span>244전</span>
+                <span>{winCnt}</span>
               </Chips>
               <Chips>
                 <Chip
@@ -188,7 +202,7 @@ export default function MainComp2() {
                     border: "1px solid #6B6E71",
                   }}
                 />
-                <span>244전</span>
+                <span>{drawCnt}</span>
               </Chips>
               <Chips>
                 <Chip
@@ -201,7 +215,7 @@ export default function MainComp2() {
                     border: "1px solid #EC2C54",
                   }}
                 />
-                <span>244전</span>
+                <span>{loseCnt}</span>
               </Chips>
             </div>
           </Line2>

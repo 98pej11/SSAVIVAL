@@ -54,7 +54,7 @@ const initialState = {
   gameMode: "single",
   selectedEmojiIndex: null,
   emojiResult: "false",
-  interval: false,
+  interval:false, //미니 게임 끝나고 점수 표시
   pointsCenter: [[0, 0, 0]],
   quizImgSize: { width: 600, height: 400 },
   quizImgUrl: { left: "", right: "" },
