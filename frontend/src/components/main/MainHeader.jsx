@@ -7,19 +7,6 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import LogoutBtn from "./LogoutBtn";
 
 function MainHeader() {
-  const [isHovered, setIsHovered] = useState(false);
-
-  const handleMouseEnter = () => {
-    setIsHovered(true);
-  };
-
-  const handleMouseLeave = () => {
-    setIsHovered(false);
-  };
-
-  const handleLogout = () => {
-    LogoutBtn.logout();
-  };
   return (
     <AppBar
       elevation={0}

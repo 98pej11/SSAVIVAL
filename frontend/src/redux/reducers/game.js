@@ -26,6 +26,7 @@ const initialState = {
     class_desk,
     locker,
     consultant_desk,
+    class_desk,
     classroom,
     consultant,
     class_desk,

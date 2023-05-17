@@ -14,12 +14,42 @@ const Comp = styled.div`
   gap: 10;
 `;
 
+const IPData = [
+  {
+    ipAddress: "123.456.789.123",
+    subnetMask: "427.598.152.654",
+    gateway: "684.218.617.135",
+  },
+  {
+    ipAddress: "783.984.115.452",
+    subnetMask: "123.456.789.123",
+    gateway: "642.842.662.871",
+  },
+  {
+    ipAddress: "845.355.336.820",
+    subnetMask: "123.456.789.123",
+    gateway: "201.583.754.493",
+  },
+  {
+    ipAddress: "441.200.369.455",
+    subnetMask: "823.211.687.902",
+    gateway: "123.456.789.123",
+  },
+  {
+    ipAddress: "123.456.789.123",
+    subnetMask: "857.601.248.462",
+    gateway: "961.048.084.387",
+  },
+  {
+    ipAddress: "054.540.268.318",
+    subnetMask: "123.456.789.123",
+    gateway: "468.432.004.896",
+  },
+];
+
+const RandomIP = IPData[Math.floor(Math.random() * IPData.length)];
+
 function IPgame() {
-  const [answer, setAnswer] = useState({
-    ipAddress: "123.123.123.123",
-    subnetMask: "123.123.123.123",
-    gateway: "123.123.123.123",
-  });
   const [inputs, setInputs] = useState({
     ipAddress: "",
     subnetMask: "",
@@ -53,7 +83,7 @@ function IPgame() {
   };
 
   const submit = () => {
-    if (JSON.stringify(inputs) === JSON.stringify(answer)) {
+    if (JSON.stringify(inputs) === JSON.stringify(RandomIP)) {
       alert("PASS");
       if (minigameActive) {
         dispatch({ type: "SET_MINIGAME_CLEAR" });
@@ -130,12 +160,15 @@ function IPgame() {
                       minLength="7"
                       maxLength="15"
                       pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$"
-                      value={answer.ipAddress}
+                      value={RandomIP.ipAddress}
                       name="ipAddress"
                       tabIndex="1"
                       onChange={(e) => onChangeHandler(e, 1)}
                       onKeyDown={(e) => handleKeyPress(e, 1)}
                       readOnly
+                      onMouseDown={(e) => e.preventDefault()}
+                      onDragStart={(e) => e.preventDefault()}
+                      onContextMenu={(e) => e.preventDefault()}
                     />
                   </InputForm>
                   <InputForm>
@@ -145,12 +178,15 @@ function IPgame() {
                       minLength="7"
                       maxLength="15"
                       pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$"
-                      value={answer.subnetMask}
+                      value={RandomIP.subnetMask}
                       name="subnetMask"
                       tabIndex="2"
                       onChange={(e) => onChangeHandler(e, 2)}
                       onKeyDown={(e) => handleKeyPress(e, 2)}
                       readOnly
+                      onMouseDown={(e) => e.preventDefault()}
+                      onDragStart={(e) => e.preventDefault()}
+                      onContextMenu={(e) => e.preventDefault()}
                     />
                   </InputForm>
                   <InputForm>
@@ -160,12 +196,15 @@ function IPgame() {
                       minLength="7"
                       maxLength="15"
                       pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$"
-                      value={answer.gateway}
+                      value={RandomIP.gateway}
                       name="gateway"
                       tabIndex="3"
                       onChange={(e) => onChangeHandler(e, 3)}
                       onKeyDown={(e) => handleKeyPress(e, 3)}
                       readOnly
+                      onMouseDown={(e) => e.preventDefault()}
+                      onDragStart={(e) => e.preventDefault()}
+                      onContextMenu={(e) => e.preventDefault()}
                     />
                   </InputForm>
                 </fieldset>

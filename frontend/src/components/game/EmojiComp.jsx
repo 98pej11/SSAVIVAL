@@ -14,12 +14,18 @@ import MattermostEmoji from "./MattermostEmoji";
 import { useSelector, useDispatch } from "react-redux";
 
 const EmojiData = [
-  { Title: "첫 번째 데이터1", Text: "d" },
-  { Title: "첫 번째 데이터1", Text: "a" },
-  { Title: "첫 번째 데이터1", Text: "f" },
-  { Title: "첫 번째 데이터1", Text: "e" },
-  { Title: "첫 번째 데이터1", Text: "g" },
-  { Title: "첫 번째 데이터1", Text: "d" },
+  {
+    Title: "[설문조사 미실시 안내]",
+    Text: "설문 미실시 학생들에게 안내드립니다. 1시에 설문기간이 마감되었으나 미실시 교육생들이 많은 관계로 3시까지 연장합니다. 빠르게 설문 부탁드립니다.",
+  },
+  {
+    Title: "[라이브 접속 안내]",
+    Text: "9시 라이브 방송 [프로젝트 발표 Tip & 6주차 News] 이 곧 시작됩니다. 라이브 방송 댓글참여를 위해 에듀싸피를 통해 접속해주세요!!",
+  },
+  { Title: "[]", Text: "f" },
+  { Title: "[설문조사 미실시 안내]", Text: "e" },
+  { Title: "[설문조사 미실시 안내]", Text: "g" },
+  { Title: "[설문조사 미실시 안내]", Text: "d" },
 ];
 
 const RandomEmoji = EmojiData[Math.floor(Math.random() * EmojiData.length)];
