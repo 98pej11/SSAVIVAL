@@ -1,13 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  RadioGroup,
-  FormControlLabel,
-  Radio,
-  Typography,
-  Box,
-} from "@mui/material";
+import { RadioGroup, FormControlLabel, Radio } from "@mui/material";
 
 const Comp = styled.div`
   display: flex;
@@ -83,14 +77,12 @@ function IPgame() {
   };
 
   const submit = () => {
-    if (JSON.stringify(inputs) === JSON.stringify(RandomIP)) {
-      alert("PASS");
+    if (inputs.ipAddress === RandomIP.ipAddress) {
       if (minigameActive) {
         dispatch({ type: "SET_MINIGAME_CLEAR" });
         console.log("게임결과: " + minigameClear);
       }
     } else {
-      alert("FAIL");
     }
   };
 
@@ -122,8 +114,7 @@ function IPgame() {
       {/* 정답 예시 */}
       <Wrapper>
         <Header>
-          <HeaderTitle>인터넷 프로토콜 버전 4(TCP/IPv4) 속성</HeaderTitle>
-          <HeaderRight>X</HeaderRight>
+          <HeaderTitle>인터넷 프로토콜 버전(TCP/IPv4) 속성</HeaderTitle>
         </Header>
         <Body>
           <Tab>일반</Tab>
@@ -227,8 +218,7 @@ function IPgame() {
       {/* 실제 게임 진행 입력란*/}
       <Wrapper style={{ backgroundColor: "#FFDE69" }}>
         <Header>
-          <HeaderTitle>인터넷 프로토콜 버전 4(TCP/IPv4) 속성</HeaderTitle>
-          <HeaderRight>X</HeaderRight>
+          <HeaderTitle>인터넷 프로토콜 버전(TCP/IPv4) 속성</HeaderTitle>
         </Header>
         <Body>
           <Tab>일반</Tab>
@@ -260,7 +250,7 @@ function IPgame() {
                   </legend>
                   <InputForm>
                     <div>IP 주소(I):</div>
-                    <input
+                    <Input
                       type="text"
                       minLength="7"
                       maxLength="15"
@@ -274,7 +264,7 @@ function IPgame() {
                   </InputForm>
                   <InputForm>
                     <div>서브넷 마스크(U):</div>
-                    <input
+                    <Input
                       type="text"
                       minLength="7"
                       maxLength="15"
@@ -284,11 +274,11 @@ function IPgame() {
                       tabIndex="2"
                       onChange={(e) => onChangeHandler(e, 2)}
                       onKeyDown={(e) => handleKeyPress(e, 2)}
-                    ></input>
+                    ></Input>
                   </InputForm>
                   <InputForm>
                     <div>기본 게이트웨이(D):</div>
-                    <input
+                    <Input
                       type="text"
                       minLength="7"
                       maxLength="15"
@@ -298,7 +288,7 @@ function IPgame() {
                       tabIndex="3"
                       onChange={(e) => onChangeHandler(e, 3)}
                       onKeyDown={(e) => handleKeyPress(e, 3)}
-                    ></input>
+                    ></Input>
                   </InputForm>
                 </fieldset>
               </StyledRadioGroup>
@@ -321,6 +311,7 @@ function IPgame() {
 }
 
 const Input = styled.input`
+  margin-left: 10px;
   border: 1px solid;
   background-color: #f5f5f5;
 `;
@@ -358,18 +349,18 @@ const Tab = styled.div`
   border-left: 0.5px solid lightgrey;
   border-right: 0.5px solid lightgrey;
   padding: 2px 5px 2px 4px;
-  width: 15%;
+  width: 20%;
 `;
 const Content = styled.div`
   background-color: white;
   height: auto;
-  font-size: 0.8rem;
+  font-size: 0.7rem;
 `;
 const ContentTop = styled.div`
   padding: 10px;
 `;
 const ContentMain = styled.div`
-  padding: 10px;
+  padding: 5px;
 `;
 const StyledRadioGroup = styled(RadioGroup)`
   .MuiFormControlLabel-label {
@@ -385,12 +376,15 @@ const StyledFormControlLabel = styled(FormControlLabel)`
 
 const InputForm = styled.div`
   display: flex;
-  justify-content: flex-start;
-  margin-top: -5px;
-  padding: 5px;
+  justify-content: space-evenly;
+  margin: 1%;
+  padding: 1%;
   font-size: 0.7rem;
   div {
     margin-right: auto;
+  }
+  input {
+    width: 120px;
   }
 `;
 const Footer = styled.div`

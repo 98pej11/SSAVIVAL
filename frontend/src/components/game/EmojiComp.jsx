@@ -108,10 +108,8 @@ export default function Emoji() {
         dispatch({ type: "SET_MINIGAME_CLEAR" });
         console.log("게임결과: " + minigameClear);
       }
-      alert("정답!");
     } else {
       dispatch({ type: "SET_EMOJI_RESULT", payload: false });
-      alert("틀렸어요!");
     }
     handleClose();
   };
@@ -212,7 +210,7 @@ export default function Emoji() {
                     vertical: "top",
                     horizontal: "center",
                   }}
-                  style={{ width: "1000px" }}
+                  style={{ width: "1200px" }}
                 >
                   <div
                     style={{

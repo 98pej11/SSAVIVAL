@@ -34,7 +34,8 @@ const container = {
 
 const gameContainer = {
   display: "flex",
-  alignItems: "flex-start",
+  // alignItems: "center",
+  justifyContent: "center",
   flexWrap: "wrap",
   border: "none", // 테두리 없애기
   borderRadius: 10,
@@ -314,14 +315,14 @@ export default function GamePage() {
           <Box
             sx={{
               ...gameContainer,
-              boxShadow:
-                pageBg === "class_desk" || "laptop"
-                  ? "none"
-                  : "0px 0px 3px 2px rgba(0,0,0,0.2)", // 그림자 추가하기
-              backgroundColor:
-                pageBg === "class_desk" || "laptop"
-                  ? "none"
-                  : "rgba(255, 255, 255, 0.7)", // 배경색 투명하게 만들기
+              // boxShadow:
+              //   pageBg === "class_desk" || "laptop"
+              //     ? "none"
+              //     : "0px 0px 3px 2px rgba(0,0,0,0.2)", // 그림자 추가하기
+              // backgroundColor:
+              //   pageBg === "class_desk" || "laptop"
+              //     ? "none"
+              //     : "rgba(255, 255, 255, 0.7)", // 배경색 투명하게 만들기
               backgroundImage: inter ? "" : `url(${containerBg})`,
               backgroundSize: "cover",
               backgroundRepeat: "no-repeat",

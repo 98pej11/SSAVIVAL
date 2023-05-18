@@ -33,26 +33,26 @@ export default function Ranking2(value) {
   const campus = value.value;
   console.log(campus);
 
-   //redux에서 campus에 맞는 top 5 users 가져오기
-   const users = useSelector((state) => state.mainReducer.users);
-   const [topFive, setTopFive] = useState([]);
- 
-   useEffect(() => {
-     if (users && users.length > 0)  {
-    const filterUsers = users.filter((user) => user.campus === campus);
-     console.log(filterUsers);
- 
-     const calculatedTopFive = filterUsers.slice(0, 5).map((user, index) => ({
-       ...user,
-       rank: index + 1,
-     }));
-     console.log(calculatedTopFive);
- 
-     setTopFive(calculatedTopFive); // topFive 상태 업데이트
-   
-       // 이후에 추가로 작업을 진행하면 됩니다.
-     }
-   }, [users, campus]);
+  //redux에서 campus에 맞는 top 5 users 가져오기
+  const users = useSelector((state) => state.mainReducer.users);
+  const [topFive, setTopFive] = useState([]);
+
+  useEffect(() => {
+    if (users && users.length > 0) {
+      const filterUsers = users.filter((user) => user.campus === campus);
+      console.log(filterUsers);
+
+      const calculatedTopFive = filterUsers.slice(0, 5).map((user, index) => ({
+        ...user,
+        rank: index + 1,
+      }));
+      console.log(calculatedTopFive);
+
+      setTopFive(calculatedTopFive); // topFive 상태 업데이트
+
+      // 이후에 추가로 작업을 진행하면 됩니다.
+    }
+  }, [users, campus]);
 
   // 가상 대전 버튼 누르면 multiplay game으로 이동
   const navigate = useNavigate();
@@ -61,7 +61,6 @@ export default function Ranking2(value) {
     dispatch({ type: "SET_GAME_MODE", payload: { gameMode: "multi" } });
     navigate("/start"); // /game 경로로 이동
   };
-
 
   return (
     <Rank>

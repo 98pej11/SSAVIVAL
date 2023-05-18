@@ -131,7 +131,7 @@ export default function GameComp(props) {
         boxShadow: "0px 0px 3px 2px rgba(0,0,0,0.2)",
         backgroundColor: "rgba(255, 255, 255, 0.7)",
         padding: 3,
-        maxWidth: "70%",
+        maxWidth: "40%",
         width: "100%",
         height: "72vh",
         overflow: "hidden",

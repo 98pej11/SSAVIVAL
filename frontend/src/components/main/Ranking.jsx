@@ -33,18 +33,18 @@ export default function Ranking() {
   const [topFive, setTopFive] = useState([]);
 
   useEffect(() => {
-    if (users && users.length > 0)  {
-   const filterUsers = users.filter((user) => user.campus === campus);
-    console.log(filterUsers);
+    if (users && users.length > 0) {
+      const filterUsers = users.filter((user) => user.campus === campus);
+      console.log(filterUsers);
 
-    const calculatedTopFive = filterUsers.slice(0, 5).map((user, index) => ({
-      ...user,
-      rank: index + 1,
-    }));
-    console.log(calculatedTopFive);
+      const calculatedTopFive = filterUsers.slice(0, 5).map((user, index) => ({
+        ...user,
+        rank: index + 1,
+      }));
+      console.log(calculatedTopFive);
 
-    setTopFive(calculatedTopFive); // topFive 상태 업데이트
-  
+      setTopFive(calculatedTopFive); // topFive 상태 업데이트
+
       // 이후에 추가로 작업을 진행하면 됩니다.
     }
   }, [users, campus]);

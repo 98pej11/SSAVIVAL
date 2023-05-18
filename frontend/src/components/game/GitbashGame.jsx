@@ -100,7 +100,7 @@ export default function GitbashGame() {
       className="git"
       sx={{
         display: "flex",
-        transform: "translate(0, 30%)",
+        transform: "translate(0, -10%)",
       }}
     >
       {/* gitbash 창 구현 */}
