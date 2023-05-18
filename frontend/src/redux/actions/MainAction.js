@@ -106,13 +106,14 @@ function getChallenge(challengerId) {
 }
 
 function patchStatistics(data) {
+  console.log('여기까지',data)
   const req = data
   return async () => {
     const url = `${baseUrl}/main/statistics/done/`;
     await axios
-      .patch(url, req)
-      .then((response) => {
-        const data = response.data;
+    .patch(url, req)
+    .then((response) => {
+      const data = response.data;
         console.log("patchStatistics axios성공 및 데이타:", data);
       })
       .catch((error) => {
