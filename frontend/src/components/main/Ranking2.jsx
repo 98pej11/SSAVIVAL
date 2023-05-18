@@ -55,8 +55,6 @@ export default function Ranking2(value) {
   // // 가상 대전 버튼 누르면 multiplay game으로 이동
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const mileageRef = useRef(null);
-  const userIdRef = useRef(null);
 
   const handleChallenge = (id, mileage) => {
     dispatch({
@@ -95,9 +93,7 @@ export default function Ranking2(value) {
                   {item.rank}
                   {/* {item.userId} */}
                 </TableCell>
-                <TableCell ref={userIdRef} sx={{ display: "none" }}>
-                  {item.userId}
-                </TableCell>
+                <TableCell sx={{ display: "none" }}>{item.userId}</TableCell>
                 <TableCell
                   sx={{
                     width: "30%",
@@ -117,7 +113,6 @@ export default function Ranking2(value) {
                     fontSize: "1rem",
                     fontFamily: "neodgm",
                   }}
-                  data-user-id={item.userId}
                 >
                   {item.mileage} M
                 </TableCell>

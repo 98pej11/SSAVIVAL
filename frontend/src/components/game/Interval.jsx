@@ -58,7 +58,7 @@ export default function Interval() {
       sx={{
         position: "absolute",
         transform:
-          gameMode == "single" ? "translate(75%,23%)" : "translate(131.5%,23%)",
+          gameMode == "single" ? "translate(75%,23%)" : "translate(131.5%,21%)",
         zIndex: 999,
         display: "flex",
         // alignItems: "center",
