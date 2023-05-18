@@ -86,6 +86,7 @@ export default function GamePage() {
   const [gameOver, setGameOver] = useState(false);
   const [flag, setFlag] = useState(false);
   const [inputs, setInputs] = useState({});
+  // const [openScore, setOpenScore] = useState(false);
 
   // 갈아끼울 게임 컴포넌트 리스트
   const gameComps = [
@@ -156,7 +157,10 @@ export default function GamePage() {
             console.log("Check  145");
             onCapture(count);
             clearInterval(interval);
-            setTimeout(() => {}, 3000); //3초 대기
+            // setOpenScore(true);
+            setTimeout(() => {
+              // setOpenScore(false);
+            }, 2500); //3초 대기
             // return;
           }
         }, 500);
@@ -300,13 +304,15 @@ export default function GamePage() {
   return (
     <Box
       style={{
-        backgroundImage: inter ? `url(${classroom})` : `url(${pageBg})`,
+        backgroundImage: `url(${pageBg})`,
+        // backgroundImage: inter ? `url(${classroom})` : `url(${pageBg})`,
         backgroundSize: "cover",
         position: "relative",
         width: "100%",
         height: "auto",
       }}
     >
+      {minigameActive ? "" : <Interval />}
       {gameOver ? <GameOver /> : ""}
       <Header />
       <Box sx={container}>

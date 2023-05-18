@@ -35,8 +35,6 @@ function GameOver(props) {
   const totalScore = useSelector((state) => state.gameReducer.totalScore);
   const userId = localStorage.getItem("userId");
   const challengeInfo = useSelector((state) => state.mainReducer.challengeInfo);
-  console.log("challengeInfo", challengeInfo);
-  console.log("challengeInfo", challengeInfo);
 
   // 게임 종료 눌렀을 때
   const offGame = () => {
