@@ -62,8 +62,15 @@ const Text = styled.div`
   font-size: 1.3rem;
   display: flex;
   justify-content: center;
-
-  margin-top: 20px;
+  height: 50px;
+  align-items: center;
+  /* font-family: neodgm;
+  width: 95%;
+  height: 50px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  margin: 10px; */
 `;
 
 export default function GamePage() {
@@ -91,6 +98,7 @@ export default function GamePage() {
   // 갈아끼울 게임 컴포넌트 리스트
   const gameComps = [
     <GitbashGame key="GitbashGame" />,
+    <DifferenceGame key="DifferenceGame" />,
     <LockerGame key="LockerGame" />,
     <TypoGame key="TypoGame" />,
     <IPGame key="IPGame" />,
@@ -101,7 +109,6 @@ export default function GamePage() {
     <Seating key="Seating" />,
     <Puzzle key="Puzzle" />,
     <AttendanceGame key="AttendanceGame" />,
-    <DifferenceGame key="DifferenceGame" />,
   ];
 
   // 게임 페이지 마운트되면 "SET_MINIGAME_START" dispatch 보내기
@@ -175,7 +182,9 @@ export default function GamePage() {
   const [blobs, setBlobs] = useState([]);
 
   const onCapture = (count) => {
-    html2canvas(document.getElementById("gameContainer")).then((canvas) => {
+    html2canvas(document.getElementById("gameContainer"), {
+      useCORS: true,
+    }).then((canvas) => {
       // onSaveAs(canvas.toDataURL("image/png"), "image-download.png");
       canvas.toBlob((blob) => {
         if (!minigameClear) {
@@ -343,15 +352,15 @@ export default function GamePage() {
           <Box sx={Comp}>
             <Box sx={gameContainer}>
               {/* checkkkkkkkkkkkkkkkkkkkkk */}
-              <Text>상대방 게임 녹화화면</Text>
+              {/* <Text>상대방 게임 녹화화면</Text> */}
+              <TimerBomb />
               {images.length > currentIndex && (
                 <img
                   src={images[currentIndex].imageUrl}
                   alt="Slider"
                   style={{
                     padding: 5,
-
-                    width: "85%",
+                    width: "95%",
                     height: "auto",
                   }}
                 />
