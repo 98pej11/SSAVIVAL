@@ -1,4 +1,5 @@
 import React, { useRef, useEffect, useState } from "react";
+import styled from "styled-components";
 import Header from "../components/game/Header";
 import "../index.css";
 import Box from "@mui/material/node/Box";
@@ -55,6 +56,14 @@ const Comp = {
   justifyContent: "center",
   gap: 10,
 };
+
+const Text = styled.div`
+  font-family: neodgm;
+  font-size: 1.3rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
 
 export default function GamePage() {
   const dispatch = useDispatch();
@@ -345,8 +354,18 @@ export default function GamePage() {
           <Box sx={Comp}>
             <Box sx={gameContainer}>
               {/* checkkkkkkkkkkkkkkkkkkkkk */}
+              <Text>상대방 게임 녹화화면</Text>
               {images.length > currentIndex && (
-                <img src={images[currentIndex].imageUrl} alt="Slider" />
+                <img
+                  src={images[currentIndex].imageUrl}
+                  alt="Slider"
+                  style={{
+                    padding: 5,
+
+                    width: "100%",
+                    height: "auto",
+                  }}
+                />
               )}
             </Box>
             <Box
