@@ -8,11 +8,12 @@ import { REST_API_KEY, REDIRECT_URI } from "../components/KakaoLoginData";
 import { kakaoUrl, baseUrl } from "../redux/actions/url";
 import ssafy from "../assets/ssafy.png";
 import background from "../assets/background.png";
+import ssavival from "../assets/ssavival.png";
 
 const Pages = styled.div`
   position: relative;
   font-family: neodgm;
-  display: flex;
+
   background-size: cover;
   background-image: url(${background});
   height: 100vh;
@@ -21,6 +22,7 @@ const Pages = styled.div`
 const InputBox = styled.div`
   display: flex;
   flex-direction: row;
+  background-color: #fff;
   margin-top: 5px;
   padding: 12px;
   border: 1px solid #3396f4;
@@ -33,7 +35,7 @@ const Input = styled.input`
   flex: 1 0 0;
   margin: 0;
   padding: 0;
-  background-color: transparent;
+  background-color: #fff;
   font-family: "neodgm";
   color: black;
   border: none;
@@ -65,7 +67,7 @@ const Row = styled.div`
   display: flex;
   justify-content: center;
   flex-direction: column;
-  margin: 20px 10px;
+  margin: 0px 10px;
 `;
 
 export default function KakaoLogin() {
@@ -223,62 +225,70 @@ export default function KakaoLogin() {
 
   return (
     <Pages>
-      <Box
-        sx={{
-          width: "450px",
-          height: "480px",
-          padding: 3,
-          backgroundColor: "#fff",
-          borderRadius: 2,
-          boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.2)",
-          position: "fixed",
-          top: "140px",
-          left: "200px",
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
         }}
       >
-        <img src={ssafy} alt="" style={{ width: "100px", margin: 10 }} />
-        <Row>
-          <Text>닉네임 중복검사</Text>
-          <InputBox>
-            <Input
-              type="text"
-              placeholder="닉네임을 입력하세요."
-              onChange={handleNicknameChange}
-            />
-          </InputBox>
-        </Row>
-        <Row>
-          <Text>지역 선택</Text>
-          <DropBox name="캠퍼스" onChange={handleOptionChange}>
-            <option value="0">서울</option>
-            <option value="1">대전</option>
-            <option value="2">광주</option>
-            <option value="3">구미</option>
-            <option value="4">부울경</option>
-          </DropBox>
+        <Box
+          sx={{
+            margin: "8% auto",
+            width: "450px",
+            height: "480px",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            flexDirection: "column",
+            backgroundColor: "rgba(255, 255, 255, 0.9)",
+            borderRadius: 4,
+            boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.2)",
+          }}
+        >
+          <img src={ssavival} alt="" style={{ width: "300px", padding: 10 }} />
+          <Row>
+            <Text>닉네임 중복검사</Text>
+            <InputBox>
+              <Input
+                type="text"
+                placeholder="닉네임을 입력하세요."
+                onChange={handleNicknameChange}
+              />
+            </InputBox>
+          </Row>
+          <Row>
+            <Text>지역 선택</Text>
+            <DropBox name="캠퍼스" onChange={handleOptionChange}>
+              <option value="0">서울</option>
+              <option value="1">대전</option>
+              <option value="2">광주</option>
+              <option value="3">구미</option>
+              <option value="4">부울경</option>
+            </DropBox>
 
-          <Button
-            sx={{
-              fontFamily: "neodgm",
-              bgcolor: "#3396F4",
-              color: "white",
-              width: "350px",
-              marginTop: "50px",
-              boxShadow: "none", // 그림자 없애기
-              "&:hover": {
-                bgcolor: "#bcb6ff",
+            <Button
+              sx={{
+                fontFamily: "neodgm",
+                bgcolor: "#3396F4",
                 color: "white",
-                // boxShadow: "none",
-              },
-            }}
-            variant="contained"
-            onClick={regist}
-          >
-            입장
-          </Button>
-          <br />
-        </Row>
-      </Box>
+                width: "350px",
+                marginTop: "30px",
+                boxShadow: "none", // 그림자 없애기
+                "&:hover": {
+                  bgcolor: "#bcb6ff",
+                  color: "white",
+                  // boxShadow: "none",
+                },
+              }}
+              variant="contained"
+              onClick={regist}
+            >
+              입장
+            </Button>
+            <br />
+          </Row>
+        </Box>
+      </div>
     </Pages>
   );
 }

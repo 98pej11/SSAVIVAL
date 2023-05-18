@@ -79,7 +79,8 @@ export default function MainComp2() {
   }, []);
 
   // redux
-  const mileage = useSelector((state) => state.mainReducer.mileage);
+  const mileage = 5732;
+  // const mileage = useSelector((state) => state.mainReducer.mileage);
   const tier = useSelector((state) => state.mainReducer.tier);
   const totalCnt = useSelector((state) => state.mainReducer.totalCnt);
   const winCnt = useSelector((state) => state.mainReducer.winCnt);
@@ -115,25 +116,25 @@ export default function MainComp2() {
             </Line>
             <Line>
               <Title>마일리지</Title>
-              <Content>{mileage}</Content>
+              <Content>{mileage} M</Content>
             </Line>
           </div>
           <div>
-            <img
+            {/* <img
               src={smilepin} // 표시할 이미지 경로
               alt=""
               style={{
                 // position: "absolute",
                 top: "-30px", // 이미지 위치 조정
-                marginLeft: `${mileage / 100 + 8}px`,
+                marginLeft: `${mileage / 100}px`,
                 width: "30px", // 이미지 크기 조정
                 height: "auto",
               }}
-            />
+            /> */}
             <div
               style={{
                 display: "flex",
-                justifyContent: "space-evenly",
+                justifyContent: "space-between",
                 alignItems: "center",
               }}
             >
@@ -158,6 +159,7 @@ export default function MainComp2() {
                 alt=""
                 style={{
                   width: 20,
+                  margin: 2,
                 }}
               />
               <ThemeProvider theme={theme}>
@@ -165,12 +167,12 @@ export default function MainComp2() {
                   aria-label="Temperature"
                   aria-labelledby="discrete-slider-small-steps"
                   step={1}
-                  defaultValue={mileage}
+                  value={mileage}
                   min={mileage - (mileage % 1000)}
                   max={mileage - (mileage % 1000) + 1000}
                   getAriaValueText={(value) => `${value}`}
-                  valueLabelDisplay="auto"
-                  sx={{ width: "70%" }}
+                  valueLabelDisplay="on"
+                  sx={{ width: "65%" }}
                 />
               </ThemeProvider>
               <img
@@ -194,6 +196,7 @@ export default function MainComp2() {
                 alt=""
                 style={{
                   width: 20,
+                  margin: 2,
                 }}
               />
             </div>
