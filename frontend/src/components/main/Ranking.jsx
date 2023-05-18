@@ -26,7 +26,7 @@ const Pag = styled.div`
 
 export default function Ranking() {
   const campus = useSelector((state) => state.mainReducer.campus);
-  console.log(campus);
+  console.log("campus" + campus);
 
   //redux에서 campus에 맞는 top 5 users 가져오기
   const users = useSelector((state) => state.mainReducer.users);
@@ -35,7 +35,6 @@ export default function Ranking() {
   useEffect(() => {
     if (users && users.length > 0) {
       const filterUsers = users.filter((user) => user.campus === campus);
-      console.log(filterUsers);
 
       const calculatedTopFive = filterUsers.slice(0, 5).map((user, index) => ({
         ...user,
@@ -44,8 +43,6 @@ export default function Ranking() {
       console.log(calculatedTopFive);
 
       setTopFive(calculatedTopFive); // topFive 상태 업데이트
-
-      // 이후에 추가로 작업을 진행하면 됩니다.
     }
   }, [users, campus]);
 
@@ -133,47 +130,9 @@ export default function Ranking() {
                 </TableCell>
               </TableRow>
             ))}
-            {/* {campusRanking &&
-              campusRanking.map((item, index) => (
-                <TableRow key={item.userId}>
-                  <TableCell
-                    sx={{
-                      width: "0%",
-                      padding: 0.7,
-                      textAlign: "center",
-                      fontSize: "1rem",
-                      fontFamily: "neodgm",
-                    }}
-                  >
-                    {index + 1}
-                  </TableCell>
-                  <TableCell
-                    sx={{
-                      width: "30%",
-                      padding: 0.7,
-                      textAlign: "center",
-                      fontSize: "1rem",
-                      fontFamily: "neodgm",
-                    }}
-                  >
-                    {item.nickname}
-                  </TableCell>
-                  <TableCell
-                    sx={{
-                      width: "30%",
-                      padding: 0.7,
-                      textAlign: "center",
-                      fontSize: "1rem",
-                      fontFamily: "neodgm",
-                    }}
-                  >
-                    {item.mileage} M
-                  </TableCell>
-                </TableRow>
-              ))} */}
           </TableBody>
         </Table>
-        <Pag>
+        {/* <Pag>
           <Stack spacing={1}>
             <Pagination
               size="small"
@@ -184,7 +143,7 @@ export default function Ranking() {
               onChange={handlePageChange}
             />
           </Stack>
-        </Pag>
+        </Pag> */}
       </Box>
     </Rank>
   );

@@ -120,7 +120,7 @@ export default function MainComp2() {
               style={{
                 // position: "absolute",
                 top: "-30px", // 이미지 위치 조정
-                marginLeft: 20 + mileage * 1.62, // 이미지 위치 동적으로 설정
+                marginLeft: 20, // 이미지 위치 동적으로 설정
                 width: "30px", // 이미지 크기 조정
                 height: "auto",
               }}

@@ -40,7 +40,6 @@ export default function Ranking2(value) {
   useEffect(() => {
     if (users && users.length > 0) {
       const filterUsers = users.filter((user) => user.campus === campus);
-      console.log(filterUsers);
 
       const calculatedTopFive = filterUsers.slice(0, 5).map((user, index) => ({
         ...user,
@@ -49,12 +48,10 @@ export default function Ranking2(value) {
       console.log(calculatedTopFive);
 
       setTopFive(calculatedTopFive); // topFive 상태 업데이트
-
-      // 이후에 추가로 작업을 진행하면 됩니다.
     }
   }, [users, campus]);
 
-  // 가상 대전 버튼 누르면 multiplay game으로 이동
+  // // 가상 대전 버튼 누르면 multiplay game으로 이동
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const mileageRef = useRef(null);
