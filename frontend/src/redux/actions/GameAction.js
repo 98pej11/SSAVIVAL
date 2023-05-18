@@ -108,6 +108,7 @@ function getGameRecord(data) {
 }
 
 function getRanking() {
+  console.log("GET RANKING HERE");
   return async (dispatch) => {
     const url = `${baseUrl}/main/ranking`;
     await axios

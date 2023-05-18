@@ -38,7 +38,7 @@ const initialState = {
   ],
   containerBgs: [monitor, "", "", "", "", "", "", "", "", "", monitor],
   remindAnswer: "",
-  remindWordList: ["햄", "치즈", "빵", "양상추", "케찹"],
+  remindWordList: [],
   round: 0,
   title: null,
   pageBg: null,

@@ -18,9 +18,6 @@ const Pages = styled.div`
 
 function RemindPage() {
   const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(GameAction.getRemindAnswer("음식"));
-  }, []);
 
   const gameMode = useSelector((state) => state.gameMode);
 

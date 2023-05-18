@@ -51,10 +51,16 @@ public class GameRestController {
 //        public ResponseEntity<Map<String, Object>> gameInfoSave(@RequestBody MiniGameDto miniGameDto, @RequestPart(value = "profile",required = false) MultipartFile[] multipartFiles) throws Exception{
 //        long miniGameId = miniGameDto.getMiniGameId();
         System.out.println("minidto가 잘 들어오는지 보자.");
-        System.out.println(miniGameDto.getMiniGameDetail().getMiniGameDetailId());
-        System.out.println(miniGameDto.getGameId());
-        System.out.println(miniGameDto.getMiniGameId());
-        System.out.println("MINGAME "+miniGameDto);
+//        System.out.println(miniGameDto.getMiniGameDetail().getMiniGameDetailId());
+//        System.out.println(miniGameDto.getGameId());
+//        System.out.println(miniGameDto.getMiniGameId());
+        System.out.println("MINGAME11111111 "+miniGameDto.getMiniGameDetail());
+        System.out.println("MINGAME11222222 "+miniGameDto.getMiniGameDetail().getMiniGameDetailId());
+        System.out.println("MINGAME11333333 "+miniGameDto.getMiniGameDetail().getGameImg());
+        System.out.println("MINGAME444444444 "+miniGameDto.getGameId());
+        System.out.println("MINGAME555555555 "+miniGameDto.getMiniGameId());
+
+        System.out.println("MINGAME222222222 "+multipartFiles.size());
 
 
         Map<String, Object> resultMap = new HashMap<>();

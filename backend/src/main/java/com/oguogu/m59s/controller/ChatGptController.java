@@ -32,16 +32,20 @@ public class ChatGptController {
         //정답 단어 추출
         requestDto.setQuestion(requestDto.getQuestion()+"와 관련된 무작위 단어 하나를 알려줘");
         ChatGptResponseDto chatGptResponseDto = chatGptService.askQuestion(requestDto);
-        
+
         //정답 단어 유추 가능 리스트 추출
         QuestionRequestDto question = new QuestionRequestDto();
         question.setQuestion(requestDto.getQuestion() + "분야에서 " + chatGptResponseDto.getChoices().get(0).getText()+"를 연상시킬 수 있는 단어를 5개 알려줘");
         ChatGptResponseDto chatGptResponseDtoList = chatGptService.askQuestion(question);
-        
+
+
         //단어 리스트 정제
-        String[] ingredients = chatGptResponseDtoList.getChoices().get(0).getText().trim().split("\n"); // 줄바꿈 문자('\n')를 기준으로 문자열을 나누어 배열에 저장
+        String[] ingredients = chatGptResponseDtoList.getChoices().get(0).getText().trim().split("[\n,]"); // 줄바꿈 문자('\n')를 기준으로 문자열을 나누어 배열에 저장
         for (int i = 0; i < ingredients.length; i++) {
-            wordList.add(ingredients[i].substring(3)); // 각 문자열에서 "숫자. " 부분을 제거하여 치즈, 소스, 토핑, 도우, 올리브만 남기기
+            if(ingredients[i].equals(" ") || ingredients[i].equals(".") || ingredients[i].equals("")) continue;
+            String word = ingredients[i].trim();
+//            if(word.equals(" ") || word.equals(".")) continue;
+            wordList.add(word);
         }
 
         resultMap.put("result",SUCCESS);

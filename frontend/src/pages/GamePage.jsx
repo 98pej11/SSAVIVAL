@@ -24,6 +24,7 @@ import { GameAction } from "../redux/actions/GameAction";
 import classroom from "../assets/backgrounds/classroom.png";
 import confetti from "canvas-confetti";
 import Interval from "../components/game/Interval";
+import GameOver from "./../components/game/GameOver";
 
 const container = {
   display: "flex",
@@ -73,6 +74,7 @@ export default function GamePage() {
   const score = useSelector((state) => state.gameReducer.score);
   const totalScore = useSelector((state) => state.gameReducer.totalScore);
 
+  const [gameOver, setGameOver] = useState(false);
   const [flag, setFlag] = useState(false);
   const [inputs, setInputs] = useState({});
   const [finalData, setFinalData] = useState({
@@ -112,12 +114,16 @@ export default function GamePage() {
         dispatch({ type: "SET_MINIGAME_START" });
 
         const data = {
+          //리스트의 userid 빼오기
           userId: localStorage.getItem("userId"),
           round: round + 1,
         };
         dispatch(GameAction.getGameRecord(data));
       }, 3000);
     }
+    // else if (round === gameTitleData.length) {
+    //     setGameOver(true)
+    //   }
 
     return () => {
       clearTimeout(timeoutId);
@@ -188,8 +194,9 @@ export default function GamePage() {
           console.log("EEEEEEEEEEEEEEEND", blobs.length);
           //점수, 시간, 아이디 저장
           setBlobArray(blobs);
+          console.log("SCore", score);
           setInputs({
-            miniGameDetailId: round,
+            miniGameDetail: { miniGameDetailId: round },
             clearTime: "",
             score: score,
             gameId: localStorage.getItem("gameId"), //게임 시작 api에서 받아서 가져올 부분
@@ -207,10 +214,9 @@ export default function GamePage() {
   const [flag2, setFlag2] = useState(0);
 
   useEffect(() => {
-    console.log("FLAG out", flag);
     if (flag) {
-      console.log("FLAG IN", flag);
       console.log("SAVE BLOB ARRAY", blobArray);
+      console.log("INPUTS ", inputs);
 
       saveBlobs();
       setFlag2(1 - flag2);
@@ -309,6 +315,7 @@ export default function GamePage() {
         height: "auto",
       }}
     >
+      {gameOver ? <GameOver /> : ""}
       <Header />
       <Box sx={container}>
         {gameMode === "single" ? (
@@ -337,9 +344,10 @@ export default function GamePage() {
         ) : (
           <Box sx={Comp}>
             <Box sx={gameContainer}>
-              {/* {images && (
+              {/* checkkkkkkkkkkkkkkkkkkkkk */}
+              {images.length > currentIndex && (
                 <img src={images[currentIndex].imageUrl} alt="Slider" />
-              )} */}
+              )}
             </Box>
             <Box
               sx={{

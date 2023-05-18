@@ -76,7 +76,8 @@ function MainPage() {
   }, [accessTokenState]);
 
   // 유저 정보 받아오기
-  const userId = useSelector((state) => state.mainReducer.userId);
+  // const userId = useSelector((state) => state.mainReducer.userId);
+  const userId = localStorage.getItem("userId");
   useEffect(() => {
     dispatch(MainAction.getUserInfo(userId));
   }, []);

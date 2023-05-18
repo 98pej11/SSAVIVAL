@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
@@ -9,6 +9,7 @@ import Toolbar from "@mui/material/Toolbar";
 import Container from "@mui/material/Container";
 import game from "../assets/game.png";
 import titleBox from "../assets/title.png";
+import { GameAction } from "../redux/actions/GameAction";
 
 const Pages = styled.div`
   background-image: url(${game});
@@ -28,7 +29,17 @@ const HeaderComp = styled.div`
 
 export default function StartPage() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const round = useSelector((state) => state.gameReducer.round);
+
   const startGame = () => {
+    const data = {
+      userId: localStorage.getItem("userId"),
+      round: round + 1,
+    };
+    dispatch(GameAction.getGameRecord(data));
+
     navigate("/game");
   };
   return (

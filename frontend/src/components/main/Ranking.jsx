@@ -73,6 +73,20 @@ export default function Ranking() {
   }, [campus]);
 
   const campusRanking = useSelector((state) => state.gameReducer.gameRanking);
+  const [currentPage, setCurrentPage] = useState(1);
+  const handlePageChange = (event, page) => {
+    setCurrentPage(page);
+  };
+  const rowsPerPage = 6;
+  const getRankingList = () => {
+    const startIndex = (currentPage - 1) * rowsPerPage;
+    const endIndex = startIndex + rowsPerPage;
+
+    if (getRankingList.length === 0) {
+      return getRankingList;
+    }
+    return getRankingList.slice(startIndex, endIndex);
+  };
 
   return (
     <Rank>
@@ -161,7 +175,14 @@ export default function Ranking() {
         </Table>
         <Pag>
           <Stack spacing={1}>
-            <Pagination size="small" />
+            <Pagination
+              size="small"
+              count={Math.ceil(getRankingList.length / rowsPerPage)}
+              variant="outlined"
+              color="secondary"
+              page={currentPage}
+              onChange={handlePageChange}
+            />
           </Stack>
         </Pag>
       </Box>
