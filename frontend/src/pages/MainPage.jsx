@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import styled from "styled-components";
 import MainHeader from "../components/main/MainHeader";
 import MainComp1 from "../components/main/MainComp1";
@@ -10,6 +10,7 @@ import { kakaoUrl } from "../redux/actions/url";
 import { AccessAction } from "../redux/actions/AccessAction";
 import { GameAction } from "../redux/actions/GameAction";
 import { MainAction } from "../redux/actions/MainAction";
+import back2 from "../assets/back2.png";
 
 const Header = styled.div`
   margin-left: 20%;
@@ -30,15 +31,33 @@ const Comp2 = styled.div`
 `;
 const Comp3 = styled.div`
   flex: 3;
-  margin: 10px 10px;
+  margin-top: 10px;
+  margin-left: 10%;
 `;
 const Comp4 = styled.div`
   flex: 1;
-  margin: 10px 10px;
+  margin-top: 10px;
+
+  margin-right: 10%;
+`;
+
+const Pages = styled.div`
+  background-color: #f2f2f2;
+  height: 100vh;
+  background-image: url(${back2});
+  background-size: cover;
+  width: 100%;
+  height: 100vh;
 `;
 function MainPage() {
+  let activeIndex = 0;
   const [accessTokenState, setAccessTokenState] = useState(true);
   const dispatch = useDispatch();
+
+  const characterRef = useRef(null);
+  const character2Ref = useRef(null);
+  let spritesheetElements = "";
+  let spritesheetElement2 = "";
 
   useEffect(() => {
     dispatch(AccessAction.accessTokenTest())
@@ -52,7 +71,42 @@ function MainPage() {
       });
     // dispatch(AccessAction.accessTokenTest());
     dispatch(GameAction.getRanking());
+
+    const spritesheets = [
+      "https://s3-us-west-2.amazonaws.com/s.cdpn.io/21542/WalkingDemo-HANK-2-SHEET.png",
+    ];
+    const spritesheet2 = [
+      "https://s3-us-west-2.amazonaws.com/s.cdpn.io/21542/WalkingDemo-JESSIE-SHEET.png",
+    ];
+    spritesheets.forEach((spritesheet, index) => {
+      spritesheetElements += `<img src="${spritesheet}" class="PixelArtImage Character_sprite-sheet index-${index}" />`;
+    });
+    spritesheet2.forEach((spritesheet, index) => {
+      spritesheetElement2 += `<img src="${spritesheet}" class="PixelArtImage Character_sprite-sheet index-${index}" />`;
+    });
+    if (characterRef.current) {
+      characterRef.current.insertAdjacentHTML("beforeend", spritesheetElements);
+      setActive(activeIndex);
+    }
+
+    if (character2Ref.current) {
+      character2Ref.current.insertAdjacentHTML(
+        "beforeend",
+        spritesheetElement2
+      );
+      setActive(activeIndex);
+    }
   }, []);
+
+  function setActive(index) {
+    activeIndex = index;
+    document.querySelectorAll(`.active`).forEach((node) => {
+      node.classList.remove("active");
+    });
+    document.querySelectorAll(`.index-${index}`).forEach((node) => {
+      node.classList.add("active");
+    });
+  }
 
   useEffect(() => {
     //access_token이 유효하지 않으면 우선 refresh 토큰이 유효한지 확인(확인하고 유효하면 access_token 재발급해주기)
@@ -82,7 +136,7 @@ function MainPage() {
   }, []);
 
   return (
-    <div style={{ backgroundColor: "#F2F2F2", height: "100vh" }}>
+    <Pages>
       <Header>
         <MainHeader />
       </Header>
@@ -95,15 +149,39 @@ function MainPage() {
         </Comp2>
       </Comp>
 
-      <Comp>
+      <div style={{ display: "flex", gap: 20 }}>
+        <div
+          class="Character Character--walk-down"
+          ref={characterRef}
+          style={{ transform: "translateX(50px) translateY(150px)" }}
+        >
+          <img
+            src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/21542/WalkingDemo-Shadow.png"
+            alt=""
+            class="Character_shadow PixelArtImage"
+          />
+        </div>
+
         <Comp3>
           <MainComp3 />
         </Comp3>
         <Comp4>
           <MainComp4 />
         </Comp4>
-      </Comp>
-    </div>
+
+        <div
+          class="Character Character--walk-down"
+          ref={character2Ref}
+          style={{ transform: "translateX(-50px) translateY(150px)" }}
+        >
+          <img
+            src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/21542/WalkingDemo-Shadow.png"
+            alt=""
+            class="Character_shadow PixelArtImage"
+          />
+        </div>
+      </div>
+    </Pages>
   );
 }
 export default MainPage;

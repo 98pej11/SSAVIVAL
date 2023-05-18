@@ -19,6 +19,7 @@ import { title } from "process";
 import LogoutBtn from "../components/main/LogoutBtn";
 import { AccessAction } from "../redux/actions/AccessAction";
 import { kakaoUrl } from "../redux/actions/url";
+import vs1 from "../assets/vs1.png";
 
 const Pages = styled.div`
   background-image: url(${background});
@@ -28,6 +29,28 @@ const Pages = styled.div`
   height: 100vh; /* 화면의 세로 길이를 100%로 설정 */
 `;
 
+const Vs = styled.div`
+  @keyframes shake {
+    0% {
+      transform: translateX(0);
+    }
+    25% {
+      transform: translateX(-5px);
+    }
+    50% {
+      transform: translateX(5px);
+    }
+    75% {
+      transform: translateX(-5px);
+    }
+    100% {
+      transform: translateX(0);
+    }
+  }
+  .shaking-element {
+    animation: shake 1.3s infinite;
+  }
+`;
 export default function LoginPage() {
   let activeIndex = 0;
 
@@ -228,6 +251,19 @@ export default function LoginPage() {
                   class="Character_shadow PixelArtImage"
                 />
               </div>
+              <Vs>
+                <img
+                  src={vs1}
+                  alt=""
+                  class="shaking-element"
+                  style={{
+                    width: 150,
+                    height: "auto",
+                    padding: 10,
+                    marginTop: 50,
+                  }}
+                />
+              </Vs>
               <div class="Character Character--walk-down" ref={character3Ref}>
                 <img
                   src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/21542/WalkingDemo-Shadow.png"

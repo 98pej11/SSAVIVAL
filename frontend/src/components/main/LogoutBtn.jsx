@@ -68,7 +68,7 @@ export default function Logoutbtn() {
   return (
     <div style={{ position: "relative", display: "inline-block" }}>
       <LogoutIcon
-        style={{ cursor: "pointer" }}
+        style={{ cursor: "pointer", color: "white" }}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
         onClick={handleLogoutClick}

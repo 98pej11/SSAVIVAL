@@ -62,7 +62,8 @@ const Text = styled.div`
   font-size: 1.3rem;
   display: flex;
   justify-content: center;
-  align-items: center;
+
+  margin-top: 20px;
 `;
 
 export default function GamePage() {
@@ -344,7 +345,7 @@ export default function GamePage() {
                   style={{
                     padding: 5,
 
-                    width: "100%",
+                    width: "85%",
                     height: "auto",
                   }}
                 />

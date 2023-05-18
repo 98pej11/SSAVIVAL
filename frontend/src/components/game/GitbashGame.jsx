@@ -100,7 +100,8 @@ export default function GitbashGame() {
       className="git"
       sx={{
         display: "flex",
-        transform: "translate(0, -20%)",
+        justifyContent: "center",
+        alignItems: "center",
       }}
     >
       {/* gitbash 창 구현 */}
@@ -110,6 +111,7 @@ export default function GitbashGame() {
           borderRadius: "20px 20px 20px 20px",
           width: "100%",
           height: "auto",
+          margin: "50px auto",
         }}
       >
         {/* 창의 상단 구현 */}

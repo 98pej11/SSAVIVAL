@@ -41,18 +41,9 @@ function MainHeader() {
               width: "100%",
             }}
           >
-            {/* <img
-              src={pepe}
-              alt=""
-              style={{
-                borderRadius: "50%",
-                marginRight: "10px",
-                width: "3%",
-              }}
-            /> */}
             <div
               style={{
-                color: "black",
+                color: "white",
                 fontFamily: "gmarket",
                 marginRight: "2%",
               }}
