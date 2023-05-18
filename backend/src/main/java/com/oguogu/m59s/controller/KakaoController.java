@@ -2,12 +2,15 @@ package com.oguogu.m59s.controller;
 
 import com.oguogu.m59s.model.dto.UserDto;
 import com.oguogu.m59s.model.service.KakaoLoginService;
+import com.oguogu.m59s.model.service.KakaoService;
 import com.oguogu.m59s.model.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -21,8 +24,23 @@ public class KakaoController {
     @Autowired
     KakaoLoginService kakaoLoginService;
 
+    @Autowired
+    KakaoService kakaoService;
+
     private static final String SUCCESS = "success";
     private static final String FAIL = "fail";
+
+    @PostMapping("/karlo")
+//    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<Map<String, Object>> puzzleDetail(@RequestBody Map<String,String> thema) throws IOException, IOException {
+        Map<String, Object> resultMap = new HashMap<>();
+
+        String puzzelUrl = kakaoService.makeImage(thema.get("thema"));
+
+        resultMap.put("result",SUCCESS);
+        resultMap.put("puzzle",puzzelUrl);
+        return new ResponseEntity<>(resultMap, HttpStatus.ACCEPTED);
+    }
 
 //    @GetMapping ("/check")
 //    public ResponseEntity<Map<String, Object>> registCheck(@RequestParam String code)  throws Throwable {

@@ -1,21 +1,44 @@
-import React, { useCallback, useEffect } from "react";
-import { useState, useMemo } from "react";
-import { useSpring, animated, Any } from "react-spring";
+import React, { useEffect, useRef } from "react";
+import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { StyledEngineProvider, styled } from "@mui/material/styles";
+import { styled } from "@mui/material/styles";
 import scoring from "../../assets/game_typo/scoring.gif";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
-import zIndex from "@mui/material/styles/zIndex";
-
+import { GameAction } from "../../redux/actions/GameAction";
+import { ConstructionOutlined } from "@mui/icons-material";
+import { useResolvedPath } from "react-router-dom";
 export default function Puzzle() {
   const dispatch = useDispatch();
 
+  // Karlo로 만든 이미지 링크 불러오기
+  const karloLink = useSelector((state) => state.gameReducer.karloImage);
+  // 로드용 url 변수
+  const [karloSrc, setkarloSrc] = useState("");
+  console.log("karloLink", karloLink);
   // 이미지
   const [images, setImages] = useState([]);
   // 정답 개수 카운트
   const [count, setCount] = useState(0);
   // 미니게임 클리어 여부
   const minigameClear = useSelector((state) => state.gameReducer.minigameClear);
+
+  // 미니게임 잔여 시간
+  const timerBombLimit = useSelector(
+    (state) => state.gameReducer.timerBombLimit
+  );
+  console.log("타임밥 리밋", timerBombLimit);
+
+  const timerBombLimitRef = useRef(timerBombLimit);
+
+  useEffect(() => {
+    if (timerBombLimitRef.current === 1) {
+      alert("1초 남았다!");
+    }
+    timerBombLimitRef.current = timerBombLimit;
+  }, [timerBombLimit]);
+  // useEffect(() => {
+  //   dispatch(GameAction.getKarloImage("classroom"));
+  // }, []);
 
   // 미니게임 작동 여부
   const minigameActive = useSelector(
@@ -31,7 +54,7 @@ export default function Puzzle() {
         setShowSuccess(false);
       }, 500);
     }
-  });
+  }, []);
 
   useEffect(() => {
     if (count === 6) {
@@ -46,17 +69,23 @@ export default function Puzzle() {
     }
   };
 
+  useEffect(() => {
+    console.log("흠.........", images);
+  }, [images]);
+
   // 퍼즐판
   useEffect(() => {
     const fetchImages = async () => {
-      console.log("나 이미지 변경됐어");
+      // fetchImages(karloLink);
+      // console.log("칼로링크느느느는", karloLink);
+      // const karloSrc = new URL(karloLink);
+      // console.log("나 이미지 변경될거야~~", karloSrc.toString());
 
       // 이미지 6분할
-      const newImages = await CutImages("pompom.png");
+      const newImages = await CutImages("classroom.png");
       console.log("함수 끝나고 newImages는", newImages);
       // 이미지 6분할한 것 저장
       setImages(newImages);
-      console.log("흠.........", images);
       const updateState = {
         items1: [
           { id: "items5", content: "Item 5", imgUrl: newImages[1] },
@@ -83,15 +112,57 @@ export default function Puzzle() {
     if (images.length === 0) {
       fetchImages();
     }
-  }, []);
+  }, [karloSrc]);
+
+  // KarloLink의 변경사항 감지
+  // useEffect(() => {
+  //   async function fetchImage() {
+  //     try {
+  //       console.log("나 유즈이펙트의 트라이문이야!! 칼로링크는...", karloLink);
+  // const response = await fetch(karloLink, {
+  //   headers: {
+  //     "Access-Control-Allow-Origin": "*",
+  //     "Access-Control-Allow-Methods": "GET, POST, PUT",
+  //     "Access-Control-Allow-Headers": "Content-Type",
+  //   },
+  // });
+  // console.log("response다", response);
+  // const blob = await response.blob();
+  // const blob = karloLink.blob();
+
+  // const url = URL.createObjectURL(blob);
+
+  //       console.log("fetchImage의 url은???", url);
+  //       console.log("야호", url);
+  //       setkarloSrc(url);
+  //     } catch (error) {
+  //       console.error(error);
+  //     }
+  //   }
+  //   fetchImage();
+  // }, []);
 
   // 이미지 6분할 하는 함수
   const CutImages = async (src) => {
+    console.log("컷이미지의 소스는", src);
+    // const response = await fetch(src);
+    // console.log("response", response);
+    // const blob = await response.blob();
+    // console.log("blob", blob);
+    // const url = URL.createObjectURL(blob);
+    // setkarloSrc(url);
+    // console.log("url", url);
+
     return new Promise((resolve, reject) => {
       const img = new Image();
       img.crossOrigin = "Anonymous";
+
+      // console.log("나 컷이미지 함수,", src);
       img.src = src;
+      // console.log("img.src는??!?!?!?!", img.src);
+
       const newImages = [];
+
       img.onload = () => {
         console.log("Have you entered the onload function?");
         const canvas = document.createElement("canvas");
@@ -120,6 +191,7 @@ export default function Puzzle() {
         resolve(newImages);
         console.log("After cut image", newImages);
       };
+      img.onerror = (error) => reject(error);
     });
   };
 
@@ -304,6 +376,7 @@ export default function Puzzle() {
       setIsScoring(false);
     }, 800);
   }
+
   const isRightAnswer = (id) => {
     console.log("함수에 들어오긴하니????");
     console.log("정답이다!!!!!!!!!!!!!");
@@ -334,7 +407,20 @@ export default function Puzzle() {
           position: "relative",
         }}
       >
-        <img src="flip.svg" style={{ position: "absolute", width: "400px" }} />
+        <img
+          src="flip.svg"
+          style={{
+            position: "absolute",
+            width: "400px",
+            webkitUserSelect: "none",
+            webKitUserDrag: "none",
+            mozUserDrag: "none",
+            khtmlUserDrag: "none",
+            oUserDrag: "none",
+            userDrag: "none",
+          }}
+        />
+
         <QuizSide>
           {droppableIDs.slice(0, 3).map((droppableID, index) => (
             <Droppable key={droppableID} droppableId={droppableID}>
@@ -391,23 +477,24 @@ export default function Puzzle() {
             </Droppable>
           ))}
         </QuizSide>
-        {/* <div>{showSuccess && <Success>성공!!! </Success>}</div> */}
-        <img
+        <div>{showSuccess && <Success>정답! </Success>}</div>
+        {/* <img
           src="sign.svg"
-          style={{ width: "5%", position: "absolute", top: 100 }}
-        />
-        {isScoring && (
+          style={{ width: "5%", right: 250, position: "absolute", top: 100 }}
+        /> */}
+        {/* {isScoring && (
           <img
             src={scoring}
             alt="scoring.gif"
             style={{
               position: "absolute",
-              width: "50%",
-              height: "100%",
+              width: "50px",
+              height: "50px",
               zIndex: "10",
+              top: 0,
             }}
           />
-        )}
+        )} */}
         <AnswerSide>
           <AnswerRow>
             {[3, 4].map((idx) => (

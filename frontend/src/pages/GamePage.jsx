@@ -337,9 +337,9 @@ export default function GamePage() {
         ) : (
           <Box sx={Comp}>
             <Box sx={gameContainer}>
-              {images && (
+              {/* {images && (
                 <img src={images[currentIndex].imageUrl} alt="Slider" />
-              )}
+              )} */}
             </Box>
             <Box
               sx={{

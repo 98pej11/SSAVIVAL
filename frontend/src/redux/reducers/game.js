@@ -17,8 +17,8 @@ const initialState = {
     "휴지 5장을 빠르게 쭉- 뽑아보쟈",
     "상황에 가장 알맞는 MM 이모지를 선택해보쟈",
     "태그하고 밥먹자",
-    "식당 자리 잡기",
-    "퍼즐맞추기",
+    "드래그해서 앉혀줘!!",
+    "퍼즐을 맞춰보자",
     "어떻게든 퇴실버튼을 누르자",
     "틀린그림찾기 테스트",
   ],
@@ -54,7 +54,7 @@ const initialState = {
   gameMode: "single",
   selectedEmojiIndex: null,
   emojiResult: "false",
-  interval:false, //미니 게임 끝나고 점수 표시
+  interval: false, //미니 게임 끝나고 점수 표시
   pointsCenter: [[0, 0, 0]],
   quizImgSize: { width: 600, height: 400 },
   quizImgUrl: { left: "", right: "" },
@@ -62,6 +62,7 @@ const initialState = {
   gameRanking: [],
   firstTypo: [],
   secondTypo: [],
+  karloImage: "",
 };
 
 function gameReducer(state = initialState, action = {}) {
@@ -138,6 +139,12 @@ function gameReducer(state = initialState, action = {}) {
         pointsCenter: payload.pointsCenter,
         quizImgSize: payload.quizImgSize,
         quizImgUrl: payload.quizImgUrl,
+      };
+    case "GET_KARLO_IMAGE":
+      console.log("GET_KARLO_IMAGE", payload);
+      return {
+        ...state,
+        karloImage: payload,
       };
     case "UPDATE_POINTS_CENTER":
       return {

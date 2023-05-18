@@ -23,6 +23,33 @@ function getRemindAnswer(question) {
   };
 }
 
+function getKarloImage(input) {
+  const data = {
+    thema: input,
+  };
+  return async (dispatch) => {
+    const url = `${baseUrl}/user/kakao/karlo`;
+    console.log("내 요청은 이거야..", url);
+    await axios
+      .post(url, JSON.stringify(data), {
+        headers: {
+          "Content-Type": "application/json;charset=utf-8",
+        },
+      })
+      .then((response) => {
+        const data = response.data;
+        console.log(data);
+        dispatch({
+          type: "GET_KARLO_IMAGE",
+          payload: data.puzzle,
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+}
+
 function gameDone(inputs) {
   console.log("ACTION ", inputs);
   // for (const [key, value] of inputs.entries()) {
@@ -114,6 +141,7 @@ function setGameDone(data) {
 
 export const GameAction = {
   getRemindAnswer,
+  getKarloImage,
   gameDone,
   gameStart,
   getGameRecord,

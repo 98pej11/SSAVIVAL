@@ -35,9 +35,9 @@ export default function SeatPage() {
             <SeatComp />
           </GameComp>
         ) : (
-          <GameComp2>
+          <GameComp>
             <SeatComp />
-          </GameComp2>
+          </GameComp>
         )}
       </div>
     </Pages>

@@ -30,6 +30,7 @@ const TimerBomb = () => {
       setBefore1sec(timerBombLimit - 1);
       startTimeRef.current = Date.now();
     }
+    console.log(timerBombLimit);
   }, [timerBombActive, timerBombLimit]);
 
   useEffect(() => {
