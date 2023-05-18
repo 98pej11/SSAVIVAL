@@ -3,9 +3,7 @@ import { baseUrl } from "./url";
 import { useDispatch } from "react-redux";
 
 function getUserInfo(userId) {
-  console.log("getuserinfo 액션 수행");
-
-  return async () => {
+  return async (dispatch) => {
     const url = `${baseUrl}/main/${userId}`;
     await axios
       .get(url, {
@@ -14,9 +12,9 @@ function getUserInfo(userId) {
         },
       })
       .then((response) => {
-        const data = response.data;
+        const data = response.data.user;
         console.log("getUserInfo axios성공 및 데이타:",data);
-        useDispatch({ type: "GET_USER", payload: { data } });
+        dispatch({ type: "GET_USER", payload:data });
       })
       .catch((error) => {
         console.log("getUserInfo axios실패 및 에러:",error);
@@ -25,15 +23,13 @@ function getUserInfo(userId) {
 }
 
 function getCampusAvg() {
-  console.log("getCampusAvg 액션 수행");
-
-  return async () => {
+  return async (dispatch) => {
     const url = `${baseUrl}/main/average`;
     await axios(url)
       .then((response) => {
         const data = response.data;
         console.log("getCampusAvg axios성공 및 데이타:", response);
-        useDispatch({ type: "GET_CAMPUS_AVG", payload: { data } });
+        dispatch({ type: "GET_CAMPUS_AVG", payload: data });
       })
       .catch((error) => {
         console.log("getCampusAvg axios실패 및 에러:", error);
@@ -49,7 +45,7 @@ function getRanking() {
       .then((response) => {
         const data = response.data;
         console.log("getRanking axios성공 및 데이타:", data);
-        dispatch({ type: "GET_RANKING", payload: { data } });
+        dispatch({ type: "GET_RANKING", payload: data });
       })
       .catch((error) => {
         console.log("getRanking axios실패 및 에러:", error);
@@ -58,20 +54,14 @@ function getRanking() {
 }
 
 function getStatistics(userId) {
-  console.log("getStatistics 액션 수행");
-
-  return async () => {
+  return async (dispatch) => {
     const url = `${baseUrl}/main/statistics/${userId}`;
     await axios
-      .get(url, {
-        headers: {
-          "Content-Type": "application/json;charset=utf-8",
-        },
-      })
+      .get(url)
       .then((response) => {
         const data = response.data;
         console.log("getStatistics axios성공 및 데이타:",data);
-        useDispatch({ type: "GET_STATISTICS", payload: { data } });
+        dispatch({ type: "GET_STATISTICS", payload: data });
       })
       .catch((error) => {
         console.log("getStatistics axios실패 및 에러:",error);
@@ -82,18 +72,14 @@ function getStatistics(userId) {
 function getRecords(userId) {
   console.log("getRecords 액션 수행");
 
-  return async () => {
+  return async (dispatch) => {
     const url = `${baseUrl}/main/record/${userId}`;
     await axios
-      .get(url, {
-        headers: {
-          "Content-Type": "application/json;charset=utf-8",
-        },
-      })
+      .get(url)
       .then((response) => {
         const data = response.data;
         console.log("getRecords axios성공 및 데이타:",data);
-        useDispatch({ type: "GET_RECORDS", payload: { data } });
+        dispatch({ type: "GET_RECORDS", payload: data });
       })
       .catch((error) => {
         console.log("getRecords axios실패 및 에러:",error);
@@ -104,21 +90,33 @@ function getRecords(userId) {
 function getChallenge(challengerId) {
   console.log("getChallenge 액션 수행");
 
-  return async () => {
+  return async (dispatch) => {
     const url = `${baseUrl}/main/game/${challengerId}`;
     await axios
-      .get(url, {
-        headers: {
-          "Content-Type": "application/json;charset=utf-8",
-        },
-      })
+      .get(url)
       .then((response) => {
         const data = response.data;
         console.log("getChallenge axios성공 및 데이타:",data);
-        useDispatch({ type: "GET_CHALLENGE", payload: { data } });
+        dispatch({ type: "GET_CHALLENGE", payload: { data } });
       })
       .catch((error) => {
         console.log("getChallenge axios실패 및 에러:",error);
+      });
+  };
+}
+
+function patchStatistics(data) {
+  const req = data
+  return async () => {
+    const url = `${baseUrl}/main/statistics/done/`;
+    await axios
+      .patch(url, req)
+      .then((response) => {
+        const data = response.data;
+        console.log("patchStatistics axios성공 및 데이타:", data);
+      })
+      .catch((error) => {
+        console.log("patchStatistics axios실패 및 에러:", error);
       });
   };
 }
@@ -130,4 +128,5 @@ export const MainAction = {
   getStatistics,
   getRecords,
   getChallenge,
+  patchStatistics,
 };

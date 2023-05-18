@@ -10,6 +10,8 @@ import smilepin from "../../assets/smilepin.png";
 import silver from "../../assets/silver.png";
 import gold from "../../assets/gold.png";
 import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { MainAction } from "../../redux/actions/MainAction";
 
 const Comp2 = styled.div`
   font-family: "neodgm";
@@ -64,6 +66,13 @@ const theme = createTheme({
 //   return `${value}°C`;
 // }
 export default function MainComp2() {
+  const dispatch = useDispatch();
+
+  // AXIOS 요청보내기
+  useEffect(() => {
+    dispatch(MainAction.getStatistics(localStorage.getItem("userId")));
+  }, []);
+
   // redux
   const mileage = useSelector((state) => state.mainReducer.mileage);
   const tier = useSelector((state) => state.mainReducer.tier);

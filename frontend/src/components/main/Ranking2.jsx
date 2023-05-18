@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
@@ -57,7 +57,17 @@ export default function Ranking2(value) {
   // 가상 대전 버튼 누르면 multiplay game으로 이동
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const handleChallenge = () => {
+  const mileageRef = useRef(null);
+  const userIdRef = useRef(null);
+
+  const handleChallenge = (id, mileage) => {
+    dispatch({
+      type: "SET_CHALLENGE_INFO",
+      payload: {
+        challengeTotalScore: mileage,
+        challengeId: id,
+      },
+    });
     dispatch({ type: "SET_GAME_MODE", payload: { gameMode: "multi" } });
     dispatch(GameAction.gameStart(localStorage.getItem("userId")));
     navigate("/start"); // /game 경로로 이동
@@ -84,6 +94,9 @@ export default function Ranking2(value) {
                   {item.rank}
                   {/* {item.userId} */}
                 </TableCell>
+                <TableCell ref={userIdRef} sx={{ display: "none" }}>
+                  {item.userId}
+                </TableCell>
                 <TableCell
                   sx={{
                     width: "30%",
@@ -103,6 +116,7 @@ export default function Ranking2(value) {
                     fontSize: "1rem",
                     fontFamily: "neodgm",
                   }}
+                  data-user-id={item.userId}
                 >
                   {item.mileage} M
                 </TableCell>
@@ -115,7 +129,7 @@ export default function Ranking2(value) {
                   }}
                 >
                   <Button
-                    onClick={handleChallenge}
+                    onClick={() => handleChallenge(item.userId, item.mileage)}
                     sx={{
                       fontFamily: "neodgm",
                       bgcolor: "#FFD211",

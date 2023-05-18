@@ -16,6 +16,8 @@ import {
   LOGOUT_REDIRECT_URI,
   APP_ADMIN_KEY,
 } from "../KakaoLoginData";
+import { GameAction } from "../../redux/actions/GameAction";
+import { MainAction } from "../../redux/actions/MainAction";
 
 const Comp = styled.div`
   font-family: "neodgm";
@@ -29,13 +31,48 @@ function GameOver(props) {
     setOpen(false);
   };
 
+  const GameMode = useSelector((state) => state.gameReducer.GameMode);
+  const totalScore = useSelector((state) => state.gameReducer.totalScore);
+  const userId = localStorage.getItem("userId");
+  const challengeInfo = useSelector((state) => state.mainReducer.challengeInfo);
+  console.log("challengeInfo", challengeInfo);
+
+  // 게임 종료 눌렀을 때
   const offGame = () => {
-    // 게임 점수 저장 코드 필요
+    const finalData = {
+      gameId: localStorage.getItem("gameId"),
+      totalScore: totalScore,
+      gameDate: Date.now(), //현재 시간
+      userId: userId,
+    };
+    dispatch(GameAction.setGameDone(finalData));
+    if (GameMode == "multi") {
+      const result1 = {
+        userId: userId,
+        status:
+          challengeInfo.challengeTotalScore == totalScore
+            ? 2
+            : challengeInfo.challengeTotalScore < totalScore
+            ? 0
+            : 1, //0승 ,1패 , 2무
+      };
+      const result2 = {
+        userId: challengeInfo.challengeId,
+        status:
+          challengeInfo.challengeTotalScore == totalScore
+            ? 2
+            : challengeInfo.challengeTotalScore < totalScore
+            ? 1
+            : 0, //0승 ,1패 , 2무
+      };
+      dispatch(MainAction.patchStatistics(result1));
+      dispatch(MainAction.patchStatistics(result2));
+    }
     navigate("/main");
   };
 
+  // 한 번 더 눌렀을 때
   const moreGame = () => {
-    // 게임 점수 저장 및 첫번째 게임으로 다시 돌아가자
     window.location.replace("/game");
   };
 

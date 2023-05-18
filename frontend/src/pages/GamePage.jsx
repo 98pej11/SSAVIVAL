@@ -25,7 +25,7 @@ import { GameAction } from "../redux/actions/GameAction";
 import classroom from "../assets/backgrounds/classroom.png";
 import confetti from "canvas-confetti";
 import Interval from "../components/game/Interval";
-import GameOver from "./../components/game/GameOver";
+import GameOver from "../components/game/GameOver";
 
 const container = {
   display: "flex",
@@ -81,17 +81,10 @@ export default function GamePage() {
   const gameTitleData = useSelector((state) => state.gameReducer.gameTitleData);
   const minigameClear = useSelector((state) => state.gameReducer.minigameClear);
   const score = useSelector((state) => state.gameReducer.score);
-  const totalScore = useSelector((state) => state.gameReducer.totalScore);
 
   const [gameOver, setGameOver] = useState(false);
   const [flag, setFlag] = useState(false);
   const [inputs, setInputs] = useState({});
-  const [finalData, setFinalData] = useState({
-    gameId: "",
-    totalScore: "",
-    gameDate: "", //현재 시간
-    userId: "",
-  });
 
   // 갈아끼울 게임 컴포넌트 리스트
   const gameComps = [
@@ -129,6 +122,10 @@ export default function GamePage() {
         };
         dispatch(GameAction.getGameRecord(data));
       }, 3000);
+    } else if (!minigameActive && round == gameComps.length) {
+      setTimeout(() => {
+        setGameOver(true); // 마지막 라운드가 끝나면 GameOver 컴포 띄우기
+      }, 3000);
     }
     // else if (round === gameTitleData.length) {
     //     setGameOver(true)
@@ -138,21 +135,6 @@ export default function GamePage() {
       clearTimeout(timeoutId);
     };
   }, [dispatch, gameTitleData, round, minigameActive]);
-
-  // 종료버튼 누르면 게임 종료
-  const onClickFinal = () => {
-    setFinalData({
-      gameId: localStorage.getItem("gameId"),
-      totalScore: totalScore,
-      gameDate: Date.now(), //현재 시간
-      userId: localStorage.getItem("userId"),
-    });
-  };
-
-  useEffect(() => {
-    console.log("setGameDone");
-    dispatch(GameAction.setGameDone(finalData));
-  }, [finalData]);
 
   // 아래로는 녹화 관련 코드로 추정
   useEffect(() => {
@@ -383,8 +365,7 @@ export default function GamePage() {
           </Box>
         )}
       </Box>
-      {/* 게임 정답 시 계산 */}
-      <button onClick={onClickFinal}>종료</button>
+      {gameOver ? <GameOver /> : ""}
     </Box>
   );
 }

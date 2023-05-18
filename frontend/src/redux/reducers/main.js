@@ -21,8 +21,55 @@ const initialState = {
   loseCnt: 0,
   drawCnt: 0,
 
-  //MainComp4
-  records: [],
+challengeInfo:{
+  challengeTotalScore:0,
+  challengeId:null,
+},
+
+totalCnt: 6,
+winCnt: 3,
+loseCnt: 2,
+drawCnt: 1,
+
+records:[{
+    recordId: 1,
+    isWin: 1, //0: 패배, 1: 승리 , 2 : 무승부 , 3: 본인(?)
+    date: "164500000",
+    challengerId: 2,
+    challengerNickname: "김에듀",
+    userNickname: "김싸피",
+  },
+  {
+    recordId: 2,
+    isWin: 0, //0: 패배, 1: 승리 , 2 : 무승부 , 3: 본인(?)
+    date: "264500000",
+    challengerId: 3,
+    challengerNickname: "김개발",
+    userNickname: "김싸피",
+  },],
+
+challengeGame:[{
+  "miniGameId": 1,
+  "clearTime": "5.32",
+  "score": 100,
+  "miniGameDetail": {
+    "miniGameDetailId": 1,
+    "game_name" : "휴지뽑기 게임",
+    "game_img" : "s3-pgpp-etc-001.s3.ap-northeast-2.amazonaws.com/character.png",
+    "game_time" : "10.00",
+  }
+},
+{
+  "miniGameId": 2,
+  "clearTime": "4.12",
+  "score": 200,
+  "miniGameDetail": {
+      "miniGameDetailId": 3,
+      "game_name" : "ip 게임",
+      "game_img" : "s3-pgpp-etc-001.s3.ap-northeast-2.amazonaws.com/character.png",
+      "game_time" : "8.12",
+  }
+},],
 
   challengeGame: [],
 };
@@ -31,57 +78,60 @@ function mainReducer(state = initialState, action = {}) {
   const { type, payload } = action;
   switch (type) {
     case "GET_USER":
-      console.log("get user 리듀서 실행");
+      console.log('get user 리듀서 실행',payload)
       return {
         ...state,
-        nickname: payload.data,
-        // campus: payload.data,
-        // mileage: payload.data,
-        // tier: payload.data,
+        nickname: payload.nickname,
+        campus: payload.campus,
+        mileage: payload.mileage,
+        tier: payload.tier,
       };
     case "GET_CAMPUS_AVG":
-      console.log("GET_CAMPUS_AVG 리듀서 실행");
-      return {
-        ...state,
-        seoul: payload.Seoul,
-        daejeon: payload.Daejeon,
-        gumi: payload.Gumi,
-        gwangju: payload.Gwangju,
-        busan: payload.Busan,
-      };
+    console.log('GET_CAMPUS_AVG 리듀서 실행',payload)
+    return {
+      ...state,
+      seoul: payload.Seoul,
+      daejeon: payload.Daejeon,
+      gumi: payload.Gumi,
+      gwangju: payload.Gwangju,
+      busan: payload.Busan,
+    };
     case "GET_RANKING":
-      console.log("GET_RANKING 리듀서 실행");
-      console.log(payload.data.userList);
-      return {
-        ...state,
-        users: payload.data.userList,
-      };
+    console.log('GET_RANKING 리듀서 실행',payload)
+    return {
+      ...state,
+      users:payload.data.userList,
+    };
     case "GET_STATISTICS":
-      console.log("SET_STATISTICS 리듀서 실행");
-      return {
-        ...state,
-        totalCnt: payload.totalCnt,
-        winCnt: payload.winCnt,
-        loseCnt: payload.loseCnt,
-        drawCnt: payload.drawCnt,
-      };
+    console.log('SET_STATISTICS 리듀서 실행',payload)
+    return {
+      ...state,
+      totalCnt: payload.statistics.totalCnt,
+      winCnt: payload.statistics.winCnt,
+      loseCnt: payload.statistics.loseCnt,
+      drawCnt: payload.statistics.drawCnt,
+    };
     case "GET_RECORDS":
-      console.log("GET_RECORDS 리듀서 실행");
-      return {
-        ...state,
-        recordId: payload.recordId,
-        isWin: payload.isWin,
-        date: payload.date,
-        challengerId: payload.challengerId,
-        challengerNickname: payload.challengerNickname,
-        userNickname: payload.userNickname,
-      };
+    console.log('GET_RECORDS 리듀서 실행',payload.recordList)
+    return {
+      ...state,
+      records:payload.recordList
+    };
     case "GET_CHALLENGE":
-      console.log("GET_CHALLENGE 리듀서 실행");
-      return {
-        ...state,
-        challengeGame: payload.games,
-      };
+    console.log('GET_CHALLENGE 리듀서 실행')
+    return {
+      ...state,
+      // challengeGame:payload.games
+    };
+    case "SET_CHALLENGE_INFO":
+    console.log('SET_CHALLENGE_INFO 리듀서 실행')
+    return {
+      ...state,
+      challengeInfo:{
+        challengeTotalScore:payload.challengeTotalScore,
+        challengeId:payload.challengeId,
+      }
+    };
 
     default:
       return state;

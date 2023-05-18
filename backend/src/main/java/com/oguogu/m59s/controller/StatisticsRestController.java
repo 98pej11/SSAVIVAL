@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/main/statictis")
+@RequestMapping("/api/main/statistics")
 @CrossOrigin(origins = "*")
 public class StatisticsRestController {
 
@@ -24,6 +24,7 @@ public class StatisticsRestController {
     @GetMapping("/{userId}")
     public ResponseEntity<Map<String, Object>> statisticsDetail(@PathVariable long userId) {
         Map<String, Object> resultMap = new HashMap<>();
+        System.out.println("useriddddddddddd " + userId);
         StatisticsDto statisticsDto = statisticsService.detailStatistics(userId);
         resultMap.put("result",SUCCESS);
         resultMap.put("statistics",statisticsDto);

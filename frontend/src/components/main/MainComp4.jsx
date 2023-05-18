@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import Box from "@mui/material/Box";
 import CircularProgress from "@mui/material/CircularProgress";
 import Typography from "@mui/material/Typography";
 import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { MainAction } from "../../redux/actions/MainAction";
 
 const Comp4 = styled.div``;
 
@@ -30,6 +32,13 @@ const Line = styled.div`
   }
 `;
 export default function MainComp4(props) {
+  const dispatch = useDispatch();
+
+  // AXIOS 요청보내기
+  useEffect(() => {
+    dispatch(MainAction.getRecords(localStorage.getItem("userId")));
+  }, []);
+
   //redux에서 records(최근 QUEST) 가져오기
   const records = useSelector((state) => state.mainReducer.records);
   let content = [];
