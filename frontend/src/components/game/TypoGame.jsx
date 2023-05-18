@@ -161,8 +161,8 @@ export default function TypoGame() {
   return (
     <Box
       className="typo"
-      width="600px"
-      height="610px"
+      width="500px"
+      height="510px"
       style={{
         position: "relative",
         display: "flex",

@@ -32,23 +32,23 @@ const Pages = styled.div`
 const Vs = styled.div`
   @keyframes shake {
     0% {
-      transform: translateX(0);
+      transform: translateX(0) rotate(0);
     }
     25% {
-      transform: translateX(-5px);
+      transform: translateX(0) rotate(10deg);
     }
     50% {
-      transform: translateX(5px);
+      transform: translateX(0) rotate(0);
     }
     75% {
-      transform: translateX(-5px);
+      transform: translateX(0) rotate(-10deg);
     }
     100% {
-      transform: translateX(0);
+      transform: translateX(0) rotate(0deg);
     }
   }
   .shaking-element {
-    animation: shake 1.3s infinite;
+    animation: shake 1.3s infinite linear;
   }
 `;
 export default function LoginPage() {

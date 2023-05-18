@@ -20,21 +20,24 @@ export default function TissueGame() {
   };
 
   const image1Style = {
-    top: "320px",
+    top: 253,
+    width: 350,
     position: "absolute",
     zIndex: 99,
   };
 
   const image2Style = {
     position: "relative",
-    top: -53,
-    left: "4%",
+    top: -130,
+    width: 350,
+    left: "5%",
     zIndex: 100,
   };
 
   const image3Style = {
     position: "absolute",
-    top: "490px",
+    width: 350,
+    top: 400,
     zIndex: 99,
   };
 
