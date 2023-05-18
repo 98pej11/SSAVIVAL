@@ -7,8 +7,13 @@ import Box from "@mui/material/Box";
 import Chip from "@mui/material/Chip";
 import MyChart from "./MyChart";
 import smilepin from "../../assets/smilepin.png";
+import bronze from "../../assets/bronze.png";
 import silver from "../../assets/silver.png";
 import gold from "../../assets/gold.png";
+import platinum from "../../assets/platinum.png";
+import dia from "../../assets/dia.png";
+import master from "../../assets/master.png";
+import challenger from "../../assets/challenger.png";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { MainAction } from "../../redux/actions/MainAction";
@@ -106,11 +111,11 @@ export default function MainComp2() {
           <div>
             <Line>
               <Title>내 티어</Title>
-              <Content>{mileage}</Content>
+              <Content>{tier}</Content>
             </Line>
             <Line>
               <Title>마일리지</Title>
-              <Content>{tier}</Content>
+              <Content>{mileage}</Content>
             </Line>
           </div>
           <div>
@@ -120,7 +125,7 @@ export default function MainComp2() {
               style={{
                 // position: "absolute",
                 top: "-30px", // 이미지 위치 조정
-                marginLeft: 20, // 이미지 위치 동적으로 설정
+                marginLeft: `${mileage / 100 + 8}px`,
                 width: "30px", // 이미지 크기 조정
                 height: "auto",
               }}
@@ -132,21 +137,65 @@ export default function MainComp2() {
                 alignItems: "center",
               }}
             >
-              <img src={silver} alt="" style={{ width: 25 }} />
+              <img
+                src={
+                  mileage >= 3000 && mileage < 4000
+                    ? bronze
+                    : mileage >= 4000 && mileage < 5000
+                    ? silver
+                    : mileage >= 5000 && mileage < 6000
+                    ? gold
+                    : mileage >= 6000 && mileage < 7000
+                    ? platinum
+                    : mileage >= 7000 && mileage < 8000
+                    ? dia
+                    : mileage >= 8000 && mileage < 9000
+                    ? master
+                    : mileage >= 9000
+                    ? challenger
+                    : null
+                }
+                alt=""
+                style={{
+                  width: 20,
+                }}
+              />
               <ThemeProvider theme={theme}>
                 <Slider
                   aria-label="Temperature"
                   aria-labelledby="discrete-slider-small-steps"
                   step={1}
                   defaultValue={mileage}
-                  min={0}
-                  max={100}
+                  min={mileage - (mileage % 1000)}
+                  max={mileage - (mileage % 1000) + 1000}
                   getAriaValueText={(value) => `${value}`}
                   valueLabelDisplay="auto"
                   sx={{ width: "70%" }}
                 />
               </ThemeProvider>
-              <img src={gold} alt="" style={{ width: 20 }} />
+              <img
+                src={
+                  mileage >= 3000 && mileage < 4000
+                    ? silver
+                    : mileage >= 4000 && mileage < 5000
+                    ? gold
+                    : mileage >= 5000 && mileage < 6000
+                    ? platinum
+                    : mileage >= 6000 && mileage < 7000
+                    ? dia
+                    : mileage >= 7000 && mileage < 8000
+                    ? master
+                    : mileage >= 8000 && mileage < 9000
+                    ? challenger
+                    : mileage >= 9000
+                    ? challenger
+                    : null
+                }
+                alt=""
+                style={{
+                  width: 20,
+                }}
+              />
             </div>
           </div>
         </div>

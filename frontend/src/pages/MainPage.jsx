@@ -125,7 +125,7 @@ function MainPage() {
           window.location.href = `${kakaoUrl}`;
         }
       });
-      console.log("췤22");
+      // console.log("췤22");
     }
   }, [accessTokenState]);
 
