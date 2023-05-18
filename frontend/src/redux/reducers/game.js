@@ -172,6 +172,11 @@ function gameReducer(state = initialState, action = {}) {
         ...state,
         secondTypo: payload,
       };
+    case "RESET_ROUND":
+      return {
+        ...state,
+        round: 0,
+      };
     default:
       return { ...state };
   }

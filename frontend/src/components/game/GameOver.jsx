@@ -34,6 +34,7 @@ function GameOver(props) {
 
   const gameMode = useSelector((state) => state.gameReducer.gameMode);
   const totalScore = useSelector((state) => state.gameReducer.totalScore);
+  const round = useSelector((state) => state.gameReducer.round);
   const userId = localStorage.getItem("userId");
   const challengeInfo = useSelector((state) => state.mainReducer.challengeInfo);
 
@@ -103,6 +104,7 @@ function GameOver(props) {
       dispatch(MainAction.patchStatistics(result2));
     }
     dispatch({ type: "SET_GAME_MODE", payload: { gameMode: "single" } });
+    dispatch({ type: "RESET_ROUND" });
     dispatch(GameAction.getRemindAnswer("한식"));
     dispatch(GameAction.getKarloImage("classroom"));
     dispatch(GameAction.gameStart(localStorage.getItem("userId")));
